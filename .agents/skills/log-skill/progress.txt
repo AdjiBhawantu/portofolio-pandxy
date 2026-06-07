@@ -1,0 +1,288 @@
+## 2026-05-23
+
+### POS Module
+- Created 'app/Http/Controllers/POSController.php' - Controller untuk halaman POS dengan produk & kategori data
+- Created 'resources/views/pos.blade.php' - Halaman POS dengan product grid, shopping cart, customer info, dan modal sukses
+- Modified 'routes/web.php' - Tambah route GET /pos mengarah ke POSController@index
+- Modified 'resources/views/partials/sidebar.blade.php' - Update link POS ke route('pos'), tambah active state; ubah New Transaction button jadi <a> tag
+- Modified 'resources/views/partials/mobile-nav.blade.php' - Ubah button POS jadi <a> tag dengan route('pos')
+
+### Bug Fixes
+- Created 'public/storage' symlink - storage:link agar foto produk bisa diakses via URL
+- Modified 'resources/views/inventory.blade.php' - Tambah validasi error summary box & @error('foto_produk') di modal add/edit; auto-open modal saat validasi gagal
+
+### Database Schema Update — Kolom products
+- Modified 'app/Models/Product.php' - Ganti fillable: hapus warna/ukuran/bahan, tambah sku/deskripsi/satuan/jenis
+- Modified 'app/Http/Controllers/ProductController.php' - Update validasi store/update (hapus warna/ukuran/bahan, tambah sku/deskripsi/satuan/jenis); update search query tambah sku; update messages
+- Modified 'app/Http/Controllers/POSController.php' - Tambah sku ke search query
+- Modified 'app/Http/Controllers/SearchController.php' - Tambah sku ke search query
+- Modified 'resources/views/inventory.blade.php' - Table: tambah kolom SKU & Satuan; body: ganti referensi warna/ukuran/bahan ke sku/deskripsi/satuan/jenis; Form add/edit: ganti field warna/ukuran/bahan ke sku/deskripsi/satuan/jenis; JS openEdit(): update parameter
+- Modified 'resources/views/pos.blade.php' - Card produk: tambah satuan/jenis info
+
+### Navbar & Mobile Nav
+- Modified 'resources/views/partials/sidebar.blade.php' - Tambah menu Data Pelanggan (icon people) di antara POS & Inventory
+- Fixed 'resources/views/partials/mobile-nav.blade.php' - Ubah semua button jadi <a> tag dengan route: Dashboard -> route('dashboard'), Stock -> route('inventory'), Add/FAB -> route('pos'); hapus style 'FILL' 1 hardcode pada Dashboard
+
+### Bug Fixes — Dashboard AJAX 500 Error
+- Fixed 'database/fix_views.sql' (CREATED) - Query SQL untuk DROP & CREATE ulang view_laporan_kas_harian (subquery incompatible with ONLY_FULL_GROUP_BY) dan view_stok_menipis (masih referensi kolom warna/ukuran yang sudah dihapus)
+- Fixed 'db_jalungwangi.sql' - Update definisi tabel products (hapus warna/ukuran/bahan, tambah sku/deskripsi/satuan/jenis) dan definisi kedua view agar selaras dengan struktur baru
+- Verified 'app/Http/Controllers/DashboardController.php' - Konfirmasi sudah punya try-catch yang membungkus semua query; return JSON status 500 saat error
+- Verified 'resources/views/dashboard.blade.php' - Konfirmasi struktur key data JSON konsisten dengan response controller
+
+### POS Module — Fitur Interaktif (Customer Search, Modal Customer, Discount)
+- Created 'app/Models/Customer.php' - Model Eloquent untuk tabel customers
+- Modified 'app/Http/Controllers/POSController.php' - Tambah method searchCustomer() dan storeCustomer() untuk AJAX endpoint
+- Modified 'routes/web.php' - Tambah route GET /api/customers/search dan POST /api/customers
+- Modified 'resources/views/pos.blade.php' - Implementasi 3 fitur: (1) Customer autocomplete search dengan dropdown, (2) Modal tambah pelanggan baru dengan simpan via AJAX, (3) Kalkulasi diskon real-time (support Rp dan %)
+
+### POS Module — Tambah Kolom Alamat di Modal Customer
+- Modified 'resources/views/pos.blade.php' - Tambah textarea alamat di modal customer, reset value saat modal dibuka, kirim alamat di body AJAX
+- Modified 'app/Http/Controllers/POSController.php' - Tambah validasi & simpan field alamat di storeCustomer()
+
+### POS Module — Checkout Flow + Payment Modal + Mobile UI Fix
+- Created 'app/Models/Transaction.php' - Model Eloquent untuk tabel transactions
+- Created 'app/Models/TransactionDetail.php' - Model Eloquent untuk tabel transaction_details
+- Created 'app/Models/Payment.php' - Model Eloquent untuk tabel payments
+- Modified 'app/Http/Controllers/POSController.php' - Tambah method checkout() untuk simpan transaksi, detail, payment, kurangi stok, increment total_transaksi customer
+- Modified 'routes/web.php' - Tambah route POST /api/pos/checkout
+- Modified 'resources/views/partials/mobile-nav.blade.php' - Tidak diubah (sudah z-50)
+- Fixed 'resources/views/pos.blade.php' - Perbaiki z-index mobile FAB (z-[60]) dan drawer (z-[70]), tambah pb-24 di drawer
+- Modified 'resources/views/pos.blade.php' - Payment modal dengan PPN 11%, smart payment logic (lock Tunai jika uang lebih), quick cash buttons (+50rb, +100rb, +200rb, +000), validasi disabled button, confirmation modal sebelum simpan, AJAX POST simpan transaksi, success modal with faktur number
+
+### POS Module — Stock Validation & UI
+- Modified 'resources/views/pos.blade.php' - Produk habis: grayscale + pointer-events-none; addToCart & updateQuantity validasi stok dengan notifikasi merah toast; tambah container notifikasi toast
+
+### Dashboard — Perbaikan Pendapatan & Stok Alert
+- Fixed 'app/Http/Controllers/DashboardController.php' - Ganti query pendapatan dari view_kas (kosong) ke transactions SUM(total_final) hari ini; tambah query produk_stok_alert untuk daftar produk stok menipis/habis
+- Fixed 'resources/views/dashboard.blade.php' - Hapus card statis, render daftar produk stok alert dinamis dari API (icon + badge warna berbeda untuk habis vs menipis)
+
+### Bug Fixes — Double Decrement Stok
+- Fixed 'app/Http/Controllers/POSController.php' - Hapus manual `Product::decrement('stok')` di method `checkout()` karena MySQL database trigger sudah otomatis mengurangi stok saat insert ke transaction_details
+- Modified 'resources/views/pos.blade.php' - Proteksi double submit: disable tombol "Eksekusi Transaksi" + loading spinner saat diklik; disable tombol "Batal" di confirm modal saat transaksi diproses; ubah teks "Ya, Simpan" jadi "Menyimpan..." selama proses; restore semua state di `.finally()`
+
+### New Feature — Halaman History Transaksi (TERBARU)
+- Created 'app/Http/Controllers/HistoryController.php' - Controller untuk halaman history: index, getTransactions (paginated + filterable), getTransactionDetail, getSummary
+- Created 'resources/views/history/index.blade.php' - View halaman history dengan summary cards, filter chips (All/Completed/Refunded), sort dropdown, tabel transaksi interaktif, detail side panel (desktop) + mobile drawer, pagination, dan AJAX loading
+- Created 'resources/views/history/partials/detail-panel.blade.php' - Partial reused untuk desktop side panel dan mobile drawer
+- Modified 'routes/web.php' - Tambah 4 route history (GET /history, 3 API endpoint) + import HistoryController
+- Modified 'resources/views/partials/sidebar.blade.php' - Update link History dari `href="#"` ke `route('history')`; tambah active state FILL icon
+- Modified 'resources/views/partials/mobile-nav.blade.php' - Tambah nav item History di antara FAB (+) dan Stock
+
+### POS — Customer Info & PPN Toggle di Payment Modal (TERBARU)
+- Modified 'resources/views/pos.blade.php' - Tambah info customer (nama/slip) di header ringkasan order; tambah toggle switch PPN ON/OFF real-time dengan kalkulasi ulang Total (PPN 0 jika OFF, 11% jika ON); reset toggle ke OFF default; update payload AJAX kirim `nama_customer` + `pajak_aktif`
+- Modified 'app/Http/Controllers/POSController.php' - Tambah validasi `nama_customer` dan `pajak_aktif`; simpan `catatan` berisi JSON pajak_aktif + nama_customer di tabel transactions
+
+### New Feature — Halaman Manajemen Pelanggan (TERBARU)
+- Created 'app/Http/Controllers/CustomerController.php' - CRUD pelanggan dengan search, pagination 10/data, proteksi "Pelanggan Umum" dari edit/hapus
+- Created 'resources/views/customers/index.blade.php' - Halaman manajemen pelanggan: header, stats cards, toolbar search, tabel dengan data pelanggan, modal tambah/edit, modal konfirmasi hapus, pagination, AJAX notification toast
+- Modified 'routes/web.php' - Tambah 4 route customers (GET /customers, POST /customers, PUT /customers/{customer}, DELETE /customers/{customer}) + import CustomerController
+- Modified 'resources/views/partials/sidebar.blade.php' - Update link "Data Pelanggan" dari `href="#"` ke `route('customers.index')`; tambah active state FILL icon
+- Modified 'resources/views/partials/mobile-nav.blade.php' - Tambah nav item Pelanggan di antara FAB (+) dan History
+
+### Bug Fix — Logout MethodNotAllowedHttpException (TERBARU)
+- Fixed 'routes/web.php' - Pisah route `GET /` (tanpa name) dan tambah `GET /login` dengan `->name('login')` agar route login bisa diakses via GET; sebelumnya nama `login` terikat di `GET /` sehingga `redirect('/login')` dari logout tidak punya route GET yang cocok
+- Fixed 'app/Http/Controllers/AuthController.php' - Ubah `redirect('/login')` jadi `redirect()->route('login')` agar konsisten menggunakan named route
+
+### Bug Fix — Tombol Dashboard Tidak Berfungsi
+- Fixed 'resources/views/dashboard.blade.php' - Ubah `<button>View All</button>` jadi `<a href="{{ route('history') }}">`; ubah `<button>Kelola Inventaris</button>` jadi `<a href="{{ route('inventory') }}">`
+
+### Bug Fix — Peringatan Stok Menipis Tidak Akurat
+- Fixed 'app/Http/Controllers/DashboardController.php' - Ganti `->where('products.stok', '<=', 'products.stok_minimum')` jadi `->whereColumn(...)` karena `where()` memperlakukan argumen ketiga sebagai string value, bukan column reference; akibatnya stok dibandingkan dengan literal string 'products.stok_minimum', bukan nilai kolom sebenarnya
+
+### New Feature — Halaman Settings / Pengaturan Toko (TERBARU)
+- Created 'database/migrations/2026_05_23_000001_create_settings_table.php' - Migration tabel settings (id, key_name, value_text, timestamps) + 7 data default
+- Created 'app/Models/Setting.php' - Model Eloquent untuk settings dengan helper getAllAsArray()
+- Created 'app/Http/Controllers/SettingController.php' - Controller index (baca semua key-value) dan update (updateOrCreate per key + upload logo with validation + delete logo lama)
+- Created 'resources/views/settings/index.blade.php' - Halaman settings: form Store Profile (nama, alamat, telepon, email, logo) + Pengaturan Struk (header/footer text) + Receipt Preview real-time (header/footer text sinkron via JS)
+- Modified 'routes/web.php' - Tambah 2 route settings (GET /settings, POST /settings) + import SettingController
+- Modified 'resources/views/partials/sidebar.blade.php' - Update link Settings dari `href="#"` ke `route('settings')`; tambah active state FILL icon
+- Modified 'resources/views/partials/mobile-nav.blade.php' - Tambah nav item Settings (Menu) setelah Stock
+
+### Enhancement — Timestamps di Tabel Settings (TERBARU)
+- Created 'database/migrations/2026_05_23_000002_add_timestamps_to_settings_table.php' - Migration safety untuk memastikan kolom created_at & updated_at ada di tabel settings (dengan pengecekan Schema::hasColumn)
+- Verified 'app/Models/Setting.php' - Tidak ada `$timestamps = false`; model sudah menggunakan bawaan Laravel (true) sehingga created_at & updated_at otomatis diisi
+- Ran migration '2026_05_23_000002_add_timestamps_to_settings_table' via PHP 8.4 — kolom created_at & updated_at ditambahkan ke tabel settings (sudah diverifikasi ada di DB)
+
+### Enhancement — Mobile UI Fixes (TERBARU)
+- Modified 'resources/views/pos.blade.php' - Tambah Customer Selection (search + selected display + add button) di mobile cart drawer; tambah JS event listeners untuk mobile search; update selectCustomer() dan removeCustomer() agar sinkron desktop & mobile; update click-outside handler untuk kedua mode
+- Modified 'resources/views/partials/mobile-nav.blade.php' - Restruktur nav dari `flex justify-around` dengan `absolute` + menjadi `grid grid-cols-7`; tombol + berada di kolom tengah (kolom ke-4) dengan `-translate-y-6` agar floating tanpa menabrak teks Pelanggan; tambah `tracking-tighter whitespace-nowrap` pada semua label teks; ganti `gap-1` jadi `gap-0.5` + `pt-1` untuk tata letak lebih rapat
+
+### Fix — Layout Nav Mobile Simetris 3-1-3 (TERBARU)
+- Modified 'resources/views/partials/mobile-nav.blade.php' - Urutan menu diubah menjadi Home, POS, Pelanggan, [+], History, Stock, Menu (3 kiri, 1 tengah, 3 kanan) agar tombol + benar-benar di tengah dan simetris
+
+### Bug Fix — Transaksi dengan id_customer null tidak tampil
+- Fixed 'app/Http/Controllers/DashboardController.php' - Ganti INNER JOIN `join` jadi `leftJoin` + `COALESCE` agar transaksi dengan `id_customer = NULL` tetap muncul dengan nama "Pelanggan Umum"
+- Fixed 'app/Http/Controllers/HistoryController.php' - Ganti `->customer->nama_customer ?? null` jadi `?? 'Pelanggan Umum'` di method `getTransactions()` dan `getTransactionDetail()` agar data history lengkap
+
+### Enhancement — Layout Settings: Receipt Preview & Action Buttons
+- Modified 'resources/views/settings/index.blade.php' - Receipt Preview: tambah `self-start` + `pb-24 lg:pb-0` pada kolom; ganti `sticky top-24` jadi `lg:sticky lg:top-24` agar tidak sticky di mobile dan posisinya mulai dari atas
+- Modified 'resources/views/settings/index.blade.php' - Action Buttons: ubah wrapper jadi `flex flex-col md:flex-row md:justify-end` agar stacked vertikal di mobile dan rata kanan di desktop; tambah `w-full md:w-auto` pada tombol agar full-width di HP
+
+### New Feature — Cetak Struk / Print Receipt (TERBARU)
+- Created 'app/Http/Controllers/PrintController.php' - Controller untuk cetak struk: tarik data settings, transaksi (join users + customers), detail item (join products), payment, hitung kembalian
+- Created 'resources/views/print/receipt.blade.php' - Halaman cetak struk: layout thermal 58/80mm, sidebar kontrol printer, autoprint via JS setTimeout 600ms, error page jika faktur tidak ditemukan
+- Modified 'routes/web.php' - Tambah route GET /cetak-struk/{faktur} + import PrintController
+- Modified 'resources/views/pos.blade.php' - Auto-open tab cetak struk setelah checkout sukses; ubah tombol "Cetak Struk" di success modal buka tab cetak; simpan no_faktur di window._lastFaktur
+- Modified 'app/Models/TransactionDetail.php' - Tambah relasi produk() untuk join ke tabel products
+
+### Bug Fix — Stok POS Tidak Update Setelah Transaksi
+- Fixed 'resources/views/pos.blade.php' - Tambah `setTimeout(() => window.location.reload(), 1500)` setelah `window.open()` di callback sukses checkout agar data produk (stok, badge habis/menipis) ter-refresh otomatis tanpa perlu reload manual
+
+### Refactor Layout — Halaman Cetak Struk Full Tailwind (TERBARU)
+- Refactored 'resources/views/print/receipt.blade.php' - Layout dirombak total: sidebar fixed `w-64` dengan `flex flex-col justify-between` agar tombol tidak terpotong; workspace `ml-64 min-h-screen bg-neutral-800`; radio printer pakai card-style border-primary; semua warna konsisten dengan tema aplikasi; tidak ada Bootstrap sama sekali
+
+### Bug Fix — Ikon Thermal 80mm muncul teks "SCROLL"
+- Fixed 'resources/views/print/receipt.blade.php' - Ganti nama ikon Material Symbols dari `scroll` (tidak valid, tampil teks mentah) menjadi `description` (ikon dokumen) yang didukung oleh font ikon
+
+### Enhancement — Tombol Print di History Detail Transaksi (TERBARU)
+- Fixed 'resources/views/history/index.blade.php' - Ubah `onclick="window.print()"` jadi `onclick="window.open('/cetak-struk/${d.no_faktur}?autoprint=true', '_blank')"` di fungsi renderDetail() agar membuka halaman cetak struk
+- Fixed 'resources/views/history/partials/detail-panel.blade.php' - Ubah tombol print di panel kosong jadi disabled (opacity-30, cursor-not-allowed) dengan tooltip "Pilih transaksi terlebih dahulu"
+
+## 2026-05-25
+
+### Database Migration — MySQL ke Supabase (PostgreSQL) (TERBARU)
+- Created 'supabase_schema.sql' - Konversi full dari db_jalungwangi.sql ke PostgreSQL: SERIAL → BIGINT GENERATED BY DEFAULT AS IDENTITY; ENUM → 10 CREATE TYPE; hapus backtick/ENGINE/COLLATE/komentar MySQL; VIEW: date_format → TO_CHAR, CONCAT → ||; TRIGGER: pisah fungsi + CREATE TRIGGER; tambah trigger updated_at_produk; urut tabel berdasar FK dependency
+- Created 'Panduan_SETUP.md' - Panduan konfigurasi .env + config/database.php untuk koneksi PDO PostgreSQL ke Supabase; daftar ekstensi php (pdo_pgsql, pgsql); contoh koneksi PDO dengan try-catch; tabel perbandingan sintaks MySQL vs PostgreSQL
+- Created 'SETUP_Supabase.md' - Panduan setup Supabase: buat proyek baru, eksekusi supabase_schema.sql via SQL Editor, ambil kredensial dari Project Settings → Database, nonaktifkan RLS via SQL untuk semua tabel (ALTER TABLE ... DISABLE ROW LEVEL SECURITY)
+
+### Fix — view_laporan_saldo_harian GROUP BY error di Supabase (TERBARU)
+- Fixed 'supabase_schema.sql' - Ganti query view_laporan_saldo_harian dari subquery `GROUP BY tgl_transaksi::DATE` (error strict GROUP BY PostgreSQL) menjadi struktur CTE + DISTINCT ON standar: CTE `daily_aggregates` untuk hitung total_masuk/total_keluar/selisih per hari, CTE `last_saldo_per_day` pakai `SELECT DISTINCT ON (tgl_transaksi::DATE) ... ORDER BY id_saldo DESC` untuk ambil saldo_akhir terakhir, lalu `LEFT JOIN` kedua CTE
+
+## 2026-05-25
+
+### Bug Fix — PHP Version Mismatch & DB Connection Error (TERBARU)
+- Fixed '.env' - Ubah DB_CONNECTION dari pgsql (Supabase) ke mysql (lokal) dan host/port/database/username/password ke nilai lokal
+- Fixed Environment - Alihkan PATH dari PHP 8.2.12 (XAMPP) ke PHP 8.4.21 (Laragon) agar kompatibel dengan dependency yang require PHP >= 8.4.0
+
+### Refactor Storage — Local ke Supabase S3 (TERBARU)
+- Refactored 'app/Http/Controllers/ProductController.php' - Ubah disk dari 'public' (local) ke 's3' (Supabase S3) untuk upload & delete foto_produk; simpan URL publik lengkap ke DB; tambah helper deleteS3File() untuk ekstrak path dari URL
+- Refactored 'app/Http/Controllers/SettingController.php' - Ubah disk dari 'public' ke 's3' untuk upload & delete logo_toko; simpan URL publik lengkap ke DB
+- Modified 'resources/views/inventory.blade.php' - Dukungan URL S3 (full URL) & path lokal di tag img
+- Modified 'resources/views/pos.blade.php' - Dukungan URL S3 (full URL) & path lokal di tag img
+- Modified 'resources/views/settings/index.blade.php' - Hapus Storage::exists() untuk S3; dukungan URL S3 & path lokal di tag img
+- Modified 'resources/views/print/receipt.blade.php' - Hapus Storage::exists() untuk S3; dukungan URL S3 & path lokal di tag img
+
+## 2026-05-30
+
+### New Feature — Simpan sebagai Pesanan (Order Management) (TERBARU)
+- Created 'app/Models/Kas.php' - Model Eloquent untuk tabel kas (no_referensi, jenis_transaksi, kategori, jumlah, saldo_sebelum, saldo_sesudah, id_user, no_faktur)
+- Created 'app/Models/Saldo.php' - Model Eloquent untuk tabel saldo (no_referensi, jenis_transaksi, kategori, metode, jumlah, saldo_sebelum, saldo_sesudah, id_user, no_faktur)
+- Created 'app/Http/Controllers/TransactionController.php' - Controller dengan method store() (checkout dengan order support + conditional payment/kas/saldo recording) dan completeOrder() (pelunasan pesanan pending dengan validasi sisa tagihan)
+- Modified 'app/Http/Controllers/POSController.php' - Tambah support parameter is_order, status_pesanan, status_pembayaran, uang_diterima; conditional payment/kas/saldo recording (Lunas full, DP sebagian, Belum Bayar skip); helper recordKasMasuk() dan recordSaldoMasuk()
+- Modified 'app/Http/Controllers/HistoryController.php' - Tambah status_pembayaran ke response getTransactions & getTransactionDetail; tambah total_paid & sisa_tagihan ke detail; tambah filter 'pending' (status_pesanan in Pending/Siap Ambil AND status_pembayaran != Lunas)
+- Modified 'routes/web.php' - Tambah route POST /api/transactions (TransactionController@store) dan PUT /api/transactions/{noFaktur}/complete (TransactionController@completeOrder); tambah import TransactionController
+- Modified 'resources/views/history/index.blade.php' - Tambah kolom Status Pembayaran + Action di tabel; update filter chips (All/Completed/Pending/Refunded); update statusBadge() untuk semua status_pesanan; tambah paymentBadge() untuk status_pembayaran; update renderDetail() dengan info sisa tagihan + tombol Selesaikan Pesanan untuk order pending; tambah Complete Order Modal (informasi tagihan, metode pembayaran, input uang pelunasan, quick pay, kalkulasi kembalian); tambah JS complete order flow (openCompleteModal, submitCompleteOrder via PUT API)
+- Modified 'resources/views/pos.blade.php' - Tambah toggle "Simpan sebagai Pesanan" di payment modal dengan status pesanan (Pending/Siap Ambil) dan status pembayaran (Belum Bayar/DP/Lunas) radio buttons; update JS state paymentState.isOrder/orderStatus/paymentStatus; update onCashReceivedChange() untuk handle mode Belum Bayar (skip validasi) dan DP (partial payment); update updateSubmitButton() untuk validasi kondisional per mode; update executeTransaction() kirim is_order/status_pesanan/status_pembayaran/uang_diterima; update success modal text dinamis untuk mode pesanan (sembunyikan Cetak Struk, ubah judul)
+
+### Dashboard — Tampilan Baru dengan Card Siap Diantarkan & Belum Dibayar (TERBARU)
+- Modified 'app/Http/Controllers/DashboardController.php' - Tambah query hitung & daftar pesanan Siap Diantarkan (status_pesanan = 'Siap diantarkan') dengan daftar item via STRING_AGG; tambah query hitung & daftar pesanan Belum Dibayar (status_pembayaran = 'Belum Bayar')
+- Modified 'resources/views/dashboard.blade.php' - Redesign layout: KPI cards jadi 6 kolom (tambah Siap Diantarkan + Belum Dibayar); tambah section "Pesanan Siap Diantarkan" dengan card per-order (tombol Selesaikan via PUT /deliver); tambah section "Pesanan Belum Dibayar" dengan card per-order (tombol Bayar Sekarang arah ke POS); layout 65/35 grid (kiri: transaksi terbaru + 2 order sections, kanan: stok alert)
+- Modified 'routes/web.php' - Tambah route PUT /api/transactions/{noFaktur}/deliver
+- Modified 'app/Http/Controllers/TransactionController.php' - Tambah method deliverOrder() untuk menandai status_pesanan menjadi Selesai (tanpa proses pembayaran)
+
+### Dashboard — Modal Selesaikan & Bayar dengan Input Pembayaran (TERBARU)
+- Modified 'resources/views/dashboard.blade.php' - Ganti button Selesaikan di card Siap Diantarkan jadi buka modal detail transaksi: tampil info faktur, customer, daftar item, total/sisa tagihan; jika status_pembayaran = Lunas → input bayar hidden, tombol "Selesaikan Pesanan" langsung deliver; jika Belum Bayar/DP → tampil input pembayaran (metode + jumlah + quick pay + hitung kembalian), tombol "Selesaikan & Bayar" call PUT /complete; tombol "Batalkan" call PUT /cancel; ganti button Bayar Sekarang di card Belum Dibayar jadi buka modal pembayaran: input jumlah bayar, call POST /pay → jika >= sisa jadi Lunas, jika < sisa jadi DP
+- Modified 'app/Http/Controllers/TransactionController.php' - Tambah method payOrder() (catat pembayaran partial/full tanpa ubah status_pesanan → Lunas/DP otomatis) + cancelOrder() (set status_pesanan = Dibatalkan)
+- Modified 'routes/web.php' - Tambah route POST /api/transactions/{noFaktur}/pay dan PUT /api/transactions/{noFaktur}/cancel
+
+### History — Tombol Siapkan Pesanan (Pending → Siap diantarkan) (TERBARU)
+- Modified 'app/Http/Controllers/TransactionController.php' - Tambah method prepareOrder() untuk mengubah status_pesanan dari Pending menjadi Siap diantarkan (dengan validasi hanya Pending yang bisa diproses)
+- Modified 'routes/web.php' - Tambah route PUT /api/transactions/{noFaktur}/prepare (TransactionController@prepareOrder)
+- Modified 'resources/views/history/index.blade.php' - Tambah: (1) tombol "Siapkan" biru di tabel untuk order Pending, (2) fungsi JS prepareOrder() async dengan konfirmasi + reload setelah sukses, (3) restruktur renderDetail() dengan needsPay/canPrepare/needsAction variabel terpisah agar tombol Siapkan muncul di detail panel juga, (4) fix sisa_tagihan null check di openCompleteModal() (d.sisa_tagihan != null ? ... instead of ||)
+
+### Enhancement — Confirm alert diganti dengan Modal Interaktif (TERBARU)
+- Modified 'resources/views/dashboard.blade.php' - Tambah: (1) modal konfirmasi umum (#modal-confirm) dengan ikon Material Symbols, ikon wrapper colored, dan danger variant (bg-error); (2) fungsi JS showConfirmModal()/closeConfirmModal()/submitConfirmModal() dengan dukungan callback + loading spinner; (3) ganti confirm() di submitSelesaikan() dengan showConfirmModal() untuk aksi deliver Lunas; (4) ganti confirm() di cancelPesanan() dengan showConfirmModal() berwarna merah (danger: true)
+- Modified 'resources/views/history/index.blade.php' - Tambah: (1) modal konfirmasi umum (#modal-confirm) di HTML; (2) fungsi JS showConfirmModal()/closeConfirmModal()/submitConfirmModal(); (3) ganti confirm() di prepareOrder() dengan showConfirmModal() + ubah prepareOrder dari async function jadi regular function dengan async callback; (4) fix data-method="Transfer" jadi "Transfer Bank" di complete modal
+
+### Bug Fix — Confirm Modal Tidak Tereksekusi (TERBARU)
+- Fixed 'resources/views/dashboard.blade.php' - Tambah onclick="submitConfirmModal()" di tombol #modal-confirm-submit yang sebelumnya tidak ada, sehingga modal konfirmasi tidak berfungsi saat diklik
+- Fixed 'resources/views/history/index.blade.php' - Tambah onclick="submitConfirmModal()" di tombol #modal-confirm-submit yang sebelumnya tidak ada
+- Enhanced 'resources/views/dashboard.blade.php' - submitConfirmModal(): tambah disable tombol Batal saat proses, ubah label jadi "Memproses...", tambah id="modal-confirm-batal" di tombol Batal; closeConfirmModal(): tambah reset disabled batal + reset label ke "Konfirmasi"
+- Enhanced 'resources/views/history/index.blade.php' - submitConfirmModal(): tambah disable tombol Batal saat proses, ubah label jadi "Memproses...", tambah id="modal-confirm-batal" di tombol Batal; closeConfirmModal(): tambah reset disabled batal + reset label ke "Konfirmasi"
+
+### Bug Fix — Spinner Di-Destroy oleh innerHTML + Loading State (TERBARU)
+- Fixed 'resources/views/dashboard.blade.php' - Bug spinner tidak muncul di submitSelesaikan (non-Lunas path): `submitBtn.innerHTML = '...'` menghapus elemen `<span id="s-selesai-spinner">` dari DOM, sehingga `document.getElementById('s-selesai-spinner')` return null dan throw silent error; fix: bungkus teks button dalam `<span id="s-selesai-submit-text">`, ubah innerHTML jadi `submitText.innerHTML = '...'` untuk menjaga spinner tetap di DOM
+- Enhanced 'resources/views/dashboard.blade.php' - submitSelesaikan() non-Lunas: tambah `submitText.textContent = 'Memproses...'` saat loading, restore ke "Selesaikan & Bayar" setelah error; submitBayar(): tambah `submitText` wrapper span + text loading "Memproses..." + restore setelah error
+- Enhanced 'resources/views/history/index.blade.php' - submitCompleteOrder(): tambah `<span id="complete-submit-text">` wrapper + text loading "Memproses..." + restore di finally
+
+### Enhancement — Dashboard Belum Lunas (Belum Bayar + DP) (TERBARU)
+- Modified 'app/Http/Controllers/DashboardController.php' - Ubah query `belum_dibayar` dari `where('status_pembayaran', 'Belum Bayar')` jadi `whereIn('status_pembayaran', ['Belum Bayar', 'DP'])` agar menampilkan semua transaksi belum lunas; tambah select `t.status_pembayaran` ke result
+- Modified 'resources/views/dashboard.blade.php' - Ubah label KPI "Belum Dibayar" jadi "Belum Lunas"; judul section "Pesanan Belum Dibayar" jadi "Pesanan Belum Lunas"; card Belum Lunas: ganti badge statis "Pending" jadi badge status_pembayaran dinamis (getPayBadge) dengan warna merah untuk Belum Bayar dan biru untuk DP; ubah teks empty state
+
+## 2026-05-30
+
+### Bug Fix — Setting model timestamps error di Supabase (TERBARU)
+- Fixed 'app/Models/Setting.php' - Tambah `public $timestamps = false;` karena tabel settings di Supabase PostgreSQL tidak memiliki kolom `created_at` dan `updated_at`, sehingga Eloquent gagal saat insert/update via `updateOrCreate()`
+
+### New Feature — Halaman Laporan Analisis Keuangan (TERBARU)
+- Created 'app/Http/Controllers/ReportController.php' - Controller dengan method financial() untuk menampilkan laporan keuangan: filter (start_date, end_date, cashier_id, payment_method), 4 KPI (total_omset, keuntungan_bersih, total_transaksi, produk_terlaris), data chart (tren_penjualan harian via tgl_transaksi::date, distribusi_pembayaran via payments.metode_bayar), tabel transaksi paginated 10/baris dengan sort & eager loading user+payments
+- Modified 'app/Models/Transaction.php' - Tambah relasi user() (belongsTo User via id_user)
+- Created 'resources/views/reports/financial.blade.php' - Halaman laporan keuangan dinamis: filter form GET, KPI cards, chart placeholder, tabel transaksi @foreach, pagination links, inline style chart-grid, dan JS variabel chartData & paymentData via @json
+- Modified 'routes/web.php' - Tambah route GET /reports/financial (tanpa closure middleware karena error serialization), import ReportController
+- Fixed 'app/Http/Controllers/ReportController.php' - Pindah pengecekan role dari closure middleware middleware ke awal method financial() untuk hindari error Closure serialization di Laravel
+- Modified 'resources/views/partials/sidebar.blade.php' - Bungkus menu Reports dengan @if(in_array...) agar hanya tampil untuk Admin/Owner/Superadmin; ubah href dari # ke route('reports.financial'); tambah active state FILL icon
+
+### Bug Fix — Metode Pembayaran 'Debit' tidak ada di database
+- Fixed 'resources/views/pos.blade.php' - Ubah metode bayar 'Debit' menjadi 'Transfer Bank' (sesuai metode_bayar_enum di database); ganti ikon credit_card ke account_balance; ganti label dari 'Kartu Debit' ke 'Transfer'
+
+### New Feature — Halaman Manajemen Pengguna (CRUD Users) (TERBARU)
+- Created 'app/Http/Controllers/UserController.php' - Controller dengan method index (search+filter+pagination 10), store (validasi+Hash::make+default Aktif), update (validasi unique ignore self), toggleStatus (AJAX, cegah nonaktifkan diri sendiri), resetPassword (default password123)
+- Created 'resources/views/users/index.blade.php' - Halaman manajemen pengguna: datatable dengan badge role dinamis, status toggle iOS switch, modal add/edit dengan validation errors, AJAX toggle via PATCH, pagination links, flash messages, inline style ios-switch
+- Modified 'routes/web.php' - Tambah 5 route users (GET/POST /users, PUT/PATCH/{user}, POST /users/{user}/reset-password) + import UserController
+- Modified 'resources/views/partials/sidebar.blade.php' - Tambah menu Manajemen Pengguna (icon person) setelah Reports, dibungkus @if(in_array...) role Admin/Owner/Superadmin
+- Enhanced 'resources/views/users/index.blade.php' - Toggle switch: track berubah merah (bg-error) saat Nonaktif, hijau (bg-primary via peer-checked) saat Aktif; CSS pseudo-class otomatis handle perubahan warna tanpa JS tambahan
+
+## 2026-06-01
+
+### Bug Fix — History Summary Cards Tidak Muncul
+- Fixed 'app/Http/Controllers/HistoryController.php' - Ganti `whereIn('status_pesanan', ['Selesai', 'Diproses'])` jadi `where('status_pesanan', 'Selesai')` karena 'Diproses' tidak terdaftar di enum PostgreSQL `status_pesanan_enum_final` (hanya Selesai, Pending, Siap diantarkan, Dibatalkan), menyebabkan SQL error dan API return 500, dan JS loadSummary() silent catch, sehingga card TOTAL REVENUE / TOTAL TRANSACTIONS / REFUNDS / VOIDS tidak menampilkan data
+
+### Enhancement — Mobile Nav Dropdown untuk Menu Tambahan (TERBARU)
+- Modified 'resources/views/partials/mobile-nav.blade.php' - Ganti link Settings statis dengan tombol gear (settings icon) yang membuka dropdown ke atas berisi Reports, Manajemen Pengguna (hanya untuk role Admin/Owner/Superadmin), dan Settings; tambah JS toggleMobileMoreMenu() + click-outside listener untuk menutup dropdown; active state gear icon berubah jika sedang di halaman settings/reports/users
+
+### Bug Fix — Cetak Struk: Ukuran Awal & Satuan Produk (TERBARU)
+- Fixed 'resources/views/print/receipt.blade.php' - Dua perbaikan: (1) Ubah `style="width: 80mm"` jadi `width: 58mm` agar cocok dengan radio checked default; tambah fungsi `applyReceiptWidth()` + panggil via `DOMContentLoaded` untuk memastikan ukuran struk sesuai dengan radio yang dipilih saat halaman dimuat. (2) Tambah `{{ $item['satuan'] }}` di baris item struk sehingga format berubah dari `2 x 27.000` menjadi `2 kg x 27.000`; data satuan sudah tersedia dari controller via `$d->produk->satuan` + eager load `details.produk`
+
+### New Feature — Halaman Pengaturan Profil + Dropdown Topbar (TERBARU)
+- Created 'database/migrations/2026_06_01_000001_add_profile_fields_to_users_table.php' - Migration tambah kolom `email` (unique), `phone`, `bio`, `avatar` ke tabel users
+- Created 'app/Http/Controllers/ProfileController.php' - Controller dengan method `edit()` (tampil view), `updateInfo()` (validasi + simpan nama/email/phone/bio dengan Rule::unique email ignore self), `updatePassword()` (validasi current_password + new_password min:8 confirmed, Hash::check + Hash::make)
+- Created 'resources/views/profile/edit.blade.php' - Halaman profil dengan form Informasi Pribadi (nama, email, telepon, bio) dan Keamanan Akun (current_password, new_password, confirm); flash messages sukses/error; error validasi per-input; togglePassword JS
+- Modified 'resources/views/partials/topbar.blade.php' - Tambah profile dropdown container: avatar/initials user dinamis, onclick toggle dropdown, link ke Pengaturan Profil, form POST logout dengan @csrf, click-outside listener
+- Modified 'app/Models/User.php' - Tambah `email`, `avatar`, `phone`, `bio` ke $fillable
+- Modified 'routes/web.php' - Tambah 3 route profil (GET /profile, PUT /profile/update-info, PUT /profile/update-password) + import ProfileController
+
+## 2026-06-02
+
+### Layout — Bottom Padding untuk Mobile Nav (TERBARU)
+- Modified 'resources/views/layouts/app.blade.php' - Tambah `pb-16 md:pb-0` di elemen `<main>` agar konten tidak tertutup mobile nav bottom (h-16) di perangkat mobile
+### Reports — Detail Transaksi & Produk Terlaris Chart
+- Modified 'routes/web.php' - Tambah route GET /api/reports/transactions/{noFaktur} (ReportController@getDetail)
+- Modified 'app/Http/Controllers/ReportController.php' - Tambah eager load 'customer' ke query transaksi; tambah $produkTerlarisChart (top 5 produk by qty) + $totalQtyPenjualan untuk chart donut; tambah method getDetail() (API endpoint ambil detail transaksi dengan items, payments, customer)
+- Modified 'resources/views/reports/financial.blade.php' - (1) Hapus kolom Aksi dari tabel; (2) Tambah kolom Customer di tabel; (3) Setiap baris transaksi bisa diklik untuk preview detail; (4) Tambah side panel detail (desktop) + mobile drawer (toggle); (5) Ubah chart donut metode pembayaran jadi chart donut produk terlaris (top 5); (6) Tambah JS selectTransaction()/renderDetail()/format helpers untuk render detail panel via API
+
+## 2026-06-02
+
+### Layout Inventory — Edit Modal Overhaul (TERBARU)
+- Modified 'resources/views/inventory.blade.php' - Perbaiki layout edit modal: (1) Stok dengan +/- buttons diubah jadi sm:col-span-2 agar tidak overflow ke luar modal; (2) Tambah image preview section (current foto + upload baru); (3) Ganti radio button status jadi toggle switch ON/OFF (Aktif/Arsip); (4) Restruktur grid layout lebih profesional: image preview di atas, grouping Kategori+SKU, Harga Modal+Harga Jual, Stok full-width, Stok Minimum+Satuan, Jenis+Status Toggle, Deskripsi full-width, Preview Status Stok; (5) Update fungsi JS openEdit() untuk terima parameter foto ke-13; (6) Tambah fungsi JS toggleEditStatus() dan previewEditFoto()
+
+### Bug Fix — Prepared Statements Error di Supabase Connection Pooler (TERBARU)
+- Fixed 'config/database.php' - Tambah `'prepared' => false,` di konfigurasi driver pgsql untuk menonaktifkan prepared statements PDO karena Supabase Connection Pooler (port 6543, Transaction Mode) tidak mendukung prepared statement caching
+
+## 2026-06-03
+
+### Bug Fix — PostgreSQL Syntax di ReportController (TERBARU)
+- Fixed 'app/Http/Controllers/ReportController.php' - Ubah sintaks PostgreSQL `tgl_transaksi::date` menjadi `DATE(tgl_transaksi)` (MySQL) di query `$trenPenjualan` baris 45-46 agar kompatibel dengan database MySQL Laragon
+
+## 2026-06-04
+
+### Bug Fix — Dashboard 500 Error STRING_AGG (TERBARU)
+- Fixed 'app/Http/Controllers/DashboardController.php' - Ganti `STRING_AGG(td.qty || 'x ' || p.nama_produk, ', ' ORDER BY p.nama_produk)` (PostgreSQL) menjadi `GROUP_CONCAT(CONCAT(td.qty, 'x ', p.nama_produk) ORDER BY p.nama_produk SEPARATOR ', ')` (MySQL) karena database menggunakan MySQL, bukan PostgreSQL
+
+### Audit CRUD — PostgreSQL Syntax & Missing Migration
+- Fixed 'app/Http/Controllers/UserController.php' - Ganti `ilike` (PostgreSQL) menjadi `like` (MySQL) pada baris 23-24 agar kompatibel dengan MySQL
+- Created 'database/migrations/2026_06_04_135824_update_status_pesanan_enum_in_transactions.php' - Migration untuk update enum status_pesanan dari `Siap Ambil` menjadi `Siap diantarkan` sesuai kode aplikasi
+- Ran migration `2026_06_01_000001_add_profile_fields_to_users_table.php' - Menambah kolom email, phone, bio, avatar ke tabel users (sebelumnya belum dijalankan)
+- Ran migration `2026_06_04_135824_update_status_pesanan_enum_in_transactions.php' - Update enum status_pesanan
+
+~
+`
