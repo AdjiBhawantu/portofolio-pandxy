@@ -285,4 +285,25 @@
 - Ran migration `2026_06_04_135824_update_status_pesanan_enum_in_transactions.php' - Update enum status_pesanan
 
 ~
-`
+
+## 2026-06-08
+
+### Pandxy Portfolio — Project Setup
+- Created 'pandxy' - Init React + Vite + TypeScript project dengan template react-ts
+- Installed dependencies: tailwindcss@3, framer-motion, lucide-react, react-helmet-async, @supabase/supabase-js, geist, @splinetool/react-spline, @splinetool/runtime, react-router-dom, postcss, autoprefixer
+- Created 'tailwind.config.ts' - Config dengan custom colors (background, neutral), fontFamily (Geist, Syne), borderColor, animations (marquee, float)
+- Modified 'src/index.css' - Reset CSS, Syne font import, Tailwind directives, custom scrollbar
+- Modified 'vite.config.ts' - Tambah path alias '@/' ke src
+- Created 'vercel.json' - Rewrites untuk SPA routing
+- Created '.env.local' - Template environment variables
+- Modified '.gitignore' - Tambah .env.local dan .env
+- Modified 'tsconfig.app.json' - Tambah paths alias '@/*'
+- Created 'src/components/sections/' - Hero, About, Services, Skills, Portfolio, Testimonials, Contact
+- Created 'src/components/ui/' - Navbar, Footer, WhatsAppButton, SectionWrapper
+- Created 'src/lib/' - supabase.ts, github.ts helper
+- Created 'src/hooks/useGithubRepos.ts' - Custom hook fetch GitHub repos dengan cache localStorage 1 jam
+- Created 'src/data/fallback.ts' - Data statis services (5), skills (14), testimonials (3)
+- Created 'src/types/index.ts' - Interface Project, Service, Skill, Testimonial
+- Modified 'src/App.tsx' - Root component dengan HelmetProvider, semua sections
+- Modified 'src/main.tsx' - Entry point (tetap seperti template)
+- Build success - tsc + vite build tanpa error (367.96 kB JS, 15.80 kB CSS)
