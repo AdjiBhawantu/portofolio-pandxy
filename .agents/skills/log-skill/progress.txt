@@ -33,6 +33,34 @@
 ### TERBARU — Anchor Link Smooth Scroll via Lenis
 - Fixed 'index.html' - Tambah event listener pada semua anchor link (#) agar scroll handled oleh Lenis, mencegah lompatan kaku saat klik menu navbar
 
-### TERBARU — Fix Hero Wrapper Glass & Full-Stack Parallax
-- Fixed 'index.html' - Hapus hero-float dari wrapper bottom stats (100%, 3+ Years, skill tags) agar container induk tidak punya efek glass/blur, efek glass hanya di kartu individual
-- Fixed 'index.html' - Hapus hero-float dari badge Full-Stack agar tidak ikut gerakan mouse parallax
+### TERBARU — ScrollTrigger Lag Fix & Lenis Sync
+- Fixed 'index.html' - Tambah Lenis-GSAP sync (gsap.ticker.add) di dalam blok Lenis agar ScrollTrigger sinkron
+- Fixed 'index.html' - Ganti ScrollTrigger card dgn gsap.utils.toArray(.reveal, .card-bento) + toggleActions play none none reverse + start top 85%
+- Fixed 'index.html' - Hapus semua class active dari .reveal di HTML utk cegah konflik dgn old reveal() JS
+- Fixed 'index.html' - Tambah clearProps: all ke semua .from() hero animations agar layout shift hilang
+
+### TERBARU — ScrollTrigger & Lenis Performance Optimization (Lag/Delay Fix)
+- Fixed 'index.html' - Hapus dual rAF loop: manual requestAnimationFrame raf() dihapus, GSAP ticker jadi single driver Lenis
+- Fixed 'index.html' - Tambah gsap.ticker.lagSmoothing(0) utk cegah tick desync antara Lenis dan GSAP
+- Fixed 'index.html' - Tambah lenis.on('scroll', ScrollTrigger.update) utk decouple scroll event dari rAF
+- Fixed 'index.html' - Hapus clearProps: all dari ScrollTrigger animation (penyebab forced reflow/layout thrashing)
+- Fixed 'index.html' - Tambah fastScrollEnd: true + preventOverlaps: true + refreshPriority: i ke ScrollTrigger config
+- Fixed 'index.html' - Tambah will-change: transform + backface-visibility: hidden ke .card-bento, .reveal, .testimonial-card-glass utk GPU acceleration
+- Fixed 'index.html' - Tambah { passive: true } ke event listener card-bento mousemove + resize utk optimasi scroll jank
+- Fixed 'index.html' - Tambah debounced ScrollTrigger.refresh() via setTimeout di resize listener utk batch refresh
+
+### TERBARU — Responsive Scroll Trigger Fix (Eliminate Delay)
+- Fixed 'index.html' - ScrollTrigger start diganti jadi 'top bottom' (fires pas element masuk viewport, 15% lebih cepet dari sebelumnya 'top 85%')
+- Fixed 'index.html' - ScrollTrigger duration turun dari 0.6s ke 0.35s + gunakan power3.out (akselerasi awal lebih cepat)
+- Fixed 'index.html' - y offset turun dari 50px ke 30px (jarak animasi lebih pendek, feels snappier)
+- Fixed 'index.html' - tambah once: true (animasi jalan sekali, ga ada reverse cycle yg boros CPU)
+- Fixed 'index.html' - hapus toggleActions (default play none none none, no reverse waste)
+- Fixed 'index.html' - Lenis duration turun dari 1.2 ke 0.9 (scroll interpolation lebih cepet)
+
+### TERBARU — Hero Text Disappear Fix
+- Fixed 'index.html' - Hapus class 'reveal' dari hero heading wrapper (line 378) karena conflict: hero GSAP timeline pake clearProps:all, setelah animasi inline styles dihapus, CSS .reveal (opacity:0) terapkan lagi
+- Fixed 'index.html' - Hapus class 'reveal' dari 2 hero-float elements (lines 400, 405) karena alasan sama
+
+### TERBARU — Fix Semua Element Disappear (gsap.from → fromTo)
+- Fixed 'index.html' - Ganti gsap.from() jadi gsap.fromTo() di ScrollTrigger agar target akhir explicit opacity:1
+- Alasan: gsap.from() selalu animate TO computed CSS values (opacity:0 dari .reveal) → element tetap invisible. fromTo() pake explicit to-values jadi element benar-benar kebaca opacity:1 setelah animasi

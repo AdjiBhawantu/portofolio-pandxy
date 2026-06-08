@@ -155,6 +155,9 @@
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
 
         .card-bento::before {
@@ -171,6 +174,25 @@
         .card-bento:hover::before { opacity: 1; }
 
         .card-bento > * { position: relative; z-index: 1; }
+
+        .card-bento::after, .testimonial-card-glass::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .card-bento:hover::after, .testimonial-card-glass:hover::after {
+            left: 200%;
+            transition-duration: 0.8s;
+        }
 
         .card-bento:hover {
             transform: scale(1.02) translateY(-4px);
@@ -250,6 +272,9 @@
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
 
         .reveal.active {
@@ -294,6 +319,8 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
 
         .testimonial-card-glass:hover {
@@ -348,7 +375,7 @@
 <div class="circle-bg w-[500px] h-[500px] bg-white top-1/4 -left-24"></div>
 <div class="circle-bg w-[400px] h-[400px] bg-primary/20 bottom-1/4 -right-24"></div>
 <div class="relative z-10 w-full max-w-container-max mx-auto px-gutter h-[900px]">
-<div class="absolute top-[20%] md:top-[28%] left-gutter z-30 max-w-2xl pointer-events-auto reveal active">
+<div class="absolute top-[20%] md:top-[28%] left-gutter z-30 max-w-2xl pointer-events-auto">
 <div class="flex flex-col gap-1">
 <h1 class="font-display-hero text-[3rem] md:text-[4.5rem] leading-[1.05] font-bold tracking-[-0.04em] text-white uppercase">Web &amp; App</h1>
 <div class="flex items-center gap-4 flex-wrap">
@@ -361,7 +388,7 @@
 <h1 class="font-display-hero text-display-hero-mobile text-on-surface leading-[1.1] uppercase md:text-[3.5rem]">In Indonesian</h1>
 </div>
 <p class="font-body-md text-body-lg text-secondary max-w-md mt-6">Saya membantu bisnis berkembang melalui pembuatan website dan aplikasi mobile yang cepat, aman, berkinerja tinggi, dan mudah digunakan dengan teknologi modern.</p>
-<div class="flex flex-wrap items-center gap-4 mt-8">
+<div id="hero-buttons" class="flex flex-wrap items-center gap-4 mt-8">
 <a class="px-8 py-4 bg-white text-black font-button rounded-full hover:-translate-y-1 transition-transform font-bold" href="#contact">Mulai Project</a>
 <a class="px-8 py-4 border border-white/10 text-white font-button rounded-full hover:bg-white/5 hover:border-white/30 transition-colors font-bold" href="#portfolio">Lihat Portfolio</a>
 </div>
@@ -370,12 +397,12 @@
 <img alt="Adji Bhawantu Portrait" class="w-full h-full object-contain object-bottom opacity-90" src="/PFP_ADJI.png" style="mask-image: linear-gradient(to bottom, black 40%, transparent 95%); -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 95%);"/>
 </div>
 <div class="absolute inset-0 z-30 pointer-events-none">
-<div class="hero-float absolute top-[18%] right-[10%] md:right-[35%] inline-flex items-center gap-2 px-4 py-2 rounded-full glass-element text-white pointer-events-auto shadow-2xl reveal active hover:-translate-y-1 transition-transform">
+<div class="hero-float absolute top-[18%] right-[10%] md:right-[35%] inline-flex items-center gap-2 px-4 py-2 rounded-full glass-element text-white pointer-events-auto shadow-2xl hover:-translate-y-1 transition-transform">
 <div class="w-2 h-2 rounded-full bg-whatsapp-green animate-pulse"></div>
 <span class="font-label-mono text-[10px] md:text-xs font-medium uppercase tracking-widest">available for freelance</span>
 <span class="material-symbols-outlined text-sm ml-1 text-white/70">terminal</span>
 </div>
-<div class="hero-float absolute top-[38%] right-gutter md:right-[5%] flex items-center gap-3 p-2 pr-5 rounded-full glass-element pointer-events-auto shadow-2xl reveal active hover:-translate-y-1 transition-transform">
+<div class="hero-float absolute top-[38%] right-gutter md:right-[5%] flex items-center gap-3 p-2 pr-5 rounded-full glass-element pointer-events-auto shadow-2xl hover:-translate-y-1 transition-transform">
 <div class="flex -space-x-3">
 <img alt="C1" class="w-10 h-10 rounded-full border-2 border-surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDslN522ZIEE46ea2IZL2pPSycvuCTTBFSJOaWszmz9Djr_IL5I1TFbER171NYmTlO2rY_tooDi1UNslHNzBLYz9AWFB-U0zYBUYjw4-l8LSoc7GFQhZbn1FJ1RLutbX1qmFMBm9JFkt6tCKDvPkHVSRsUV_dlwVyoRSo7kY_OAymYkGdsD_X06YudDmjOwwvyByHpAjMMyxAERZJGnx7Ag2Xs9bMA0lNaMXqLcg2HX91uzeKgOZSZfpIOJigvh9jdleNv13qH4b9g"/>
 <img alt="C2" class="w-10 h-10 rounded-full border-2 border-surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEr__tc_s9PMDfPRKghnpZ4uj9CNLIIV-NkajbOnh_KuENvLd1kVoNIoIy8EsFKIYE98rUPj1m4qU76sZdy1kYKLjwtd2LxSHTcgCMVIjBHvIh9sHSUVH2ABDcah4R4r8G5OHIffvklCBNPCvhIboBAkA4_R81A8uyjatKUuEuJfgXQ2s98167OqajabqIn7Vxcy2JH6TjhVQhLZ4UPi9MvhfIbJFn0Mm7E6UkPVViBBp49MXWR0yumzhQa0N3Mhqu3FW-tvbPzgQJ"/>
@@ -407,7 +434,7 @@
 </div>
 </section>
 <section class="px-gutter py-section-padding-y max-w-container-max mx-auto" id="about">
-<div class="grid grid-cols-1 md:grid-cols-12 gap-8 reveal active">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 reveal">
 <div class="md:col-span-7 card-bento p-8 md:p-12 flex flex-col justify-center">
 <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Tentang Saya</h2>
 <p class="text-secondary leading-relaxed mb-6">
@@ -449,7 +476,7 @@
 </div>
 </section>
 <section class="px-gutter py-section-padding-y max-w-container-max mx-auto" id="services">
-<h2 class="font-headline-lg text-headline-lg text-on-surface mb-12 text-center reveal active">Layanan</h2>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-12 text-center reveal">Layanan</h2>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 <div class="card-bento p-8 reveal stagger-1 active">
 <span class="material-symbols-outlined text-4xl text-white/70 mb-6">business</span>
@@ -479,7 +506,7 @@
 </div>
 </section>
 <section class="px-gutter py-section-padding-y max-w-container-max mx-auto" id="skills">
-<h2 class="font-headline-lg text-headline-lg text-on-surface mb-12 text-center reveal active">Tech Stack</h2>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-12 text-center reveal">Tech Stack</h2>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 <div class="card-bento p-6 reveal stagger-1 active">
 <div class="flex items-center gap-3 mb-4">
@@ -529,7 +556,7 @@
 </div>
 </section>
 <section class="px-gutter py-section-padding-y max-w-container-max mx-auto" id="portfolio">
-<h2 class="font-headline-lg text-headline-lg text-on-surface mb-12 text-center reveal active">Portfolio</h2>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-12 text-center reveal">Portfolio</h2>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 <div class="card-bento p-6 flex flex-col h-full reveal stagger-1 active">
 <div class="flex justify-between items-start mb-4">
@@ -586,7 +613,7 @@
 </section>
 <section class="py-section-padding-y overflow-hidden" id="testimonials">
 <div class="max-w-container-max mx-auto px-gutter mb-16">
-<h2 class="font-headline-lg text-headline-lg text-on-surface text-center reveal active">Testimonials</h2>
+<h2 class="font-headline-lg text-headline-lg text-on-surface text-center reveal">Testimonials</h2>
 <p class="text-secondary text-center max-w-lg mx-auto mt-4 reveal stagger-1 active">Dengarkan apa kata mereka yang telah bekerjasama dengan saya dalam membangun produk digital berkualitas tinggi.</p>
 </div>
 <div class="marquee-container reveal stagger-2 active">
@@ -667,7 +694,7 @@
 </div>
 </section>
 <section class="px-gutter py-section-padding-y max-w-container-max mx-auto" id="contact">
-<div class="grid grid-cols-1 md:grid-cols-2 gap-12 reveal active">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 reveal">
 <div class="reveal stagger-1 active">
 <h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Let's Work Together</h2>
 <p class="text-secondary mb-8">Punya ide proyek atau butuh bantuan dengan website Anda? Jangan ragu untuk menghubungi saya.</p>
@@ -810,24 +837,29 @@
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
+        gsap.registerPlugin(ScrollTrigger);
+
         document.addEventListener("DOMContentLoaded", (event) => {
             const tl = gsap.timeline();
 
-            tl.from("#hero h1, #hero p, #hero a", {
+            tl.from("#hero h1, #hero p, #hero-buttons", {
                 y: 50,
                 opacity: 0,
                 duration: 1,
                 stagger: 0.2,
                 ease: "power3.out",
-                delay: 0.2
+                delay: 0.2,
+                clearProps: "all"
             });
 
             tl.from("#hero img", {
                 y: 100,
                 opacity: 0,
                 duration: 1.5,
-                ease: "power2.out"
+                ease: "power2.out",
+                clearProps: "all"
             }, "-=1");
 
             tl.from(".hero-float", {
@@ -835,8 +867,26 @@
                 opacity: 0,
                 duration: 1.2,
                 stagger: 0.15,
-                ease: "power3.out"
+                ease: "power3.out",
+                clearProps: "all"
             }, "-=1.2");
+
+            tl.from(".fullstack-badge", {
+                y: 20,
+                opacity: 0,
+                duration: 0.6,
+                ease: "power2.out",
+                clearProps: "all"
+            }, "-=0.8");
+
+            tl.from(".absolute.bottom-\\[12\\%\\] .glass-element", {
+                y: 40,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power3.out",
+                clearProps: "all"
+            }, "-=0.6");
 
             gsap.to(".fullstack-badge", {
                 backgroundPosition: "200% 0",
@@ -865,13 +915,32 @@
                     });
                 });
             }
+
+            gsap.utils.toArray(".reveal, .card-bento").forEach((element, i) => {
+                gsap.fromTo(element,
+                    { y: 30, opacity: 0 },
+                    {
+                        y: 0, opacity: 1,
+                        duration: 0.35,
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: element,
+                            start: "top bottom",
+                            fastScrollEnd: true,
+                            preventOverlaps: true,
+                            refreshPriority: i,
+                            once: true,
+                        }
+                    }
+                );
+            });
         });
     </script>
 
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <script>
         const lenis = new Lenis({
-            duration: 1.2,
+            duration: 0.9,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             direction: 'vertical',
             gestureDirection: 'vertical',
@@ -882,12 +951,14 @@
             infinite: false,
         })
 
-        function raf(time) {
-            lenis.raf(time)
-            requestAnimationFrame(raf)
-        }
+        // SINGLE rAF: GSAP ticker drives Lenis (no manual rAF loop, no double raf())
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
+        gsap.ticker.lagSmoothing(0);
 
-        requestAnimationFrame(raf)
+        // Lenis scroll events → ScrollTrigger updates (decoupled from rAF)
+        lenis.on('scroll', ScrollTrigger.update);
 
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -909,8 +980,15 @@
                 const rect = card.getBoundingClientRect();
                 card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
                 card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-            });
+            }, { passive: true });
         });
+
+        // Batch ScrollTrigger refresh on resize — debounced via ResizeObserver
+        let refreshTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(refreshTimer);
+            refreshTimer = setTimeout(() => ScrollTrigger.refresh(true), 150);
+        }, { passive: true });
     </script>
 </body>
 </html>
