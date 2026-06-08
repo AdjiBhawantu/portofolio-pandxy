@@ -153,7 +153,24 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1rem;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
         }
+
+        .card-bento::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.06), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .card-bento:hover::before { opacity: 1; }
+
+        .card-bento > * { position: relative; z-index: 1; }
 
         .card-bento:hover {
             transform: scale(1.02) translateY(-4px);
@@ -247,9 +264,11 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .mask-bottom-fade {
-            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        .hero-float {
+            backdrop-filter: blur(20px) saturate(1.2);
+            -webkit-backdrop-filter: blur(20px) saturate(1.2);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
         .circle-bg {
@@ -310,7 +329,7 @@
 <a class="nav-link hover:text-white text-neutral-400" href="#testimonials">Testimonials</a>
 <a class="nav-link hover:text-white text-neutral-400" href="#contact">Contact</a>
 </div>
-<a class="hidden md:flex items-center px-4 py-2 bg-white text-black font-button text-button rounded hover:-translate-y-0.5 transition-transform" href="#contact">
+<a class="hidden md:flex items-center self-center px-4 py-2 bg-white text-black font-button text-button rounded hover:-translate-y-0.5 transition-transform" href="#contact">
                 Let's Talk
             </a>
 <button class="md:hidden text-on-surface">
@@ -335,28 +354,28 @@
 <div class="flex items-center gap-4 flex-wrap">
 <h1 class="font-display-hero text-[2.2rem] md:text-[3.5rem] leading-[1.05] font-bold tracking-[-0.04em] text-white uppercase">Developer Based</h1>
 <div class="flex items-center gap-2 px-3 py-1.5 rounded-full glass-element">
-<div class="w-3 h-3 rounded-full bg-gradient-to-tr from-blue-500 to-cyan-400"></div>
-<span class="font-label-mono text-[10px] md:text-xs text-white uppercase tracking-widest font-bold">Full-Stack</span>
+<div class="w-3 h-3 rounded-full bg-gradient-to-tr from-blue-500 to-cyan-400 animate-pulse"></div>
+<span class="font-label-mono text-[10px] md:text-xs text-white uppercase tracking-widest font-bold fullstack-badge">Full-Stack</span>
 </div>
 </div>
 <h1 class="font-display-hero text-display-hero-mobile text-on-surface leading-[1.1] uppercase md:text-[3.5rem]">In Indonesian</h1>
 </div>
 <p class="font-body-md text-body-lg text-secondary max-w-md mt-6">Saya membantu bisnis berkembang melalui pembuatan website dan aplikasi mobile yang cepat, aman, berkinerja tinggi, dan mudah digunakan dengan teknologi modern.</p>
-<div class="flex flex-wrap gap-4 mt-8">
+<div class="flex flex-wrap items-center gap-4 mt-8">
 <a class="px-8 py-4 bg-white text-black font-button rounded-full hover:-translate-y-1 transition-transform font-bold" href="#contact">Mulai Project</a>
-<a class="px-8 py-4 border border-white/10 text-white font-button rounded-full hover:bg-white/5 transition-colors font-bold" href="#portfolio">Lihat Portfolio</a>
+<a class="px-8 py-4 border border-white/10 text-white font-button rounded-full hover:bg-white/5 hover:border-white/30 transition-colors font-bold" href="#portfolio">Lihat Portfolio</a>
 </div>
 </div>
 <div class="absolute bottom-0 right-0 md:-right-10 w-full md:w-[65%] lg:w-[70%] h-full md:h-full top-0 md:top-10 z-20 pointer-events-none flex items-end">
-<img alt="Adji Bhawantu Portrait" class="w-full h-full object-contain object-bottom mask-bottom-fade opacity-90" src="/PFP_ADJI.png"/>
+<img alt="Adji Bhawantu Portrait" class="w-full h-full object-contain object-bottom opacity-90" src="/PFP_ADJI.png" style="mask-image: linear-gradient(to bottom, black 40%, transparent 95%); -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 95%);"/>
 </div>
 <div class="absolute inset-0 z-30 pointer-events-none">
-<div class="absolute top-[18%] right-[10%] md:right-[35%] inline-flex items-center gap-2 px-4 py-2 rounded-full glass-element text-white pointer-events-auto shadow-2xl reveal active hover:-translate-y-1 transition-transform">
+<div class="hero-float absolute top-[18%] right-[10%] md:right-[35%] inline-flex items-center gap-2 px-4 py-2 rounded-full glass-element text-white pointer-events-auto shadow-2xl reveal active hover:-translate-y-1 transition-transform">
 <div class="w-2 h-2 rounded-full bg-whatsapp-green animate-pulse"></div>
 <span class="font-label-mono text-[10px] md:text-xs font-medium uppercase tracking-widest">available for freelance</span>
 <span class="material-symbols-outlined text-sm ml-1 text-white/70">terminal</span>
 </div>
-<div class="absolute top-[38%] right-gutter md:right-[5%] flex items-center gap-3 p-2 pr-5 rounded-full glass-element pointer-events-auto shadow-2xl reveal active hover:-translate-y-1 transition-transform">
+<div class="hero-float absolute top-[38%] right-gutter md:right-[5%] flex items-center gap-3 p-2 pr-5 rounded-full glass-element pointer-events-auto shadow-2xl reveal active hover:-translate-y-1 transition-transform">
 <div class="flex -space-x-3">
 <img alt="C1" class="w-10 h-10 rounded-full border-2 border-surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDslN522ZIEE46ea2IZL2pPSycvuCTTBFSJOaWszmz9Djr_IL5I1TFbER171NYmTlO2rY_tooDi1UNslHNzBLYz9AWFB-U0zYBUYjw4-l8LSoc7GFQhZbn1FJ1RLutbX1qmFMBm9JFkt6tCKDvPkHVSRsUV_dlwVyoRSo7kY_OAymYkGdsD_X06YudDmjOwwvyByHpAjMMyxAERZJGnx7Ag2Xs9bMA0lNaMXqLcg2HX91uzeKgOZSZfpIOJigvh9jdleNv13qH4b9g"/>
 <img alt="C2" class="w-10 h-10 rounded-full border-2 border-surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEr__tc_s9PMDfPRKghnpZ4uj9CNLIIV-NkajbOnh_KuENvLd1kVoNIoIy8EsFKIYE98rUPj1m4qU76sZdy1kYKLjwtd2LxSHTcgCMVIjBHvIh9sHSUVH2ABDcah4R4r8G5OHIffvklCBNPCvhIboBAkA4_R81A8uyjatKUuEuJfgXQ2s98167OqajabqIn7Vxcy2JH6TjhVQhLZ4UPi9MvhfIbJFn0Mm7E6UkPVViBBp49MXWR0yumzhQa0N3Mhqu3FW-tvbPzgQJ"/>
@@ -790,6 +809,65 @@
         });
     </script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            const tl = gsap.timeline();
+
+            tl.from("#hero h1, #hero p, #hero a", {
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out",
+                delay: 0.2
+            });
+
+            tl.from("#hero img", {
+                y: 100,
+                opacity: 0,
+                duration: 1.5,
+                ease: "power2.out"
+            }, "-=1");
+
+            tl.from(".hero-float", {
+                y: 30,
+                opacity: 0,
+                duration: 1.2,
+                stagger: 0.15,
+                ease: "power3.out"
+            }, "-=1.2");
+
+            gsap.to(".fullstack-badge", {
+                backgroundPosition: "200% 0",
+                duration: 3,
+                repeat: -1,
+                ease: "none",
+                backgroundImage: "linear-gradient(90deg, #fff, #60a5fa, #22d3ee, #fff)",
+                backgroundSize: "200% 100%",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text"
+            });
+
+            const heroSection = document.getElementById("hero");
+            if(heroSection) {
+                heroSection.addEventListener("mousemove", (e) => {
+                    const x = (e.clientX / window.innerWidth - 0.5) * 40;
+                    const y = (e.clientY / window.innerHeight - 0.5) * 40;
+
+                    gsap.to(".hero-float", {
+                        x: -x,
+                        y: -y,
+                        duration: 0.6,
+                        ease: "power2.out",
+                        stagger: 0.05
+                    });
+                });
+            }
+        });
+    </script>
+
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <script>
         const lenis = new Lenis({
@@ -810,6 +888,29 @@
         }
 
         requestAnimationFrame(raf)
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    lenis.scrollTo(targetElement, {
+                        offset: -64,
+                        duration: 1.2,
+                        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                    });
+                }
+            });
+        });
+
+        document.querySelectorAll('.card-bento').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+            });
+        });
     </script>
 </body>
 </html>
