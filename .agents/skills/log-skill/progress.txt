@@ -109,3 +109,8 @@
 - Fixed 'tailwind.config.ts' - Ubah content paths dari './components/**/*' ke './src/**/*' karena komponen dipindah ke src/components/
 - Moved semua section components dari ./components/sections/ ke ./src/components/sections/
 - Moved Navbar.tsx dan Footer.tsx dari ./components/ui/ ke ./src/components/ui/
+
+### TERBARU - Update Services: Hover Scale + UI/UX Design ke POS System
+- Modified 'src/components/sections/Services.tsx' - Tambah hover:scale-[1.03] transition-all duration-300 ease-out ke semua card-bento
+- Modified 'src/data/index.ts' - Ubah service id 'ui-ux' ke 'pos-system', title 'UI/UX Design' ke 'POS System', icon 'design_services' ke 'point_of_sale', deskripsi ke narasi sistem kasir POS
+- Modified 'src/data/fallback.ts' - Ubah service yang sama (id, title, icon, deskripsi) plus ganti features ke relevansi POS (transaksi, inventory, laporan, multi-payment, integrasi)

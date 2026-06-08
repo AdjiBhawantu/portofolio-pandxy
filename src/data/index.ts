@@ -34,11 +34,11 @@ export const services: Service[] = [
     features: [],
   },
   {
-    id: 'ui-ux',
-    title: 'UI/UX Design',
+    id: 'pos-system',
+    title: 'POS System',
     description:
-      'Desain antarmuka yang intuitif dan menarik untuk memberikan pengalaman pengguna terbaik.',
-    icon: 'design_services',
+      'Sistem kasir dan manajemen inventaris digital yang terintegrasi untuk mencatat transaksi dan memantau bisnis Anda secara real-time.',
+    icon: 'point_of_sale',
     features: [],
   },
 ]

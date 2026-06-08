@@ -30,11 +30,11 @@ export const services: Service[] = [
     features: ['Desain high-conversion', 'Animasi Framer Motion', 'Optimasi loading cepat', 'CTA strategis', 'Integrasi analytics'],
   },
   {
-    id: 'ui-ux',
-    title: 'UI/UX Design',
-    description: 'Desain antarmuka yang intuitif dan pengalaman pengguna yang menyenangkan untuk produk digital Anda.',
-    icon: 'Palette',
-    features: ['Wireframe & prototype', 'Design system', 'User flow mapping', 'Responsive design', 'Design handoff siap develop'],
+    id: 'pos-system',
+    title: 'POS System',
+    description: 'Sistem kasir dan manajemen inventaris digital yang terintegrasi untuk mencatat transaksi dan memantau bisnis Anda secara real-time.',
+    icon: 'point_of_sale',
+    features: ['Manajemen transaksi', 'Inventory tracking', 'Laporan penjualan', 'Multi-payment', 'Integrasi dengan platform lain'],
   },
 ]
 
