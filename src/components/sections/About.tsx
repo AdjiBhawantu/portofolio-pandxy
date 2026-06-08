@@ -1,74 +1,105 @@
-import { motion } from 'framer-motion'
-import SectionWrapper from '@/components/ui/SectionWrapper'
+'use client'
+
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const stats = [
-  { value: '3+', label: 'Tahun Pengalaman' },
-  { value: '25+', label: 'Project Selesai' },
-  { value: '20+', label: 'Klien Puas' },
+  {
+    icon: 'schedule',
+    value: '3+',
+    label: 'Tahun Pengalaman',
+    stagger: 'stagger-1',
+  },
+  {
+    icon: 'rocket_launch',
+    value: '25+',
+    label: 'Project Selesai',
+    stagger: 'stagger-2',
+  },
+  {
+    icon: 'handshake',
+    value: '20+',
+    label: 'Klien Puas',
+    stagger: 'stagger-3',
+  },
 ]
 
 export default function About() {
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>('.reveal').forEach((element) => {
+        gsap.fromTo(
+          element,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.35,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: element,
+              start: 'top bottom',
+              once: true,
+            },
+          }
+        )
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <SectionWrapper id="about">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="text-center mb-16"
-      >
-        <h2 className="font-display text-3xl sm:text-4xl font-bold text-white mb-4">
-          Tentang Saya
-        </h2>
-        <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
-          Mengenal lebih dekat siapa di balik Pandxy
-        </p>
-      </motion.div>
+    <section
+      ref={sectionRef}
+      className="px-gutter py-section-padding-y max-w-container-max mx-auto"
+      id="about"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 reveal">
+        <div className="md:col-span-7 card-bento p-8 md:p-12 flex flex-col justify-center">
+          <h2 className="font-headline-md text-headline-md text-on-surface mb-4">
+            Tentang Saya
+          </h2>
+          <p className="text-secondary leading-relaxed mb-6">
+            Saya seorang Full-Stack Developer yang bersemangat menciptakan
+            pengalaman digital yang luar biasa. Dengan fokus pada kode yang
+            bersih dan desain yang intuitif, saya membangun solusi web yang
+            tidak hanya terlihat bagus tetapi juga memberikan hasil nyata bagi
+            klien.
+          </p>
+          <p className="text-secondary leading-relaxed">
+            Keahlian saya mencakup pengembangan frontend modern dengan
+            React/Next.js dan backend tangguh dengan Node.js/Python, memastikan
+            setiap proyek dioptimalkan untuk performa dan skalabilitas.
+          </p>
+        </div>
 
-      <div className="grid md:grid-cols-2 gap-12 items-center">
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          <p className="text-neutral-300 leading-relaxed text-base sm:text-lg">
-            Halo! Saya seorang <span className="text-white font-medium">Frontend Developer</span> yang 
-            berfokus pada pembuatan website dan aplikasi web modern. Saya percaya bahwa setiap bisnis 
-            berhak memiliki kehadiran digital yang profesional dan menarik.
-          </p>
-          <p className="text-neutral-400 leading-relaxed mt-4">
-            Dengan pengalaman dalam berbagai teknologi seperti React, Next.js, dan TypeScript, 
-            saya siap membantu mewujudkan website impian bisnis Anda — dari landing page sederhana 
-            hingga aplikasi web yang kompleks.
-          </p>
-          <p className="text-neutral-400 leading-relaxed mt-4">
-            Setiap project saya kerjakan dengan penuh perhatian terhadap detail, performa, dan 
-            pengalaman pengguna. Karena bagi saya, website yang baik adalah yang membuat bisnis 
-            Anda tumbuh.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-3 gap-4"
-        >
+        <div className="md:col-span-5 grid grid-rows-3 gap-4">
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="bg-[#111111] border border-[rgba(255,255,255,0.08)] rounded-2xl p-6 text-center"
+              className={`card-bento p-6 flex items-center gap-6 reveal ${stat.stagger} active`}
             >
-              <div className="font-display text-3xl sm:text-4xl font-bold text-white mb-1">
-                {stat.value}
+              <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10 text-on-surface">
+                <span className="material-symbols-outlined">{stat.icon}</span>
               </div>
-              <div className="text-sm text-neutral-500">{stat.label}</div>
+              <div>
+                <div className="font-headline-md text-headline-md text-on-surface">
+                  {stat.value}
+                </div>
+                <div className="font-label-mono text-label-mono text-secondary">
+                  {stat.label}
+                </div>
+              </div>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
-    </SectionWrapper>
+    </section>
   )
 }

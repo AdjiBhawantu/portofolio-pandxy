@@ -1,5 +1,5 @@
 export async function fetchGithubRepos(username: string, perPage = 6) {
-  const token = import.meta.env.VITE_GITHUB_TOKEN
+  const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN
   const headers: Record<string, string> = {
     Accept: 'application/vnd.github.v3+json',
   }

@@ -1,51 +1,104 @@
-import { motion } from 'framer-motion'
-import { Star } from 'lucide-react'
-import SectionWrapper from '@/components/ui/SectionWrapper'
-import { testimonials } from '@/data/fallback'
+'use client'
+
+import { useEffect, useRef } from 'react'
+import Image from 'next/image'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { testimonials } from '@/data/index'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Testimonials() {
-  return (
-    <SectionWrapper id="testimonials">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="text-center mb-16"
-      >
-        <h2 className="font-display text-3xl sm:text-4xl font-bold text-white mb-4">
-          Testimonial
-        </h2>
-        <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
-          Apa kata klien tentang project yang telah saya kerjakan
-        </p>
-      </motion.div>
+  const sectionRef = useRef<HTMLElement>(null)
 
-      <div className="relative overflow-hidden">
-        <div className="flex gap-6 w-max animate-marquee hover:[animation-play-state:paused]">
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>('.reveal').forEach((element) => {
+        gsap.fromTo(
+          element,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.35,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: element,
+              start: 'top bottom',
+              once: true,
+            },
+          }
+        )
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section
+      ref={sectionRef}
+      className="py-section-padding-y overflow-hidden"
+      id="testimonials"
+    >
+      <div className="max-w-container-max mx-auto px-gutter mb-16">
+        <h2 className="font-headline-lg text-headline-lg text-on-surface text-center reveal">
+          Testimonials
+        </h2>
+        <p className="text-secondary text-center max-w-lg mx-auto mt-4 reveal stagger-1 active">
+          Dengarkan apa kata mereka yang telah bekerjasama dengan saya dalam
+          membangun produk digital berkualitas tinggi.
+        </p>
+      </div>
+
+      <div className="marquee-container reveal stagger-2 active">
+        <div className="marquee-content py-8">
           {[...testimonials, ...testimonials].map((t, i) => (
             <div
               key={`${t.id}-${i}`}
-              className="bg-[#111111] border border-[rgba(255,255,255,0.08)] rounded-2xl p-6 w-[340px] sm:w-[380px] shrink-0"
+              className="testimonial-card-glass p-8 w-[380px] md:w-[420px] shrink-0"
             >
-              <div className="flex items-center gap-1 mb-3">
+              <div className="quote-bg">&quot;</div>
+              <div className="flex text-[#FFD700] mb-6 gap-0.5">
                 {Array.from({ length: t.rating }).map((_, j) => (
-                  <Star key={j} size={14} className="fill-neutral-400 text-neutral-400" />
+                  <span
+                    key={j}
+                    className="material-symbols-outlined fill-1 text-base"
+                  >
+                    star
+                  </span>
                 ))}
               </div>
-              <p className="text-sm text-neutral-300 leading-relaxed mb-4 italic">
-                &ldquo;{t.content}&rdquo;
+              <p className="text-secondary italic mb-8 relative z-10 leading-relaxed text-sm">
+                &quot;{t.content}&quot;
               </p>
-              <div>
-                <div className="text-sm font-medium text-white">{t.name}</div>
-                <div className="text-xs text-neutral-500">
-                  {t.role} — {t.company}
+              <div className="flex items-center gap-4 border-t border-white/5 pt-6">
+                {t.avatar_url ? (
+                  <Image
+                    alt={t.name}
+                    className="w-12 h-12 rounded-full border border-white/10"
+                    src={t.avatar_url}
+                    width={48}
+                    height={48}
+                  />
+                ) : (
+                  <div className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-secondary text-sm">
+                    {t.name.charAt(0)}
+                  </div>
+                )}
+                <div>
+                  <h4 className="font-headline-md text-base text-white">
+                    {t.name}
+                  </h4>
+                  <p className="font-label-mono text-xs text-secondary/60">
+                    {t.role}, {t.company}
+                  </p>
                 </div>
               </div>
             </div>
           ))}
         </div>
       </div>
-    </SectionWrapper>
+    </section>
   )
 }

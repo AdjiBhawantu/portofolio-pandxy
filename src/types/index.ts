@@ -33,3 +33,12 @@ export interface Testimonial {
   avatar_url?: string
   rating: number
 }
+
+export interface PortfolioItem {
+  id: string
+  title: string
+  description: string
+  language: string
+  stars: number
+  color: string
+}

@@ -1,75 +1,87 @@
-import { motion } from 'framer-motion'
-import {
-  Building2,
-  ShoppingCart,
-  LayoutDashboard,
-  MousePointerClick,
-  Palette,
-} from 'lucide-react'
-import SectionWrapper from '@/components/ui/SectionWrapper'
-import { services } from '@/data/fallback'
-import type { Service } from '@/types'
+'use client'
 
-const iconMap: Record<string, React.ElementType> = {
-  Building2,
-  ShoppingCart,
-  LayoutDashboard,
-  MousePointerClick,
-  Palette,
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { services } from '@/data/index'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const staggerMap: Record<number, string> = {
+  0: 'stagger-1',
+  1: 'stagger-2',
+  2: 'stagger-3',
+  3: 'stagger-4',
+  4: 'stagger-5',
 }
 
 export default function Services() {
-  return (
-    <SectionWrapper id="services">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="text-center mb-16"
-      >
-        <h2 className="font-display text-3xl sm:text-4xl font-bold text-white mb-4">
-          Layanan Saya
-        </h2>
-        <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
-          Solusi digital yang saya tawarkan untuk mengembangkan bisnis Anda
-        </p>
-      </motion.div>
+  const sectionRef = useRef<HTMLElement>(null)
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {services.map((service: Service, index: number) => {
-          const Icon = iconMap[service.icon] || Building2
-          return (
-            <motion.div
-              key={service.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ scale: 1.02, y: -4 }}
-              className="bg-[#111111] border border-[rgba(255,255,255,0.08)] rounded-2xl p-6 group cursor-default"
-            >
-              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center mb-4 group-hover:bg-white/10 transition-colors">
-                <Icon className="text-white" size={20} />
-              </div>
-              <h3 className="font-display text-lg font-semibold text-white mb-2">
-                {service.title}
-              </h3>
-              <p className="text-sm text-neutral-400 leading-relaxed mb-4">
-                {service.description}
-              </p>
-              <ul className="space-y-1.5">
-                {service.features.map((f) => (
-                  <li key={f} className="text-xs text-neutral-500 flex items-center gap-2">
-                    <span className="w-1 h-1 rounded-full bg-neutral-600" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          )
-        })}
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>('.reveal').forEach((element) => {
+        gsap.fromTo(
+          element,
+          { y: 30, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.35,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: element,
+              start: 'top bottom',
+              once: true,
+            },
+          }
+        )
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section
+      ref={sectionRef}
+      className="px-gutter py-section-padding-y max-w-container-max mx-auto"
+      id="services"
+    >
+      <h2 className="font-headline-lg text-headline-lg text-on-surface mb-12 text-center reveal">
+        Layanan
+      </h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {services.slice(0, 3).map((service, i) => (
+          <div
+            key={service.id}
+            className={`card-bento p-8 reveal ${staggerMap[i]}`}
+          >
+            <span className="material-symbols-outlined text-4xl text-white/70 mb-6 block">
+              {service.icon}
+            </span>
+            <h3 className="font-headline-md text-headline-md text-on-surface text-xl mb-3">
+              {service.title}
+            </h3>
+            <p className="text-secondary text-sm">{service.description}</p>
+          </div>
+        ))}
+        {services.slice(3).map((service, i) => (
+          <div
+            key={service.id}
+            className={`card-bento p-8 reveal ${staggerMap[i + 3]} ${i === 0 ? 'md:col-span-2' : ''}`}
+          >
+            <span className="material-symbols-outlined text-4xl text-white/70 mb-6 block">
+              {service.icon}
+            </span>
+            <h3 className="font-headline-md text-headline-md text-on-surface text-xl mb-3">
+              {service.title}
+            </h3>
+            <p className="text-secondary text-sm">{service.description}</p>
+          </div>
+        ))}
       </div>
-    </SectionWrapper>
+    </section>
   )
 }

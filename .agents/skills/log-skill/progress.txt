@@ -74,3 +74,38 @@
 - Fixed 'index.html' - Ganti clearProps:'all' jadi clearProps:'opacity,y' di semua hero timeline .from() tweens
 - Alasan: GSAP clearProps:'all' nge-set element.style.cssText='' yg menghapus mask-image inline style di hero image
 - Efek: mask-image (fade-to-transparent di foto hero) tetap terjaga setelah load animation selesai
+
+### TERBARU — Animation Scroll Trigger + Scale Hover
+- Modified 'src/components/ui/SectionWrapper.tsx' - Enhance scroll-trigger animation: tambah initial scale 0.95, y 60, viewport amount 0.15, durasi 0.7s
+- Modified 'src/components/sections/About.tsx' - Ubah stat cards dari div ke motion.div dgn stagger scroll animation + whileHover scale 1.05
+- Modified 'src/components/sections/Skills.tsx' - Tambah whileHover scale 1.03 + y -4 ke category cards
+- Modified 'src/components/sections/Testimonials.tsx' - Ubah testimonial cards ke motion.div dgn whileInView scale 0.9->1 + stagger delay + whileHover scale 1.04
+- Modified 'src/components/sections/Portfolio.tsx' - Tambah whileHover scale 1.02 ke BentoCard wrapper
+- Modified 'src/components/sections/Contact.tsx' - Ubah WhatsApp link ke motion.a + whileHover scale 1.03, ubah social links ke motion.a + whileHover scale 1.05
+
+### TERBARU - Slicing & Migrasi Total index.html ke Next.js App Router + GSAP
+- Created 'next.config.ts' - Config Next.js dengan remotePatterns untuk lh3.googleusercontent.com
+- Modified 'tailwind.config.ts' - Migrasi penuh custom theme dari index.html: 60+ warna, spacing, fontFamily, fontSize, borderRadius, animasi marquee
+- Created 'app/globals.css' - Semua custom CSS dari index.html: Lenis, glass-nav, nav-indicator, card-bento, marquee, testimonial-card, reveal, hero-float, circle-bg, dll; jadi @layer components
+- Created 'app/layout.tsx' - Root layout Next.js App Router dengan metadata, Google Fonts (Syne, Geist, Geist Mono, Material Symbols), dark mode class
+- Created 'app/page.tsx' - Entry point 'use client': init Lenis smooth scroll, GSAP ScrollTrigger register, GSAP ticker-Lenis sync, cleanup on unmount
+- Created 'app/sections/' - Folder untuk section components terpisah
+- Modified 'tsconfig.json' - Migrasi dari Vite ke Next.js: jsx 'preserve', tambah next plugin, include next-env.d.ts
+- Modified 'package.json' - Migrasi dari Vite ke Next.js: scripts dev/build/start jadi next commands, tambah gsap ^3.12.2, @studio-freight/lenis ^1.0.42, next ^15.0.0; hapus @vitejs/plugin-react
+- Modified 'src/types/index.ts' - Tambah interface PortfolioItem
+- Created 'src/data/index.ts' - Data statis services, skills, testimonials, portfolioItems sesuai blueprint index.html
+- Created 'lib/lenis.ts' - Helper Lenis singleton dengan getLenis() / destroyLenis()
+- Created 'components/sections/Hero.tsx' - Hero section dengan GSAP timeline entrance, parallax mouse effect, ScrollTrigger reveal; gunakan next/Image
+- Created 'components/sections/About.tsx' - About section 2-column: deskripsi + 3 stat cards; GSAP ScrollTrigger reveal
+- Created 'components/sections/Services.tsx' - Services section 5 cards grid; GSAP ScrollTrigger reveal
+- Created 'components/sections/Skills.tsx' - Skills section 4 kategori cards; GSAP ScrollTrigger reveal
+- Created 'components/sections/Portfolio.tsx' - Portfolio section 3 project cards; GSAP ScrollTrigger reveal
+- Created 'components/sections/Testimonials.tsx' - Testimonials dengan CSS marquee infinite scroll; GSAP ScrollTrigger reveal
+- Created 'components/sections/Contact.tsx' - Contact section form + WhatsApp card + social links; GSAP ScrollTrigger reveal
+- Modified 'components/ui/Navbar.tsx' - Implementasi nav-indicator GSAP: IntersectionObserver, GSAP animate indicator, smooth scroll
+- Modified 'components/ui/Footer.tsx' - Sinkronisasi dengan blueprint HTML
+
+### TERBARU - Fix Build Error Module Not Found
+- Fixed 'tailwind.config.ts' - Ubah content paths dari './components/**/*' ke './src/**/*' karena komponen dipindah ke src/components/
+- Moved semua section components dari ./components/sections/ ke ./src/components/sections/
+- Moved Navbar.tsx dan Footer.tsx dari ./components/ui/ ke ./src/components/ui/
