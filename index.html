@@ -1,13 +1,788 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pandxy-temp</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<html class="dark" lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pandxy - Web Developer Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&amp;family=Geist:wght@400;500&amp;family=Geist+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#484949",
+                      "surface-container": "#1e2020",
+                      "on-error": "#690005",
+                      "on-secondary-fixed": "#1a1c1c",
+                      "elevated-bg": "#161616",
+                      "secondary-fixed": "#e3e2e2",
+                      "primary-container": "#0a0a0a",
+                      "surface": "#121414",
+                      "on-primary-fixed-variant": "#474646",
+                      "on-tertiary": "#381385",
+                      "on-surface": "#e2e2e2",
+                      "on-primary-container": "#7b7979",
+                      "inverse-on-surface": "#2f3131",
+                      "surface-bright": "#37393a",
+                      "outline-variant": "#444748",
+                      "error-container": "#93000a",
+                      "surface-container-highest": "#333535",
+                      "on-background": "#e2e2e2",
+                      "secondary": "#c7c6c6",
+                      "whatsapp-green": "#25D366",
+                      "on-tertiary-fixed": "#21005e",
+                      "surface-container-low": "#1a1c1c",
+                      "surface-variant": "#333535",
+                      "on-tertiary-fixed-variant": "#4f319c",
+                      "on-error-container": "#ffdad6",
+                      "primary-fixed": "#e5e2e1",
+                      "surface-container-lowest": "#0c0f0f",
+                      "surface-dim": "#121414",
+                      "on-secondary-fixed-variant": "#464747",
+                      "outline": "#8e9192",
+                      "secondary-fixed-dim": "#c7c6c6",
+                      "tertiary": "#cebdff",
+                      "on-primary-fixed": "#1c1b1b",
+                      "tertiary-fixed": "#e8ddff",
+                      "inverse-primary": "#5f5e5e",
+                      "tertiary-container": "#0d0030",
+                      "error": "#ffb4ab",
+                      "on-primary": "#313030",
+                      "background": "#121414",
+                      "on-tertiary-container": "#8367d3",
+                      "on-secondary-container": "#b8b8b8",
+                      "tertiary-fixed-dim": "#cebdff",
+                      "border-default": "rgba(255, 255, 255, 0.12)",
+                      "on-secondary": "#2f3131",
+                      "on-surface-variant": "#c4c7c7",
+                      "border-subtle": "rgba(255, 255, 255, 0.08)",
+                      "surface-container-high": "#282a2b",
+                      "inverse-surface": "#e2e2e2",
+                      "card-bg": "#111111",
+                      "primary": "#c9c6c5",
+                      "primary-fixed-dim": "#c9c6c5",
+                      "surface-tint": "#c9c6c5"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-max": "1152px",
+                      "stack-sm": "0.5rem",
+                      "gutter": "1.5rem",
+                      "stack-md": "1rem",
+                      "section-padding-y": "6rem",
+                      "stack-lg": "2rem"
+              },
+              "fontFamily": {
+                      "body-md": ["Geist"],
+                      "body-lg": ["Geist"],
+                      "display-hero-mobile": ["Syne"],
+                      "button": ["Geist"],
+                      "display-hero": ["Syne"],
+                      "headline-lg": ["Syne"],
+                      "headline-md": ["Syne"],
+                      "label-mono": ["Geist Mono"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "display-hero-mobile": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "button": ["15px", {"lineHeight": "1", "fontWeight": "500"}],
+                      "display-hero": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                      "headline-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                      "label-mono": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0a0a0a;
+            color: #e2e2e2;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .glass-nav {
+            background-color: rgba(10, 10, 10, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-radius: 9999px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .nav-link {
+            position: relative;
+            z-index: 1;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .card-bento {
+            background-color: #111111;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card-bento:hover {
+            transform: scale(1.02) translateY(-4px);
+        }
+
+        .input-glass {
+            background-color: #111111;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: border-color 0.3s ease;
+        }
+
+        .input-glass:focus {
+            border-color: rgba(255, 255, 255, 0.4);
+            outline: none;
+        }
+
+        .marquee-container {
+            display: flex;
+            overflow: hidden;
+            user-select: none;
+            gap: 2rem;
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        }
+
+        .marquee-content {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-around;
+            min-width: 100%;
+            gap: 2rem;
+            animation: scroll 30s linear infinite;
+        }
+
+        .marquee-container:hover .marquee-content {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(-100% - 2rem)); }
+        }
+
+        .bg-marquee-container {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-marquee-content {
+            display: inline-block;
+            animation: marquee-bg 40s linear infinite;
+        }
+
+        .hero-bg-text-marquee {
+            display: inline-block;
+            font-size: 15vw;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.02);
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            padding-right: 2rem;
+        }
+
+        @keyframes marquee-bg {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glass-element {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mask-bottom-fade {
+            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        }
+
+        .circle-bg {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .stagger-1 { transition-delay: 100ms; }
+        .stagger-2 { transition-delay: 200ms; }
+        .stagger-3 { transition-delay: 300ms; }
+        .stagger-4 { transition-delay: 400ms; }
+        .stagger-5 { transition-delay: 500ms; }
+
+        .testimonial-card-glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-card-glass:hover {
+            transform: scale(1.05) translateY(-8px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px -15px rgba(255, 255, 255, 0.05);
+        }
+
+        .quote-bg {
+            position: absolute;
+            top: -20px;
+            right: 20px;
+            font-size: 120px;
+            font-family: 'Syne', sans-serif;
+            color: rgba(255, 255, 255, 0.03);
+            pointer-events: none;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md antialiased selection:bg-white/20">
+<nav class="fixed top-0 w-full z-50 glass-nav">
+<div class="flex justify-between items-center h-16 px-gutter max-w-container-max mx-auto">
+<a class="font-headline-md text-headline-md font-bold text-on-surface tracking-tight hover:scale-95 transition-transform" href="#hero">Pandxy</a>
+<div class="hidden md:flex gap-2 relative items-center" id="nav-menu">
+<div class="nav-indicator" id="nav-indicator"></div>
+<a class="nav-link text-neutral-400" href="#hero">Hero</a>
+<a class="nav-link hover:text-white text-neutral-400" href="#about">About</a>
+<a class="nav-link hover:text-white text-neutral-400" href="#services">Services</a>
+<a class="nav-link hover:text-white text-neutral-400" href="#skills">Skills</a>
+<a class="nav-link hover:text-white text-neutral-400" href="#portfolio">Portfolio</a>
+<a class="nav-link hover:text-white text-neutral-400" href="#testimonials">Testimonials</a>
+<a class="nav-link hover:text-white text-neutral-400" href="#contact">Contact</a>
+</div>
+<a class="hidden md:flex items-center px-4 py-2 bg-white text-black font-button text-button rounded hover:-translate-y-0.5 transition-transform" href="#contact">
+                Let's Talk
+            </a>
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<main class="pt-16">
+<section class="relative min-h-[900px] w-full overflow-hidden flex items-center bg-[#0a0a0a]" id="hero">
+<div class="bg-marquee-container z-0">
+<div class="bg-marquee-content">
+<span class="hero-bg-text-marquee">ADJI BHAWANTU</span>
+<span class="hero-bg-text-marquee">ADJI BHAWANTU</span>
+</div>
+</div>
+<div class="circle-bg w-[500px] h-[500px] bg-white top-1/4 -left-24"></div>
+<div class="circle-bg w-[400px] h-[400px] bg-primary/20 bottom-1/4 -right-24"></div>
+<div class="relative z-10 w-full max-w-container-max mx-auto px-gutter h-[900px]">
+<div class="absolute top-[20%] md:top-[28%] left-gutter z-30 max-w-2xl pointer-events-auto reveal active">
+<div class="flex flex-col gap-1">
+<h1 class="font-display-hero text-[3rem] md:text-[4.5rem] leading-[1.05] font-bold tracking-[-0.04em] text-white uppercase">Web &amp; App</h1>
+<div class="flex items-center gap-4 flex-wrap">
+<h1 class="font-display-hero text-[2.2rem] md:text-[3.5rem] leading-[1.05] font-bold tracking-[-0.04em] text-white uppercase">Developer Based</h1>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full glass-element">
+<div class="w-3 h-3 rounded-full bg-gradient-to-tr from-blue-500 to-cyan-400"></div>
+<span class="font-label-mono text-[10px] md:text-xs text-white uppercase tracking-widest font-bold">Full-Stack</span>
+</div>
+</div>
+<h1 class="font-display-hero text-display-hero-mobile text-on-surface leading-[1.1] uppercase md:text-[3.5rem]">In Indonesian</h1>
+</div>
+<p class="font-body-md text-body-lg text-secondary max-w-md mt-6">Saya membantu bisnis berkembang melalui pembuatan website dan aplikasi mobile yang cepat, aman, berkinerja tinggi, dan mudah digunakan dengan teknologi modern.</p>
+<div class="flex flex-wrap gap-4 mt-8">
+<a class="px-8 py-4 bg-white text-black font-button rounded-full hover:-translate-y-1 transition-transform font-bold" href="#contact">Mulai Project</a>
+<a class="px-8 py-4 border border-white/10 text-white font-button rounded-full hover:bg-white/5 transition-colors font-bold" href="#portfolio">Lihat Portfolio</a>
+</div>
+</div>
+<div class="absolute bottom-0 right-0 md:-right-10 w-full md:w-[65%] lg:w-[70%] h-[85%] md:h-[95%] z-20 pointer-events-none flex items-end">
+<img alt="Adji Bhawantu Portrait" class="w-full h-full object-cover object-bottom mask-bottom-fade opacity-90" src="/PFP_ADJI.png"/>
+</div>
+<div class="absolute inset-0 z-30 pointer-events-none">
+<div class="absolute top-[18%] right-[10%] md:right-[35%] inline-flex items-center gap-2 px-4 py-2 rounded-full glass-element text-white pointer-events-auto shadow-2xl reveal active hover:-translate-y-1 transition-transform">
+<div class="w-2 h-2 rounded-full bg-whatsapp-green animate-pulse"></div>
+<span class="font-label-mono text-[10px] md:text-xs font-medium uppercase tracking-widest">available for freelance</span>
+<span class="material-symbols-outlined text-sm ml-1 text-white/70">terminal</span>
+</div>
+<div class="absolute top-[38%] right-gutter md:right-[5%] flex items-center gap-3 p-2 pr-5 rounded-full glass-element pointer-events-auto shadow-2xl reveal active hover:-translate-y-1 transition-transform">
+<div class="flex -space-x-3">
+<img alt="C1" class="w-10 h-10 rounded-full border-2 border-surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDslN522ZIEE46ea2IZL2pPSycvuCTTBFSJOaWszmz9Djr_IL5I1TFbER171NYmTlO2rY_tooDi1UNslHNzBLYz9AWFB-U0zYBUYjw4-l8LSoc7GFQhZbn1FJ1RLutbX1qmFMBm9JFkt6tCKDvPkHVSRsUV_dlwVyoRSo7kY_OAymYkGdsD_X06YudDmjOwwvyByHpAjMMyxAERZJGnx7Ag2Xs9bMA0lNaMXqLcg2HX91uzeKgOZSZfpIOJigvh9jdleNv13qH4b9g"/>
+<img alt="C2" class="w-10 h-10 rounded-full border-2 border-surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEr__tc_s9PMDfPRKghnpZ4uj9CNLIIV-NkajbOnh_KuENvLd1kVoNIoIy8EsFKIYE98rUPj1m4qU76sZdy1kYKLjwtd2LxSHTcgCMVIjBHvIh9sHSUVH2ABDcah4R4r8G5OHIffvklCBNPCvhIboBAkA4_R81A8uyjatKUuEuJfgXQ2s98167OqajabqIn7Vxcy2JH6TjhVQhLZ4UPi9MvhfIbJFn0Mm7E6UkPVViBBp49MXWR0yumzhQa0N3Mhqu3FW-tvbPzgQJ"/>
+<img alt="C3" class="w-10 h-10 rounded-full border-2 border-surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALnD9XfdnqAIcChSD6blsLLS_r_xMT8_3V3HBqBcLwiA1QHpo5xeLYQqELzuOZsKxDCQkhQ2zmAJkjGRBHOURNBkTaEj4h9Y1_AB4HO33RCduh1FvwgP7Oeg6KdkC6Ykwk7R6x68JPoCncGFAjrV798-keSXhrt_R8KYe2giBNgCPvKvWS_MgkOEAinp0R4tP8MSBH9FDojma7ASs6n7BKUxKxTKdRDWQ4E14mrG1v9g0SxA3QX0uG2zZQKI39m1iWHvfNJmewK9nt"/>
+</div>
+<span class="font-body-md text-xs text-white leading-tight font-bold">Klien<br/>Puas</span>
+</div>
+<div class="absolute bottom-[12%] right-[5%] flex flex-col gap-4 pointer-events-auto">
+<div class="flex gap-4">
+<div class="w-[140px] p-4 rounded-2xl glass-element shadow-2xl hover:scale-105 transition-transform">
+<span class="font-headline-md text-2xl text-white font-bold block">100%</span>
+<span class="text-[10px] text-white/50 font-body-md uppercase tracking-widest">Clean Code</span>
+</div>
+<div class="w-[140px] p-4 rounded-2xl glass-element shadow-2xl hover:scale-105 transition-transform">
+<div class="flex justify-between">
+<span class="font-headline-md text-2xl text-white font-bold">3+</span>
+<span class="material-symbols-outlined text-white/50 text-sm">code</span>
+</div>
+<span class="text-[10px] text-white/50 font-body-md uppercase tracking-widest block mt-1">Years Exp.</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 max-w-[320px] justify-end">
+<span class="px-4 py-2 rounded-full glass-element text-[10px] text-white font-label-mono uppercase tracking-wider">Web Development</span>
+<span class="px-4 py-2 rounded-full glass-element text-[10px] text-white font-label-mono uppercase tracking-wider">Mobile App</span>
+<span class="px-4 py-2 rounded-full glass-element text-[10px] text-white font-label-mono uppercase tracking-wider">Backend API</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="px-gutter py-section-padding-y max-w-container-max mx-auto" id="about">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 reveal active">
+<div class="md:col-span-7 card-bento p-8 md:p-12 flex flex-col justify-center">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-4">Tentang Saya</h2>
+<p class="text-secondary leading-relaxed mb-6">
+                        Saya seorang Full-Stack Developer yang bersemangat menciptakan pengalaman digital yang luar biasa. Dengan fokus pada kode yang bersih dan desain yang intuitif, saya membangun solusi web yang tidak hanya terlihat bagus tetapi juga memberikan hasil nyata bagi klien.
+                    </p>
+<p class="text-secondary leading-relaxed">
+                        Keahlian saya mencakup pengembangan frontend modern dengan React/Next.js dan backend tangguh dengan Node.js/Python, memastikan setiap proyek dioptimalkan untuk performa dan skalabilitas.
+                    </p>
+</div>
+<div class="md:col-span-5 grid grid-rows-3 gap-4">
+<div class="card-bento p-6 flex items-center gap-6 reveal stagger-1 active">
+<div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10 text-on-surface">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-on-surface">3+</div>
+<div class="font-label-mono text-label-mono text-secondary">Tahun Pengalaman</div>
+</div>
+</div>
+<div class="card-bento p-6 flex items-center gap-6 reveal stagger-2 active">
+<div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10 text-on-surface">
+<span class="material-symbols-outlined">rocket_launch</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-on-surface">25+</div>
+<div class="font-label-mono text-label-mono text-secondary">Project Selesai</div>
+</div>
+</div>
+<div class="card-bento p-6 flex items-center gap-6 reveal stagger-3 active">
+<div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10 text-on-surface">
+<span class="material-symbols-outlined">handshake</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md text-on-surface">20+</div>
+<div class="font-label-mono text-label-mono text-secondary">Klien Puas</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="px-gutter py-section-padding-y max-w-container-max mx-auto" id="services">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-12 text-center reveal active">Layanan</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="card-bento p-8 reveal stagger-1 active">
+<span class="material-symbols-outlined text-4xl text-white/70 mb-6">business</span>
+<h3 class="font-headline-md text-headline-md text-on-surface text-xl mb-3">Company Profile</h3>
+<p class="text-secondary text-sm">Website profesional untuk meningkatkan kredibilitas brand Anda dan menarik lebih banyak klien potensial.</p>
+</div>
+<div class="card-bento p-8 reveal stagger-2 active">
+<span class="material-symbols-outlined text-4xl text-white/70 mb-6">storefront</span>
+<h3 class="font-headline-md text-headline-md text-on-surface text-xl mb-3">Toko Online</h3>
+<p class="text-secondary text-sm">Platform e-commerce yang aman dan mudah digunakan untuk memaksimalkan penjualan produk Anda secara online.</p>
+</div>
+<div class="card-bento p-8 reveal stagger-3 active">
+<span class="material-symbols-outlined text-4xl text-white/70 mb-6">web</span>
+<h3 class="font-headline-md text-headline-md text-on-surface text-xl mb-3">Aplikasi Web</h3>
+<p class="text-secondary text-sm">Sistem web kustom yang kompleks untuk mendigitalisasi dan mengotomatisasi proses bisnis Anda.</p>
+</div>
+<div class="card-bento p-8 md:col-span-2 reveal stagger-4 active">
+<span class="material-symbols-outlined text-4xl text-white/70 mb-6">flight_takeoff</span>
+<h3 class="font-headline-md text-headline-md text-on-surface text-xl mb-3">Landing Page</h3>
+<p class="text-secondary text-sm">Halaman yang dioptimalkan untuk konversi tinggi, dirancang khusus untuk kampanye pemasaran atau peluncuran produk baru Anda.</p>
+</div>
+<div class="card-bento p-8 reveal stagger-5 active">
+<span class="material-symbols-outlined text-4xl text-white/70 mb-6">design_services</span>
+<h3 class="font-headline-md text-headline-md text-on-surface text-xl mb-3">UI/UX Design</h3>
+<p class="text-secondary text-sm">Desain antarmuka yang intuitif dan menarik untuk memberikan pengalaman pengguna terbaik.</p>
+</div>
+</div>
+</section>
+<section class="px-gutter py-section-padding-y max-w-container-max mx-auto" id="skills">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-12 text-center reveal active">Tech Stack</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="card-bento p-6 reveal stagger-1 active">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-white/70">code</span>
+<h3 class="font-headline-md text-lg text-on-surface">Frontend</h3>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 font-label-mono text-xs bg-white/5 border border-white/10 rounded-lg text-secondary">React</span>
+<span class="px-3 py-1 font-label-mono text-xs bg-white/5 border border-white/10 rounded-lg text-secondary">Next.js</span>
+<span class="px-3 py-1 font-label-mono text-xs bg-white/5 border border-white/10 rounded-lg text-secondary">TypeScript</span>
+<span class="px-3 py-1 font-label-mono text-xs bg-white/5 border border-white/10 rounded-lg text-secondary">Tailwind CSS</span>
+</div>
+</div>
+<div class="card-bento p-6 reveal stagger-2 active">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-white/70">dns</span>
+<h3 class="font-headline-md text-lg text-on-surface">Backend</h3>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 font-label-mono text-xs bg-white/5 border border-white/10 rounded-lg text-secondary">Node.js</span>
+<span class="px-3 py-1 font-label-mono text-xs bg-white/5 border border-white/10 rounded-lg text-secondary">Express</span>
+<span class="px-3 py-1 font-label-mono text-xs bg-white/5 border border-white/10 rounded-lg text-secondary">Supabase</span>
+<span class="px-3 py-1 font-label-mono text-xs bg-white/5 border border-white/10 rounded-lg text-secondary">PostgreSQL</span>
+</div>
+</div>
+<div class="card-bento p-6 reveal stagger-3 active">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-white/70">build</span>
+<h3 class="font-headline-md text-lg text-on-surface">Tools</h3>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 font-label-mono text-xs bg-white/5 border border-white/10 rounded-lg text-secondary">Git &amp; GitHub</span>
+<span class="px-3 py-1 font-label-mono text-xs bg-white/5 border border-white/10 rounded-lg text-secondary">Vite</span>
+<span class="px-3 py-1 font-label-mono text-xs bg-white/5 border border-white/10 rounded-lg text-secondary">Vercel</span>
+</div>
+</div>
+<div class="card-bento p-6 reveal stagger-4 active">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-white/70">brush</span>
+<h3 class="font-headline-md text-lg text-on-surface">Design</h3>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 font-label-mono text-xs bg-white/5 border border-white/10 rounded-lg text-secondary">Figma</span>
+<span class="px-3 py-1 font-label-mono text-xs bg-white/5 border border-white/10 rounded-lg text-secondary">Spline</span>
+</div>
+</div>
+</div>
+</section>
+<section class="px-gutter py-section-padding-y max-w-container-max mx-auto" id="portfolio">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-12 text-center reveal active">Portfolio</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="card-bento p-6 flex flex-col h-full reveal stagger-1 active">
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-headline-md text-xl text-on-surface">E-commerce Platform</h3>
+<a class="text-secondary hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-xl">open_in_new</span></a>
+</div>
+<p class="text-secondary text-sm mb-6 flex-grow">Full-stack e-commerce solution with Next.js, Stripe integration, and Supabase backend.</p>
+<div class="flex justify-between items-center mt-auto">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-blue-400"></div>
+<span class="font-label-mono text-xs text-secondary">TypeScript</span>
+</div>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="font-label-mono text-xs">42</span>
+</div>
+</div>
+</div>
+<div class="card-bento p-6 flex flex-col h-full reveal stagger-2 active">
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-headline-md text-xl text-on-surface">Task Management App</h3>
+<a class="text-secondary hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-xl">open_in_new</span></a>
+</div>
+<p class="text-secondary text-sm mb-6 flex-grow">A sleek task manager built with React, Framer Motion for animations, and local storage.</p>
+<div class="flex justify-between items-center mt-auto">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-yellow-400"></div>
+<span class="font-label-mono text-xs text-secondary">JavaScript</span>
+</div>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="font-label-mono text-xs">18</span>
+</div>
+</div>
+</div>
+<div class="card-bento p-6 flex flex-col h-full reveal stagger-3 active">
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-headline-md text-xl text-on-surface">Portfolio Template</h3>
+<a class="text-secondary hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-xl">open_in_new</span></a>
+</div>
+<p class="text-secondary text-sm mb-6 flex-grow">Minimalist portfolio template for developers using Tailwind CSS and Vite.</p>
+<div class="flex justify-between items-center mt-auto">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-blue-400"></div>
+<span class="font-label-mono text-xs text-secondary">TypeScript</span>
+</div>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="font-label-mono text-xs">156</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-section-padding-y overflow-hidden" id="testimonials">
+<div class="max-w-container-max mx-auto px-gutter mb-16">
+<h2 class="font-headline-lg text-headline-lg text-on-surface text-center reveal active">Testimonials</h2>
+<p class="text-secondary text-center max-w-lg mx-auto mt-4 reveal stagger-1 active">Dengarkan apa kata mereka yang telah bekerjasama dengan saya dalam membangun produk digital berkualitas tinggi.</p>
+</div>
+<div class="marquee-container reveal stagger-2 active">
+<div class="marquee-content py-8">
+<div class="testimonial-card-glass p-8 w-[380px] md:w-[420px] shrink-0">
+<div class="quote-bg">"</div>
+<div class="flex text-[#FFD700] mb-6 gap-0.5">
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+</div>
+<p class="text-secondary italic mb-8 relative z-10 leading-relaxed text-sm">"Pandxy memberikan hasil yang luar biasa. Website company profile kami terlihat sangat profesional dan proses pembuatannya sangat cepat."</p>
+<div class="flex items-center gap-4 border-t border-white/5 pt-6">
+<img alt="Budi Santoso" class="w-12 h-12 rounded-full border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_I6A1_5O0GbVFx48YcD2Km_cJf9fhALVglAP1r5dNQcOAWduIUQK4daEYInqGB-5OELt9xL1XUO8WctdEzvdu-MV9FVASo0OezN3CChDzXDyFfdVmzWOQwUI3YQjZ1W9qO0fgaeqwX857mb7xhwLfaKblryiGKh8NIko0YWRKZCM6cl-HVugH5e6Xuu3M1waDi6D8VeHavDduSTMebTXbhlY_g8MFHZEszLlaoSlN2gGdNRRhCKnHe5b_5h53_RAL0bWt9AbJaj0h"/>
+<div>
+<h4 class="font-headline-md text-base text-white">Budi Santoso</h4>
+<p class="font-label-mono text-xs text-secondary/60">CEO, Tech Indo</p>
+</div>
+</div>
+</div>
+<div class="testimonial-card-glass p-8 w-[380px] md:w-[420px] shrink-0">
+<div class="quote-bg">"</div>
+<div class="flex text-[#FFD700] mb-6 gap-0.5">
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+</div>
+<p class="text-secondary italic mb-8 relative z-10 leading-relaxed text-sm">"Toko online kami sekarang jauh lebih responsif. Konversi penjualan meningkat 30% sejak di-redesign oleh tim Pandxy."</p>
+<div class="flex items-center gap-4 border-t border-white/5 pt-6">
+<img alt="Rina Melati" class="w-12 h-12 rounded-full border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb6Pdgvy43RRX48WZXTx4hnA5uAtppCwdv0RsoeslCH8Ex7L6w9tpp8z32-4ot_He4_LywF_Lp_m9ADY1abfqutcaHF-MPHeJRtOHy3uuC_eAbvWi8piS93msr9rkRgK8nTDk_Z36R1rbbhg1CSQI50rDDxW3pOcQ9umR1cF77vN8IJiNsJBQbE3H9E49kCns8whFQUe4CGUkYI2wILfpC3yYRSYThdN2vyAIj474jQZ6zVfRJkJwupfO3SQVaFI5zS8xnM5QjKwaE"/>
+<div>
+<h4 class="font-headline-md text-base text-white">Rina Melati</h4>
+<p class="font-label-mono text-xs text-secondary/60">Owner, Fashionista</p>
+</div>
+</div>
+</div>
+<div class="testimonial-card-glass p-8 w-[380px] md:w-[420px] shrink-0">
+<div class="quote-bg">"</div>
+<div class="flex text-[#FFD700] mb-6 gap-0.5">
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+</div>
+<p class="text-secondary italic mb-8 relative z-10 leading-relaxed text-sm">"Pandxy memberikan hasil yang luar biasa. Website company profile kami terlihat sangat profesional dan proses pembuatannya sangat cepat."</p>
+<div class="flex items-center gap-4 border-t border-white/5 pt-6">
+<img alt="Budi Santoso" class="w-12 h-12 rounded-full border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkm6U6z2OETGiPNvLdUeb-w3cfhlP4_zHu1rZjPE4IxJJ6m7zosA0gr4WNIIPF9xUhElRSSUDWdSoeNrWGrSDsaEy4-aNchkKnU3SOorkjiNb-CknGzLoRGftegE_QK0rLnh2yyxN5jgu0veYyvLQgiWm-toXzLEAnOqPNCnmp8rUGAcvJybyUcbNCdpZEWWdd-5HrtpH_JsFZ2AU6JnQ1Kn_7GlkwdkzpexuKNo9hoP0nteqV0tHSduw_4R4FBKz7l8zO_lWL_f5w"/>
+<div>
+<h4 class="font-headline-md text-base text-white">Budi Santoso</h4>
+<p class="font-label-mono text-xs text-secondary/60">CEO, Tech Indo</p>
+</div>
+</div>
+</div>
+<div class="testimonial-card-glass p-8 w-[380px] md:w-[420px] shrink-0">
+<div class="quote-bg">"</div>
+<div class="flex text-[#FFD700] mb-6 gap-0.5">
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+<span class="material-symbols-outlined fill-1 text-base">star</span>
+</div>
+<p class="text-secondary italic mb-8 relative z-10 leading-relaxed text-sm">"Toko online kami sekarang jauh lebih responsif. Konversi penjualan meningkat 30% sejak di-redesign oleh tim Pandxy."</p>
+<div class="flex items-center gap-4 border-t border-white/5 pt-6">
+<img alt="Rina Melati" class="w-12 h-12 rounded-full border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYEnTQXHWd5cOoTUKNjtdzxa8ouoryOOjtx1EGkNqPrs7oKmsHICIONlqXQAvn0HVUv-Z6jkCzCX_fF5xlfLbTx-kVCkkJww0AmyqnyfW1xYzagymbhZBnb1isRiFu6lgTJJhyvZXnCs8iUauKX7YAzhqbpgN5ypTuT0lh9TYfGxgyXXDo3SXCZ-lYEPvJKWjT-hxuM1AopAe6xevLAFcn0pm9oipgq5yvR_iWOvIUxNb7-er3SXTyqt-mWYCa2snYetQkdy0pPxGI"/>
+<div>
+<h4 class="font-headline-md text-base text-white">Rina Melati</h4>
+<p class="font-label-mono text-xs text-secondary/60">Owner, Fashionista</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="px-gutter py-section-padding-y max-w-container-max mx-auto" id="contact">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 reveal active">
+<div class="reveal stagger-1 active">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Let's Work Together</h2>
+<p class="text-secondary mb-8">Punya ide proyek atau butuh bantuan dengan website Anda? Jangan ragu untuk menghubungi saya.</p>
+<form action="#" class="space-y-4" method="POST">
+<div>
+<label class="block font-label-mono text-sm text-secondary mb-2" for="name">Nama Lengkap</label>
+<input class="w-full px-4 py-3 rounded-lg input-glass text-white focus:ring-1 focus:ring-white/40" id="name" placeholder="John Doe" type="text"/>
+</div>
+<div>
+<label class="block font-label-mono text-sm text-secondary mb-2" for="email">Email</label>
+<input class="w-full px-4 py-3 rounded-lg input-glass text-white focus:ring-1 focus:ring-white/40" id="email" placeholder="john@example.com" type="email"/>
+</div>
+<div>
+<label class="block font-label-mono text-sm text-secondary mb-2" for="message">Pesan</label>
+<textarea class="w-full px-4 py-3 rounded-lg input-glass text-white focus:ring-1 focus:ring-white/40" id="message" placeholder="Ceritakan tentang proyek Anda..." rows="4"></textarea>
+</div>
+<button class="w-full py-4 bg-white text-black font-button text-button rounded-lg hover:bg-white/90 transition-colors" type="submit">Kirim Pesan</button>
+</form>
+</div>
+<div class="space-y-6 reveal stagger-2 active">
+<div class="card-bento p-6 flex items-start gap-4">
+<div class="w-12 h-12 rounded-full bg-whatsapp-green/10 flex items-center justify-center text-whatsapp-green shrink-0">
+<span class="material-symbols-outlined">chat</span>
+</div>
+<div>
+<h4 class="font-headline-md text-lg text-on-surface">Chat via WhatsApp</h4>
+<p class="text-secondary text-sm mb-2">Respon cepat 1x24 jam</p>
+<a class="text-whatsapp-green hover:underline font-button text-sm" href="https://wa.me/1234567890">Hubungi Sekarang →</a>
+</div>
+</div>
+<div class="flex gap-4">
+<a class="card-bento flex-1 p-6 flex flex-col items-center justify-center gap-3 group" href="#"><span class="material-symbols-outlined text-3xl text-secondary group-hover:text-white">code</span><span class="font-label-mono text-sm text-secondary group-hover:text-white">GitHub</span></a>
+<a class="card-bento flex-1 p-6 flex flex-col items-center justify-center gap-3 group" href="#"><span class="material-symbols-outlined text-3xl text-secondary group-hover:text-white">photo_camera</span><span class="font-label-mono text-sm text-secondary group-hover:text-white">Instagram</span></a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-surface py-stack-lg border-t border-white/10 mt-24">
+<div class="flex flex-col md:flex-row justify-between items-center px-gutter max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md font-bold text-on-surface mb-4 md:mb-0">Pandxy</div>
+<div class="font-body-md text-body-md text-secondary" id="copyright">© 2024 Pandxy. All rights reserved.</div>
+<div class="flex gap-4 mt-4 md:mt-0">
+<a class="font-body-md text-body-md text-secondary hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-secondary hover:text-primary transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+<a class="fixed bottom-8 right-8 w-14 h-14 bg-whatsapp-green rounded-full flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform z-50" href="https://wa.me/1234567890" target="_blank">
+<svg class="w-8 h-8" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
+</svg>
+</a>
+<script>
+        document.getElementById('copyright').innerHTML = `© ${new Date().getFullYear()} Pandxy. All rights reserved.`;
+
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 50;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const sections = document.querySelectorAll("section[id]");
+            const navLinks = document.querySelectorAll(".nav-link");
+            const indicator = document.getElementById("nav-indicator");
+            const navMenu = document.getElementById("nav-menu");
+            
+            if (!indicator || !navMenu) return;
+
+            function updateIndicator(link) {
+                if (!link) {
+                    indicator.style.opacity = '0';
+                    return;
+                }
+                indicator.style.opacity = '1';
+                const linkRect = link.getBoundingClientRect();
+                const menuRect = navMenu.getBoundingClientRect();
+                
+                const offsetLeft = linkRect.left - menuRect.left;
+                indicator.style.width = `${linkRect.width}px`;
+                indicator.style.transform = `translateX(${offsetLeft}px)`;
+                
+                navLinks.forEach(l => {
+                    l.classList.remove('active', 'text-white');
+                    l.classList.add('text-neutral-400');
+                });
+                link.classList.add('active', 'text-white');
+                link.classList.remove('text-neutral-400');
+            }
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-20% 0px -60% 0px',
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
+                        if (activeLink) {
+                            updateIndicator(activeLink);
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            const initialActive = document.querySelector('.nav-link.active') || navLinks[0];
+            if(initialActive) {
+                setTimeout(() => updateIndicator(initialActive), 100);
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    updateIndicator(this);
+                });
+            });
+
+            window.addEventListener('resize', () => {
+                const activeLink = document.querySelector('.nav-link.active');
+                if (activeLink) {
+                    updateIndicator(activeLink);
+                }
+            });
+        });
+    </script>
+</body>
 </html>

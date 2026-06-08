@@ -21,3 +21,7 @@
 - Modified 'src/main.tsx' - Entry point (tetap seperti template)
 - Build success - tsc + vite build tanpa error (367.96 kB JS, 15.80 kB CSS)
 - Created 'promptstich.md' - Dokumentasi lengkap seluruh project Pandxy Portfolio
+
+### TERBARU — Rombak Total ke HTML Statis
+- Modified 'index.html' - Rombak total dari React (tsx) ke HTML statis murni dengan tailwind CDN, semua section direplikasi dari template HTML baru
+- Modified 'index.html' - Ganti foto hero section dengan file lokal /PFP_ADJI.png (dari public folder)
