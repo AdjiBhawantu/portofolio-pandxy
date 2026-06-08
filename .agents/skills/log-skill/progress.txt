@@ -64,3 +64,13 @@
 ### TERBARU — Fix Semua Element Disappear (gsap.from → fromTo)
 - Fixed 'index.html' - Ganti gsap.from() jadi gsap.fromTo() di ScrollTrigger agar target akhir explicit opacity:1
 - Alasan: gsap.from() selalu animate TO computed CSS values (opacity:0 dari .reveal) → element tetap invisible. fromTo() pake explicit to-values jadi element benar-benar kebaca opacity:1 setelah animasi
+
+### TERBARU — Fix Hero Overlays Hitam Disappear
+- Fixed 'index.html' - Hapus will-change + backface-visibility dari .reveal css class
+- Alasan: .reveal punya CSS transition:all (untuk fallback .active class) yg bentrok dgn backface-visibility + will-change → GPU layer issue → stacking context kacau → element child filter/opacity (.circle-bg) tidak render
+- Fixed 'index.html' - Tambah transform:translateZ(0) ke .circle-bg utk GPU layer isolation tanpa stacking context conflict
+
+### TERBARU — Fix Hero Image Fade Effect (Mask) Disappear
+- Fixed 'index.html' - Ganti clearProps:'all' jadi clearProps:'opacity,y' di semua hero timeline .from() tweens
+- Alasan: GSAP clearProps:'all' nge-set element.style.cssText='' yg menghapus mask-image inline style di hero image
+- Efek: mask-image (fade-to-transparent di foto hero) tetap terjaga setelah load animation selesai
