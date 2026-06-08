@@ -25,3 +25,7 @@
 ### TERBARU — Rombak Total ke HTML Statis
 - Modified 'index.html' - Rombak total dari React (tsx) ke HTML statis murni dengan tailwind CDN, semua section direplikasi dari template HTML baru
 - Modified 'index.html' - Ganti foto hero section dengan file lokal /PFP_ADJI.png (dari public folder)
+
+### TERBARU — Fix Hero Image + Lenis Smooth Scroll
+- Fixed 'index.html' - Ubah object-cover jadi object-contain pada img hero, ubah parent div h-[85%] md:h-[95%] jadi h-full md:h-full top-0 md:top-10
+- Created 'index.html' - Hapus scroll-behavior: smooth, tambah CSS Lenis dan init script Lenis smooth scroll CDN
