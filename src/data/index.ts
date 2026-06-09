@@ -39,19 +39,34 @@ export const services: Service[] = [
 ];
 
 export const skills: Skill[] = [
-  { name: "React", category: "Frontend", level: 95 },
-  { name: "Next.js", category: "Frontend", level: 90 },
-  { name: "TypeScript", category: "Frontend", level: 90 },
+  // Frontend
+  { name: "React", category: "Frontend", level: 90 },
+  { name: "Next.js", category: "Frontend", level: 85 },
+  { name: "TypeScript", category: "Frontend", level: 88 },
   { name: "Tailwind CSS", category: "Frontend", level: 95 },
-  { name: "Node.js", category: "Backend", level: 85 },
+  { name: "Framer Motion", category: "Frontend", level: 80 },
+  { name: "GSAP", category: "Frontend", level: 75 },
+  { name: "Lenis", category: "Frontend", level: 78 },
+
+  // Backend
+  { name: "Node.js", category: "Backend", level: 82 },
   { name: "Express", category: "Backend", level: 80 },
-  { name: "Supabase", category: "Backend", level: 80 },
+  { name: "PHP", category: "Backend", level: 92 },
+  { name: "MySQL", category: "Backend", level: 88 },
+  { name: "Supabase", category: "Backend", level: 78 },
   { name: "PostgreSQL", category: "Backend", level: 75 },
+
+  // Tools
   { name: "Git & GitHub", category: "Tools", level: 90 },
-  { name: "Vite", category: "Tools", level: 90 },
+  { name: "Vite", category: "Tools", level: 88 },
   { name: "Vercel", category: "Tools", level: 85 },
+  { name: "VS Code", category: "Tools", level: 92 },
+  { name: "Postman", category: "Tools", level: 80 },
+
+  // Design
   { name: "Figma", category: "Design", level: 85 },
   { name: "Spline", category: "Design", level: 70 },
+  { name: "Framer", category: "Design", level: 72 },
 ];
 
 export const testimonials: Testimonial[] = [
