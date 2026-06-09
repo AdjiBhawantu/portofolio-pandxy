@@ -80,7 +80,7 @@ export default function Testimonials() {
   const cards = (
     <>
       {testimonials.map((t, i) => (
-        <div key={`${t.id}-${i}`} className="testimonial-card-glass p-8 w-[380px] md:w-[420px] shrink-0 card-hover-103">
+        <div key={`${t.id}-${i}`} className="testimonial-card-glass p-8 w-[380px] md:w-[420px] shrink-0 card-hover card-hover-103">
           <div className="quote-bg">&quot;</div>
           <div className="flex text-[#FFD700] mb-6 gap-0.5">
             {Array.from({ length: t.rating }).map((_, j) => (

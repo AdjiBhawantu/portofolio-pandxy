@@ -46,7 +46,7 @@ export default function Portfolio() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {portfolioItems.map((item, i) => (
-          <div key={item.id} className={`card-bento p-6 flex flex-col h-full reveal ${staggerMap[i]} active card-hover-103`}>
+          <div key={item.id} className={`card-bento p-6 flex flex-col h-full reveal ${staggerMap[i]} active card-hover card-hover-103`}>
             <div className="flex justify-between items-start mb-4">
               <h3 className="font-headline-md text-xl text-on-surface">{item.title}</h3>
               <a href={`${item.link}`} target="_blank" rel="noreferrer" className="text-secondary hover:text-white transition-colors">

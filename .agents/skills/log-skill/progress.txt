@@ -138,9 +138,19 @@
 ### TERBARU — Fix Scale Hover Override Inline Transform GSAP
 - Fixed 'app/globals.css' - Tambah class card-hover-103:hover (.scale 1.03 !important) & card-hover-102:hover (.scale 1.02 !important) di @layer components
 - Fixed 'src/components/sections/About.tsx' - Ganti Tailwind hover classes dgn card-hover-102/103
-- Fixed 'src/components/sections/Services.tsx' - Ganti Tailwind hover classes dgn card-hover-103
+- Fixed 'src/components/sections/Services.tsx' - Ganti Tailwind hover classes dgn card-hover-103 (kedua grup, termasuk slice(3) yg kelewati replaceAll karena pattern berbeda)
 - Fixed 'src/components/sections/Portfolio.tsx' - Ganti Tailwind hover classes dgn card-hover-103
 - Fixed 'src/components/sections/Skills.tsx' - Ganti Tailwind hover classes dgn card-hover-103/102
 - Fixed 'src/components/sections/Contact.tsx' - Ganti Tailwind hover classes dgn card-hover-103
 - Fixed 'src/components/sections/Testimonials.tsx' - Ganti Tailwind hover classes dgn card-hover-103
 - Notes: GSAP animasi 'y' sisakan inline style transform:translate(0,0) yg override CSS class apapun. Solusi final: !important di custom CSS class agar override inline style GSAP
+
+### TERBARU — Fix Transition Hover Kurang Responsive di Services (dan semua card yg punya .reveal)
+- Fixed 'app/globals.css' - Tambah class .card-hover dgn transition:transform 0.4s cubic-bezier(...) !important supaya override transisi lambat dari .reveal (0.8s)
+- Fixed 'src/components/sections/About.tsx' - Tambah class card-hover ke semua card
+- Fixed 'src/components/sections/Services.tsx' - Tambah class card-hover ke semua card
+- Fixed 'src/components/sections/Portfolio.tsx' - Tambah class card-hover ke semua card
+- Fixed 'src/components/sections/Skills.tsx' - Tambah class card-hover ke semua card
+- Fixed 'src/components/sections/Contact.tsx' - Tambah class card-hover ke semua card
+- Fixed 'src/components/sections/Testimonials.tsx' - Tambah class card-hover ke testimonial card
+- Notes: .reveal punya transition:all 0.8s yg override .card-bento transition:transform 0.4s pada elemen dgn kedua class. Class card-hover dgn !important memastikan transisi hover scale konsisten 0.4s di semua card
