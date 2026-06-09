@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 .env
+.next/
 .next/cache/images/
 .next/cache/webpack/
 .next/cache/webpack/client-development
