@@ -1,81 +1,60 @@
-"use client";
+'use client'
 
-import { useEffect, useRef } from "react";
-import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { testimonials } from "@/data/index";
+import { useEffect, useRef } from 'react'
+import Image from 'next/image'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { testimonials } from '@/data/index'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Testimonials() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const track1Ref = useRef<HTMLDivElement>(null);
-  const track2Ref = useRef<HTMLDivElement>(null);
-  const tweenRef = useRef<gsap.core.Tween | null>(null);
+  const sectionRef = useRef<HTMLElement>(null)
+  const track1Ref = useRef<HTMLDivElement>(null)
+  const track2Ref = useRef<HTMLDivElement>(null)
+  const tweenRef = useRef<gsap.core.Tween | null>(null)
+
+  useScrollReveal(sectionRef, {
+    selector: '.testi-reveal',
+    headingY: 80,
+    scrub: 1.8,
+  })
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Reveal heading & subtitle
-      gsap.utils.toArray<HTMLElement>(".testi-reveal").forEach((el) => {
-        gsap.fromTo(
-          el,
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.5,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 90%",
-              once: true,
-            },
-          },
-        );
-      });
+      const track = track1Ref.current
+      if (!track) return
 
-      // Seamless marquee — GSAP infinite loop
-      const setupMarquee = () => {
-        const track = track1Ref.current;
-        if (!track) return;
+      const totalWidth = track.scrollWidth
 
-        const totalWidth = track.scrollWidth;
+      gsap.set(track2Ref.current, { x: totalWidth })
 
-        // Set track2 tepat di sebelah kanan track1
-        gsap.set(track2Ref.current, { x: totalWidth });
+      tweenRef.current = gsap.to([track1Ref.current, track2Ref.current], {
+        x: `-=${totalWidth}`,
+        duration: 30,
+        ease: 'none',
+        repeat: -1,
+        modifiers: {
+          x: gsap.utils.unitize((x) => {
+            return parseFloat(x) % totalWidth
+          }),
+        },
+      })
+    }, sectionRef)
 
-        // Animasi keduanya bersamaan ke kiri
-        tweenRef.current = gsap.to([track1Ref.current, track2Ref.current], {
-          x: `-=${totalWidth}`,
-          duration: 30,
-          ease: "none",
-          repeat: -1,
-          modifiers: {
-            x: gsap.utils.unitize((x) => {
-              // Wrap: kalau sudah habis, reset ke 0
-              return parseFloat(x) % totalWidth;
-            }),
-          },
-        });
-      };
-
-      setupMarquee();
-    }, sectionRef);
-
-    // Pause on hover
-    const container = sectionRef.current?.querySelector(".marquee-wrapper");
-    const pause = () => tweenRef.current?.pause();
-    const resume = () => tweenRef.current?.resume();
-    container?.addEventListener("mouseenter", pause);
-    container?.addEventListener("mouseleave", resume);
+    const container = sectionRef.current?.querySelector('.marquee-wrapper')
+    const pause = () => tweenRef.current?.pause()
+    const resume = () => tweenRef.current?.resume()
+    container?.addEventListener('mouseenter', pause)
+    container?.addEventListener('mouseleave', resume)
 
     return () => {
-      ctx.revert();
-      container?.removeEventListener("mouseenter", pause);
-      container?.removeEventListener("mouseleave", resume);
-    };
-  }, []);
+      ctx.revert()
+      container?.removeEventListener('mouseenter', pause)
+      container?.removeEventListener('mouseleave', resume)
+    }
+  }, [])
 
   const cards = (
     <>
@@ -106,7 +85,7 @@ export default function Testimonials() {
         </div>
       ))}
     </>
-  );
+  )
 
   return (
     <section ref={sectionRef} className="py-section-padding-y overflow-hidden" id="testimonials">
@@ -115,25 +94,22 @@ export default function Testimonials() {
         <p className="text-secondary text-center max-w-lg mx-auto mt-4 testi-reveal">Dengarkan apa kata mereka yang telah bekerjasama dengan saya dalam membangun produk digital berkualitas tinggi.</p>
       </div>
 
-      {/* Wrapper dengan edge fade */}
       <div
         className="marquee-wrapper relative py-8"
         style={{
-          maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-          WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+          maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
         }}>
-        {/* Dua track identik — GSAP wrap seamless */}
-        <div className="flex" style={{ willChange: "transform" }}>
+        <div className="flex" style={{ willChange: 'transform' }}>
           <div ref={track1Ref} className="flex gap-6 absolute top-0 left-2">
             {cards}
           </div>
           <div ref={track2Ref} className="flex gap-6 absolute top-0 left-8">
             {cards}
           </div>
-          {/* Spacer untuk tinggi container */}
           <div className="flex gap-6 opacity-0 pointer-events-none">{cards}</div>
         </div>
       </div>
     </section>
-  );
+  )
 }

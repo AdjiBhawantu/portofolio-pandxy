@@ -1,46 +1,13 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useRef } from 'react'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { services } from '@/data/index'
-
-gsap.registerPlugin(ScrollTrigger)
-
-const staggerMap: Record<number, string> = {
-  0: 'stagger-1',
-  1: 'stagger-2',
-  2: 'stagger-3',
-  3: 'stagger-4',
-  4: 'stagger-5',
-}
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null)
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray<HTMLElement>('.reveal').forEach((element) => {
-        gsap.fromTo(
-          element,
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.35,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: element,
-              start: 'top bottom',
-              once: true,
-            },
-          }
-        )
-      })
-    }, sectionRef)
-
-    return () => ctx.revert()
-  }, [])
+  useScrollReveal(sectionRef)
 
   return (
     <section
@@ -53,10 +20,10 @@ export default function Services() {
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {services.slice(0, 3).map((service, i) => (
+        {services.slice(0, 3).map((service) => (
           <div
             key={service.id}
-            className={`card-bento p-8 reveal card-hover card-hover-103 ${staggerMap[i]}`}
+            className="card-bento p-8 reveal card-hover card-hover-103"
           >
             <span className="material-symbols-outlined text-4xl text-white/70 mb-6 block">
               {service.icon}
@@ -70,7 +37,7 @@ export default function Services() {
         {services.slice(3).map((service, i) => (
           <div
             key={service.id}
-            className={`card-bento p-8 reveal card-hover card-hover-103 ${staggerMap[i + 3]} ${i === 0 ? 'md:col-span-2' : ''}`}
+            className={`card-bento p-8 reveal card-hover card-hover-103 ${i === 0 ? 'md:col-span-2' : ''}`}
           >
             <span className="material-symbols-outlined text-4xl text-white/70 mb-6 block">
               {service.icon}

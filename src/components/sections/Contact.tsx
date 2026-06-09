@@ -1,42 +1,17 @@
-"use client";
+'use client'
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useRef } from 'react'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 
 export default function Contact() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const sectionRef = useRef<HTMLElement>(null)
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray<HTMLElement>(".reveal").forEach((element) => {
-        gsap.fromTo(
-          element,
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.35,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: element,
-              start: "top bottom",
-              once: true,
-            },
-          },
-        );
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  useScrollReveal(sectionRef)
 
   return (
     <section ref={sectionRef} className="px-gutter py-section-padding-y max-w-container-max mx-auto" id="contact">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 reveal">
-        <div className="reveal stagger-1 active">
+        <div className="reveal">
           <h2 className="font-headline-lg text-headline-lg text-on-surface mb-4">Let&apos;s Work Together</h2>
           <p className="text-secondary mb-8">Punya ide proyek atau butuh bantuan dengan website Anda? Jangan ragu untuk menghubungi saya.</p>
 
@@ -65,7 +40,7 @@ export default function Contact() {
           </form>
         </div>
 
-        <div className="space-y-6 reveal stagger-2 active">
+        <div className="space-y-6 reveal">
           <div className="card-bento p-6 flex items-start gap-4 card-hover card-hover-103">
             <div className="w-12 h-12 rounded-full bg-whatsapp-green/10 flex items-center justify-center text-whatsapp-green shrink-0">
               <span className="material-symbols-outlined">chat</span>
@@ -92,5 +67,5 @@ export default function Contact() {
         </div>
       </div>
     </section>
-  );
+  )
 }
