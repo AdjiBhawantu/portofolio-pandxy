@@ -56,7 +56,7 @@ export default function Services() {
         {services.slice(0, 3).map((service, i) => (
           <div
             key={service.id}
-            className={`card-bento p-8 reveal hover:scale-[1.03] transition-all duration-300 ease-out ${staggerMap[i]}`}
+            className={`card-bento p-8 reveal card-hover-103 ${staggerMap[i]}`}
           >
             <span className="material-symbols-outlined text-4xl text-white/70 mb-6 block">
               {service.icon}

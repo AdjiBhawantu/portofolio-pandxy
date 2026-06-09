@@ -140,10 +140,6 @@ body {
     transition-duration: 0.8s;
   }
 
-  .card-bento:hover {
-    transform: scale(1.02) translateY(-4px);
-  }
-
   .input-glass {
     background-color: #111111;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -298,10 +294,16 @@ body {
   }
 
   .testimonial-card-glass:hover {
-    transform: scale(1.05) translateY(-8px);
     background: rgba(255, 255, 255, 0.06);
     border-color: rgba(255, 255, 255, 0.2);
     box-shadow: 0 20px 40px -15px rgba(255, 255, 255, 0.05);
+  }
+
+  .card-hover-103:hover {
+    transform: scale(1.03) !important;
+  }
+  .card-hover-102:hover {
+    transform: scale(1.02) !important;
   }
 
   .quote-bg {

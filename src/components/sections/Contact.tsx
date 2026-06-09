@@ -66,7 +66,7 @@ export default function Contact() {
         </div>
 
         <div className="space-y-6 reveal stagger-2 active">
-          <div className="card-bento p-6 flex items-start gap-4">
+          <div className="card-bento p-6 flex items-start gap-4 card-hover-103">
             <div className="w-12 h-12 rounded-full bg-whatsapp-green/10 flex items-center justify-center text-whatsapp-green shrink-0">
               <span className="material-symbols-outlined">chat</span>
             </div>
@@ -80,11 +80,11 @@ export default function Contact() {
           </div>
 
           <div className="flex gap-4">
-            <a className="card-bento flex-1 p-6 flex flex-col items-center justify-center gap-3 group" target="_blank" rel="noreferrer" href="https://github.com/AdjiBhawantu">
+            <a className="card-bento flex-1 p-6 flex flex-col items-center justify-center gap-3 group card-hover-103" target="_blank" rel="noreferrer" href="https://github.com/AdjiBhawantu">
               <span className="material-symbols-outlined text-3xl text-secondary group-hover:text-white">code</span>
               <span className="font-label-mono text-sm text-secondary group-hover:text-white">GitHub</span>
             </a>
-            <a className="card-bento flex-1 p-6 flex flex-col items-center justify-center gap-3 group" target="_blank" rel="noreferrer" href="https://instagram.com/pandxy.ocs">
+            <a className="card-bento flex-1 p-6 flex flex-col items-center justify-center gap-3 group card-hover-103" target="_blank" rel="noreferrer" href="https://instagram.com/pandxy.ocs">
               <span className="material-symbols-outlined text-3xl text-secondary group-hover:text-white">photo_camera</span>
               <span className="font-label-mono text-sm text-secondary group-hover:text-white">Instagram</span>
             </a>

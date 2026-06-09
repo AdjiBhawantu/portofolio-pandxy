@@ -101,7 +101,7 @@ export default function Skills() {
         {categories.map((cat, i) => {
           const catSkills = skills.filter((s) => s.category === cat.key);
           return (
-            <div key={cat.key} className={`skill-card card-bento p-6 ${staggerMap[i]}`}>
+            <div key={cat.key} className={`skill-card card-bento p-6 ${staggerMap[i]} card-hover-103`}>
               {/* Header */}
               <div className="flex items-center gap-3 mb-5">
                 <span className="material-symbols-outlined text-white/70">{cat.icon}</span>
@@ -149,7 +149,7 @@ export default function Skills() {
       </div>
 
       {/* Currently Learning row */}
-      <div className="mt-8 card-bento p-6 reveal">
+      <div className="mt-8 card-bento p-6 reveal card-hover-102">
         <div className="flex items-center gap-3 mb-4">
           <span className="material-symbols-outlined text-white/40 text-sm">auto_awesome</span>
           <span className="font-label-mono text-xs text-white/30 uppercase tracking-widest">Currently Exploring</span>

@@ -114,3 +114,33 @@
 - Modified 'src/components/sections/Services.tsx' - Tambah hover:scale-[1.03] transition-all duration-300 ease-out ke semua card-bento
 - Modified 'src/data/index.ts' - Ubah service id 'ui-ux' ke 'pos-system', title 'UI/UX Design' ke 'POS System', icon 'design_services' ke 'point_of_sale', deskripsi ke narasi sistem kasir POS
 - Modified 'src/data/fallback.ts' - Ubah service yang sama (id, title, icon, deskripsi) plus ganti features ke relevansi POS (transaksi, inventory, laporan, multi-payment, integrasi)
+
+### TERBARU — Scale Hover Effect pada Semua Card
+- Modified 'src/components/sections/About.tsx' - Tambah hover:scale-[1.02] ke about card & hover:scale-[1.03] ke stat cards
+- Modified 'src/components/sections/Portfolio.tsx' - Tambah hover:scale-[1.03] transition-all ke portfolio cards
+- Modified 'src/components/sections/Contact.tsx' - Tambah hover:scale-[1.03] ke contact info card, GitHub & Instagram cards
+- Modified 'src/components/sections/Skills.tsx' - Tambah hover:scale-[1.03] ke skill cards & hover:scale-[1.02] ke learning section card
+- Modified 'src/components/sections/Testimonials.tsx' - Tambah hover:scale-[1.03] ke testimonial cards
+
+### TERBARU — Fix Scale Hover Tertimpa CSS Global
+- Fixed 'app/globals.css' - Hapus .card-bento:hover (scale 1.02) & transform dari .testimonial-card-glass:hover agar tidak override Tailwind hover:scale-[1.03] di semua section
+- Notes: Services.tsx sudah punya hover:scale-[1.03] dari awal tapi tidak berfungsi karena ditimpa CSS global
+
+### TERBARU — Fix Scale Hover Masih Belum Work (tambah kelas transform)
+- Fixed 'src/components/sections/About.tsx' - Tambah kelas 'transform' agar hover:scale-[1.02/1.03] berfungsi
+- Fixed 'src/components/sections/Services.tsx' - Tambah kelas 'transform' pada semua service cards
+- Fixed 'src/components/sections/Portfolio.tsx' - Tambah kelas 'transform' pada portfolio cards
+- Fixed 'src/components/sections/Skills.tsx' - Tambah kelas 'transform' pada skill cards & learning card
+- Fixed 'src/components/sections/Contact.tsx' - Tambah kelas 'transform' pada contact info & social cards
+- Fixed 'src/components/sections/Testimonials.tsx' - Tambah kelas 'transform' pada testimonial cards
+- Notes: hover:scale-[*] Tailwind cuma set CSS variables (--tw-scale-x/y), butuh kelas 'transform' sbg base property agar scale benar-benar teraplikasi
+
+### TERBARU — Fix Scale Hover Override Inline Transform GSAP
+- Fixed 'app/globals.css' - Tambah class card-hover-103:hover (.scale 1.03 !important) & card-hover-102:hover (.scale 1.02 !important) di @layer components
+- Fixed 'src/components/sections/About.tsx' - Ganti Tailwind hover classes dgn card-hover-102/103
+- Fixed 'src/components/sections/Services.tsx' - Ganti Tailwind hover classes dgn card-hover-103
+- Fixed 'src/components/sections/Portfolio.tsx' - Ganti Tailwind hover classes dgn card-hover-103
+- Fixed 'src/components/sections/Skills.tsx' - Ganti Tailwind hover classes dgn card-hover-103/102
+- Fixed 'src/components/sections/Contact.tsx' - Ganti Tailwind hover classes dgn card-hover-103
+- Fixed 'src/components/sections/Testimonials.tsx' - Ganti Tailwind hover classes dgn card-hover-103
+- Notes: GSAP animasi 'y' sisakan inline style transform:translate(0,0) yg override CSS class apapun. Solusi final: !important di custom CSS class agar override inline style GSAP
