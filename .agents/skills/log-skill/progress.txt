@@ -173,3 +173,12 @@
 - Hanya width yg dianimasi — backgroundColor & boxShadow tetap dari inline style (tidak tersentuh GSAP)
 - Gunakan gsap.context() untuk cleanup, tidak konflik dgn useScrollReveal yg handle .skill-card,.reveal
 - Build: sukses
+
+### TERBARU — Translate Seluruh Teks Indonesia ke Inggris (Full Site)
+- Modified 'src/components/sections/Hero.tsx' - Translate heading, paragraph, buttons, badges ke English (Start a Project, View Portfolio, etc.)
+- Modified 'src/components/sections/About.tsx' - Translate heading ke 'About Me', 2 paragraf about, dan 3 stat labels (Years of Experience, Projects Done, Happy Clients)
+- Modified 'src/components/sections/Services.tsx' - Translate section heading dari 'Layanan' ke 'Services'
+- Modified 'src/components/sections/Testimonials.tsx' - Translate subtitle paragraph ke English
+- Modified 'src/components/sections/Contact.tsx' - Translate form labels, placeholder, button, WhatsApp card ke English (Full Name, Message, Send Message, etc.)
+- Modified 'src/data/index.ts' - Translate 5 service descriptions & 4 testimonial content ke professional English
+- Notes: Navbar.tsx, Footer.tsx, Skills.tsx, Portfolio.tsx sudah English semua. Build sukses tanpa error.

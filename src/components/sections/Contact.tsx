@@ -13,12 +13,12 @@ export default function Contact() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 reveal">
         <div className="reveal">
           <h2 className="font-headline-lg text-headline-lg text-on-surface mb-4">Let&apos;s Work Together</h2>
-          <p className="text-secondary mb-8">Punya ide proyek atau butuh bantuan dengan website Anda? Jangan ragu untuk menghubungi saya.</p>
+          <p className="text-secondary mb-8">Have a project idea or need help with your website? Don&apos;t hesitate to reach out.</p>
 
           <form action="#" className="space-y-4" method="POST">
             <div>
               <label className="block font-label-mono text-sm text-secondary mb-2" htmlFor="name">
-                Nama Lengkap
+                Full Name
               </label>
               <input className="w-full px-4 py-3 rounded-lg input-glass text-white focus:ring-1 focus:ring-white/40" id="name" placeholder="John Doe" type="text" />
             </div>
@@ -30,12 +30,12 @@ export default function Contact() {
             </div>
             <div>
               <label className="block font-label-mono text-sm text-secondary mb-2" htmlFor="message">
-                Pesan
+                Message
               </label>
-              <textarea className="w-full px-4 py-3 rounded-lg input-glass text-white focus:ring-1 focus:ring-white/40" id="message" placeholder="Ceritakan tentang proyek Anda..." rows={4} />
+              <textarea className="w-full px-4 py-3 rounded-lg input-glass text-white focus:ring-1 focus:ring-white/40" id="message" placeholder="Tell me about your project..." rows={4} />
             </div>
             <button className="w-full py-4 bg-white text-black font-button text-button rounded-lg hover:bg-white/90 transition-colors" type="submit">
-              Kirim Pesan
+              Send Message
             </button>
           </form>
         </div>
@@ -47,9 +47,9 @@ export default function Contact() {
             </div>
             <div>
               <h4 className="font-headline-md text-lg text-on-surface">Chat via WhatsApp</h4>
-              <p className="text-secondary text-sm mb-2">Respon cepat 1x24 jam</p>
+              <p className="text-secondary text-sm mb-2">Response within 24 hours</p>
               <a className="text-whatsapp-green hover:underline font-button text-sm" href="https://wa.me/1234567890">
-                Hubungi Sekarang &rarr;
+                Contact Now &rarr;
               </a>
             </div>
           </div>

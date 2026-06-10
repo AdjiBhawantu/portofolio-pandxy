@@ -7,17 +7,17 @@ const stats = [
   {
     icon: 'schedule',
     value: '2+',
-    label: 'Tahun Pengalaman',
+    label: 'Years of Experience',
   },
   {
     icon: 'rocket_launch',
     value: '10+',
-    label: 'Project Selesai',
+    label: 'Projects Done',
   },
   {
     icon: 'handshake',
     value: '10+',
-    label: 'Klien Puas',
+    label: 'Happy Clients',
   },
 ]
 
@@ -30,11 +30,11 @@ export default function About() {
     <section ref={sectionRef} className="px-gutter py-section-padding-y max-w-container-max mx-auto" id="about">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 reveal">
         <div className="md:col-span-7 card-bento p-8 md:p-12 flex flex-col justify-center card-hover card-hover-102">
-          <h2 className="font-headline-md text-headline-md text-on-surface mb-4">Tentang Saya</h2>
+          <h2 className="font-headline-md text-headline-md text-on-surface mb-4">About Me</h2>
           <p className="text-secondary leading-relaxed mb-6">
-            Saya Adji Bhawantu, seorang Web & App Developer dengan fokus pada pembuatan produk digital yang performatif, skalabel, dan berdampak nyata bagi bisnis. Saya percaya bahwa teknologi yang baik seharusnya mempercepat pertumbuhan — bukan mempersulit operasional.
+            I&apos;m Adji Bhawantu — a developer who doesn&apos;t just write code, but builds products that are actually used. Every project starts with one question: what does the client truly need? The result isn&apos;t just a website — it&apos;s a digital solution that works.
           </p>
-          <p className="text-secondary leading-relaxed">Dengan keahlian di seluruh lapisan pengembangan, dari antarmuka yang intuitif hingga sistem backend yang solid, saya hadir sebagai mitra teknis yang tidak hanya mengeksekusi, tapi juga memahami tujuan bisnis di balik setiap project.</p>
+          <p className="text-secondary leading-relaxed">With experience across diverse project types, from business systems to modern web platforms, I ensure every product is not only functional but also intuitive and enjoyable for its users.</p>
         </div>
 
         <div className="md:col-span-5 grid grid-rows-3 gap-4">

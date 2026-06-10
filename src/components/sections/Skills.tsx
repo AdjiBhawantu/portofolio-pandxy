@@ -1,80 +1,87 @@
-'use client'
+"use client";
 
-import { useEffect, useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { skills } from '@/data/index'
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { skills } from "@/data/index";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 const categories = [
-  { key: 'Frontend' as const, icon: 'code', title: 'Frontend' },
-  { key: 'Backend' as const, icon: 'dns', title: 'Backend' },
-  { key: 'Tools' as const, icon: 'build', title: 'Tools' },
-  { key: 'Design' as const, icon: 'brush', title: 'Design' },
-]
+  { key: "Frontend" as const, icon: "code", title: "Frontend" },
+  { key: "Backend" as const, icon: "dns", title: "Backend" },
+  { key: "Tools" as const, icon: "build", title: "Tools" },
+  { key: "Design" as const, icon: "brush", title: "Design" },
+];
 
 const langColors: Record<string, string> = {
-  React: '#61DAFB',
-  'Next.js': '#ffffff',
-  TypeScript: '#3178C6',
-  'Tailwind CSS': '#38BDF8',
-  'Framer Motion': '#BB4BFF',
-  GSAP: '#88CE02',
-  Lenis: '#a0a0a0',
-  'Node.js': '#8CC84B',
-  Express: '#c0c0c0',
-  PHP: '#777BB4',
-  MySQL: '#4479A1',
-  Supabase: '#3ECF8E',
-  PostgreSQL: '#336791',
-  'Git & GitHub': '#F1502F',
-  Vite: '#646CFF',
-  Vercel: '#ffffff',
-  'VS Code': '#007ACC',
-  Postman: '#FF6C37',
-  Figma: '#F24E1E',
-  Spline: '#ff5cad',
-  Framer: '#0055FF',
-}
+  // existing...
+  React: "#61DAFB",
+  "Next.js": "#ffffff",
+  TypeScript: "#3178C6",
+  "Tailwind CSS": "#38BDF8",
+  "Framer Motion": "#BB4BFF",
+  GSAP: "#88CE02",
+  Lenis: "#a0a0a0",
+  "Node.js": "#8CC84B",
+  Express: "#c0c0c0",
+  PHP: "#777BB4",
+  MySQL: "#4479A1",
+  Supabase: "#3ECF8E",
+  PostgreSQL: "#336791",
+  "Git & GitHub": "#F1502F",
+  Vite: "#646CFF",
+  Vercel: "#ffffff",
+  "VS Code": "#007ACC",
+  Postman: "#FF6C37",
+  Figma: "#F24E1E",
+  Spline: "#ff5cad",
+  Framer: "#0055FF",
+  Bootstrap: "#7952B3",
+  Laravel: "#FF2D20",
+  "React Native": "#61DAFB",
+  Docker: "#2496ED",
+  GraphQL: "#E10098",
+  "Three.js": "#ffffff",
+};
 
 export default function Skills() {
-  const sectionRef = useRef<HTMLElement>(null)
+  const sectionRef = useRef<HTMLElement>(null);
 
   useScrollReveal(sectionRef, {
-    selector: '.skill-card, .reveal',
-  })
+    selector: ".skill-card, .reveal",
+  });
 
   useEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
+    const section = sectionRef.current;
+    if (!section) return;
 
     const ctx = gsap.context(() => {
-      const bars = gsap.utils.toArray<HTMLElement>('.progress-fill', section) as HTMLElement[]
+      const bars = gsap.utils.toArray<HTMLElement>(".progress-fill", section) as HTMLElement[];
 
       bars.forEach((bar) => {
-        const target = bar.dataset.level ?? '0'
+        const target = bar.dataset.level ?? "0";
 
         gsap.fromTo(
           bar,
-          { width: '0%' },
+          { width: "0%" },
           {
             width: `${target}%`,
-            ease: 'power2.out',
+            ease: "power2.out",
             scrollTrigger: {
               trigger: bar,
-              start: 'top 85%',
-              end: 'top 40%',
+              start: "top 85%",
+              end: "top 40%",
               scrub: 1.5,
             },
           },
-        )
-      })
-    }, sectionRef)
+        );
+      });
+    }, sectionRef);
 
-    return () => ctx.revert()
-  }, [])
+    return () => ctx.revert();
+  }, [skills.length]);
 
   return (
     <section ref={sectionRef} className="px-gutter py-section-padding-y max-w-container-max mx-auto" id="skills">
@@ -82,7 +89,7 @@ export default function Skills() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {categories.map((cat) => {
-          const catSkills = skills.filter((s) => s.category === cat.key)
+          const catSkills = skills.filter((s) => s.category === cat.key);
           return (
             <div key={cat.key} className="skill-card card-bento p-6 card-hover card-hover-103">
               <div className="flex items-center gap-3 mb-5">
@@ -113,9 +120,9 @@ export default function Skills() {
                         className="progress-fill h-full rounded-full"
                         data-level={skill.level}
                         style={{
-                          width: '0%',
-                          backgroundColor: langColors[skill.name] ?? '#ffffff',
-                          boxShadow: `0 0 8px ${langColors[skill.name] ?? '#ffffff'}60`,
+                          width: "0%",
+                          backgroundColor: langColors[skill.name] ?? "#ffffff",
+                          boxShadow: `0 0 8px ${langColors[skill.name] ?? "#ffffff"}60`,
                         }}
                       />
                     </div>
@@ -123,7 +130,7 @@ export default function Skills() {
                 ))}
               </div>
             </div>
-          )
+          );
         })}
       </div>
 
@@ -133,7 +140,7 @@ export default function Skills() {
           <span className="font-label-mono text-xs text-white/30 uppercase tracking-widest">Currently Exploring</span>
         </div>
         <div className="flex flex-wrap gap-2">
-          {['Three.js', 'Docker', 'GraphQL', 'React Native'].map((tech) => (
+          {["Three.js", "Docker", "GraphQL", "React Native"].map((tech) => (
             <span key={tech} className="px-3 py-1 font-label-mono text-xs bg-white/[0.03] border border-white/[0.06] rounded-lg text-white/25">
               {tech}
             </span>
@@ -141,5 +148,5 @@ export default function Skills() {
         </div>
       </div>
     </section>
-  )
+  );
 }

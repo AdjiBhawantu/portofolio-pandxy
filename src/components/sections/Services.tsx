@@ -16,7 +16,7 @@ export default function Services() {
       id="services"
     >
       <h2 className="font-headline-lg text-headline-lg text-on-surface mb-12 text-center reveal">
-        Layanan
+        Services
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

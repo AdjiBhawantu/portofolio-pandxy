@@ -91,7 +91,7 @@ export default function Testimonials() {
     <section ref={sectionRef} className="py-section-padding-y overflow-hidden" id="testimonials">
       <div className="max-w-container-max mx-auto px-gutter mb-16">
         <h2 className="font-headline-lg text-headline-lg text-on-surface text-center testi-reveal">Testimonials</h2>
-        <p className="text-secondary text-center max-w-lg mx-auto mt-4 testi-reveal">Dengarkan apa kata mereka yang telah bekerjasama dengan saya dalam membangun produk digital berkualitas tinggi.</p>
+        <p className="text-secondary text-center max-w-lg mx-auto mt-4 testi-reveal">Hear what clients say about working with me to build high-quality digital products.</p>
       </div>
 
       <div

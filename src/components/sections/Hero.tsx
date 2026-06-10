@@ -133,17 +133,17 @@ export default function Hero() {
                 <span className="fullstack-badge font-label-mono text-[10px] md:text-xs text-white uppercase tracking-widest font-bold">Full-Stack</span>
               </div>
             </div>
-            <h1 className="font-display-hero text-display-hero-mobile text-on-surface leading-[1.1] uppercase md:text-[3.5rem]">In Indonesian</h1>
+            <h1 className="font-display-hero text-display-hero-mobile text-on-surface leading-[1.1] uppercase md:text-[3.5rem]">In Indonesia</h1>
           </div>
 
-          <p className="font-body-md text-body-lg text-secondary max-w-md mt-6">Saya membantu bisnis berkembang melalui pembuatan website dan aplikasi mobile yang cepat, aman, berkinerja tinggi, dan mudah digunakan dengan teknologi modern.</p>
+          <p className="font-body-md text-body-lg text-secondary max-w-md mt-6">I help businesses grow through fast, secure, and high-performing websites and applications built with modern technology.</p>
 
           <div id="hero-buttons" className="flex flex-wrap items-center gap-4 mt-8">
             <a className="px-8 py-4 bg-white text-black font-button rounded-full hover:-translate-y-1 transition-transform font-bold" href="#contact">
-              Mulai Project
+              Start a Project
             </a>
             <a className="px-8 py-4 border border-white/10 text-white font-button rounded-full hover:bg-white/5 hover:border-white/30 transition-colors font-bold" href="#portfolio">
-              Lihat Portfolio
+              View Portfolio
             </a>
           </div>
         </div>
@@ -164,7 +164,7 @@ export default function Hero() {
         <div ref={floatsRef} className="absolute inset-0 z-30 pointer-events-none">
           <div className="hero-float absolute top-[18%] right-[10%] md:right-[35%] inline-flex items-center gap-2 px-4 py-2 rounded-full glass-element text-white pointer-events-auto shadow-2xl hover:-translate-y-1 transition-transform">
             <div className="w-2 h-2 rounded-full bg-whatsapp-green animate-pulse" />
-            <span className="font-label-mono text-[10px] md:text-xs font-medium uppercase tracking-widest">available for freelance</span>
+            <span className="font-label-mono text-[10px] md:text-xs font-medium uppercase tracking-widest">Available for Freelance</span>
             <span className="material-symbols-outlined text-sm ml-1 text-white/70">terminal</span>
           </div>
 
@@ -193,9 +193,9 @@ export default function Hero() {
               />
             </div>
             <span className="font-body-md text-xs text-white leading-tight font-bold">
-              Klien
+              Happy
               <br />
-              Puas
+              Clients
             </span>
           </div>
 
