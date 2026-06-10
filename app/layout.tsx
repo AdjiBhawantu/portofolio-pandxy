@@ -25,6 +25,11 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
+          rel="preload"
+          href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Geist:wght@400;500&family=Geist+Mono:wght@500&display=swap"
+          as="style"
+        />
+        <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
         />

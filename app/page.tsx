@@ -40,9 +40,12 @@ export default function HomePage() {
 
     lenis.on('scroll', ScrollTrigger.update)
 
-    ScrollTrigger.refresh()
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh()
+    }, 300)
 
     return () => {
+      clearTimeout(timer)
       lenis.destroy()
       gsap.ticker.lagSmoothing(1)
     }

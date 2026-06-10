@@ -16,68 +16,68 @@ export default function Hero() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline();
+      gsap.set(sectionRef.current, { opacity: 1 });
+      gsap.set(["#hero h1", "#hero p", "#hero-buttons"], { autoAlpha: 0, y: 50 });
+      gsap.set(imgRef.current, { autoAlpha: 0, y: 100 });
+      gsap.set(".hero-float", { autoAlpha: 0, y: 30 });
+      gsap.set(".fullstack-badge", { autoAlpha: 0, y: 20 });
 
-      tl.from("#hero h1, #hero p, #hero-buttons", {
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: "power3.out",
-        delay: 0.2,
-        clearProps: "opacity,y",
-      });
+      const tl = gsap.timeline({ delay: 0.1 });
 
-      tl.from(
-        imgRef.current,
+      tl.fromTo(
+        "#hero h1, #hero p, #hero-buttons",
+        { y: 50, autoAlpha: 0 },
         {
-          y: 100,
-          opacity: 0,
+          y: 0,
+          autoAlpha: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: "power3.out",
+          clearProps: "opacity,visibility,y",
+        },
+      );
+
+      tl.fromTo(
+        imgRef.current,
+        { y: 100, autoAlpha: 0 },
+        {
+          y: 0,
+          autoAlpha: 1,
           duration: 1.5,
           ease: "power2.out",
-          clearProps: "opacity,y",
+          clearProps: "opacity,visibility,y",
         },
         "-=1",
       );
 
-      tl.from(
+      tl.fromTo(
         ".hero-float",
+        { y: 30, autoAlpha: 0 },
         {
-          y: 30,
-          opacity: 0,
+          y: 0,
+          autoAlpha: 1,
           duration: 1.2,
           stagger: 0.15,
           ease: "power3.out",
-          clearProps: "opacity,y",
+          clearProps: "opacity,visibility,y",
         },
         "-=1.2",
       );
 
-      tl.from(
+      tl.fromTo(
         ".fullstack-badge",
+        { y: 20, autoAlpha: 0 },
         {
-          y: 20,
-          opacity: 0,
+          y: 0,
+          autoAlpha: 1,
           duration: 0.6,
           ease: "power2.out",
-          clearProps: "opacity,y",
+          clearProps: "opacity,visibility,y",
         },
         "-=0.8",
       );
 
-      tl.from(
-        ".absolute\\.bottom-\\[12\\%\\] .glass-element",
-        {
-          y: 40,
-          opacity: 0,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power3.out",
-          clearProps: "opacity,y",
-        },
-        "-=0.6",
-      );
-
+      // Gradient animation tetap sama
       gsap.to(".fullstack-badge", {
         backgroundPosition: "200% 0",
         duration: 3,
@@ -90,12 +90,12 @@ export default function Hero() {
         backgroundClip: "text",
       });
 
+      // Mousemove parallax tetap sama
       const heroSection = sectionRef.current;
       if (heroSection) {
         heroSection.addEventListener("mousemove", (e: MouseEvent) => {
           const x = (e.clientX / window.innerWidth - 0.5) * 40;
           const y = (e.clientY / window.innerHeight - 0.5) * 40;
-
           gsap.to(".hero-float", {
             x: -x,
             y: -y,
