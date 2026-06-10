@@ -85,7 +85,8 @@ export default function Skills() {
 
   return (
     <section ref={sectionRef} className="px-gutter py-section-padding-y max-w-container-max mx-auto" id="skills">
-      <h2 className="font-headline-lg text-headline-lg text-on-surface mb-12 text-center skill-card">Tech Stack</h2>
+      <h2 className="font-headline-lg text-headline-lg text-on-surface text-center skill-card">Tech Stack</h2>
+      <p className="text-secondary text-center max-w-2xl mx-auto mt-2 mb-12 text-body-lg reveal">The tools I rely on daily — chosen for performance, scalability, and getting things done right.</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {categories.map((cat) => {

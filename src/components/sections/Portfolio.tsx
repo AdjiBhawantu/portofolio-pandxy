@@ -1,17 +1,18 @@
-'use client'
+"use client";
 
-import { useRef } from 'react'
-import { useScrollReveal } from '@/hooks/useScrollReveal'
-import { portfolioItems } from '@/data/index'
+import { useRef } from "react";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { portfolioItems } from "@/data/index";
 
 export default function Portfolio() {
-  const sectionRef = useRef<HTMLElement>(null)
+  const sectionRef = useRef<HTMLElement>(null);
 
-  useScrollReveal(sectionRef)
+  useScrollReveal(sectionRef);
 
   return (
     <section ref={sectionRef} className="px-gutter py-section-padding-y max-w-container-max mx-auto" id="portfolio">
-      <h2 className="font-headline-lg text-headline-lg text-on-surface mb-12 text-center reveal">Portfolio</h2>
+      <h2 className="font-headline-lg text-headline-lg text-on-surface  text-center reveal">Portfolio</h2>
+      <p className="text-secondary text-center max-w-2xl mx-auto mt-2 mb-12 text-body-lg reveal">A selection of real projects I&apos;ve built — each one solving a real problem for a real client.</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {portfolioItems.map((item) => (
@@ -37,5 +38,5 @@ export default function Portfolio() {
         ))}
       </div>
     </section>
-  )
+  );
 }
