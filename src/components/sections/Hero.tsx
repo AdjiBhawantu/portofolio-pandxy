@@ -21,6 +21,7 @@ export default function Hero() {
       gsap.set(imgRef.current, { autoAlpha: 0, y: 100 });
       gsap.set(".hero-float", { autoAlpha: 0, y: 30 });
       gsap.set(".fullstack-badge", { autoAlpha: 0, y: 20 });
+      gsap.set(statsRef.current, { autoAlpha: 0, x: 80 });
 
       const tl = gsap.timeline({ delay: 0.1 });
 
@@ -75,6 +76,19 @@ export default function Hero() {
           clearProps: "opacity,visibility,y",
         },
         "-=0.8",
+      );
+
+      tl.fromTo(
+        statsRef.current,
+        { x: 80, autoAlpha: 0 },
+        {
+          x: 0,
+          autoAlpha: 1,
+          duration: 1,
+          ease: "power3.out",
+          clearProps: "opacity,visibility",
+        },
+        "-=0.6",
       );
 
       // Gradient animation tetap sama
@@ -199,7 +213,7 @@ export default function Hero() {
             </span>
           </div>
 
-          <div ref={statsRef} className="absolute bottom-[12%] right-[5%] flex flex-col gap-4 pointer-events-auto">
+          <div ref={statsRef} className="absolute bottom-[12%] right-[5%] flex flex-col gap-4 pointer-events-auto will-change-transform">
             <div className="flex gap-4">
               <div className="w-[140px] p-4 rounded-2xl glass-element shadow-2xl hover:scale-105 transition-transform">
                 <span className="font-headline-md text-2xl text-white font-bold block">100%</span>
