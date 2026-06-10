@@ -166,3 +166,10 @@
 - Modified 'src/components/sections/Contact.tsx' - Replace manual GSAP useEffect dgn useScrollReveal, hapus .active & stagger-* classes
 - Build: tsc + next build sukses (107 kB page, 209 kB first load JS)
 - Notes: once:true dihapus dari semua ScrollTrigger. Animasi scrub bidirectional: fade up + scale 0.95->1 pas scroll down, reverse pas scroll up. Stagger 0.08 untuk cards, 0.1 untuk headings. Lenis tetap sinkron via ScrollTrigger
+
+### TERBARU — Fix Progress Bars: Warna Hilang + Add Scrub Animation
+- Fixed 'src/components/sections/Skills.tsx' - Tambah useEffect terpisah untuk .progress-fill dgn ScrollTrigger scrub 1.5
+- Animasi progress bar: from width 0% → data-level% dgn scrub bidirectional (start top 85%, end top 40%)
+- Hanya width yg dianimasi — backgroundColor & boxShadow tetap dari inline style (tidak tersentuh GSAP)
+- Gunakan gsap.context() untuk cleanup, tidak konflik dgn useScrollReveal yg handle .skill-card,.reveal
+- Build: sukses

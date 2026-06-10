@@ -1,8 +1,12 @@
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { skills } from '@/data/index'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const categories = [
   { key: 'Frontend' as const, icon: 'code', title: 'Frontend' },
@@ -41,6 +45,36 @@ export default function Skills() {
   useScrollReveal(sectionRef, {
     selector: '.skill-card, .reveal',
   })
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
+    const ctx = gsap.context(() => {
+      const bars = gsap.utils.toArray<HTMLElement>('.progress-fill', section) as HTMLElement[]
+
+      bars.forEach((bar) => {
+        const target = bar.dataset.level ?? '0'
+
+        gsap.fromTo(
+          bar,
+          { width: '0%' },
+          {
+            width: `${target}%`,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: bar,
+              start: 'top 85%',
+              end: 'top 40%',
+              scrub: 1.5,
+            },
+          },
+        )
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
 
   return (
     <section ref={sectionRef} className="px-gutter py-section-padding-y max-w-container-max mx-auto" id="skills">
