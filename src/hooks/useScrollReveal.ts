@@ -22,7 +22,7 @@ export interface ScrollRevealOptions {
 }
 
 export function useScrollReveal(sectionRef: React.RefObject<HTMLElement | null>, options: ScrollRevealOptions = {}) {
-  const { selector = ".reveal", headingSelector = "h2", start = "top 88%", end = "top 40%", scrub = 1.2, y: baseY = 60, scale: baseScale = 0.95, stagger = 0.05, headingY = 80, cardStagger = 0.08, cardY = 40, cardScale = 0.95 } = options;
+  const { selector = ".reveal", headingSelector = "h2", start = "top 85%", end = "top 30%", y: baseY = 60, scale: baseScale = 0.95, stagger = 0.05, headingY = 80, cardStagger = 0.08, cardY = 40, cardScale = 0.95 } = options;
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -59,18 +59,41 @@ export function useScrollReveal(sectionRef: React.RefObject<HTMLElement | null>,
         scale: baseScale,
       });
 
-      const tl = gsap.timeline({
+      // Heading timeline with slower scrub for premium feel
+      const headingTl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start,
           end,
-          scrub,
+          scrub: 2.5,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      // Card timeline
+      const cardTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start,
+          end,
+          scrub: 2,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      // Other elements timeline
+      const otherTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start,
+          end,
+          scrub: 1.8,
           invalidateOnRefresh: true,
         },
       });
 
       if (headingEls.length) {
-        tl.fromTo(
+        headingTl.fromTo(
           headingEls,
           { y: headingY, autoAlpha: 0, scale: baseScale },
           {
@@ -81,12 +104,11 @@ export function useScrollReveal(sectionRef: React.RefObject<HTMLElement | null>,
             stagger: 0.1,
             ease: "power2.out",
           },
-          0,
         );
       }
 
       if (cardEls.length) {
-        tl.fromTo(
+        cardTl.fromTo(
           cardEls,
           { y: cardY, autoAlpha: 0, scale: cardScale, transformOrigin: "bottom center" },
           {
@@ -97,12 +119,11 @@ export function useScrollReveal(sectionRef: React.RefObject<HTMLElement | null>,
             stagger: cardStagger,
             ease: "power2.out",
           },
-          0,
         );
       }
 
       if (otherEls.length) {
-        tl.fromTo(
+        otherTl.fromTo(
           otherEls,
           { y: baseY, autoAlpha: 0, scale: baseScale },
           {
@@ -113,7 +134,6 @@ export function useScrollReveal(sectionRef: React.RefObject<HTMLElement | null>,
             stagger,
             ease: "power2.out",
           },
-          0,
         );
       }
 
