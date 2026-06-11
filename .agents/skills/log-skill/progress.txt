@@ -182,3 +182,10 @@
 - Modified 'src/components/sections/Contact.tsx' - Translate form labels, placeholder, button, WhatsApp card ke English (Full Name, Message, Send Message, etc.)
 - Modified 'src/data/index.ts' - Translate 5 service descriptions & 4 testimonial content ke professional English
 - Notes: Navbar.tsx, Footer.tsx, Skills.tsx, Portfolio.tsx sudah English semua. Build sukses tanpa error.
+
+## 2026-06-11
+
+### TERBARU — Fix Mobile Responsive Layout Hero Section
+- Modified 'src/components/sections/Hero.tsx' - Fix mobile layout: section min-h-screen, content relative positioning with pt-24 pb-8, heading break-words, Available for Freelance badge repositioned top-4 left-4, Happy Clients badge hidden on mobile, portrait opacity-30 z-10, stats cards moved outside floatsRef with relative mt-8 positioning to flow below buttons
+- Fixed overlapping elements on mobile: badges no longer overlap heading, stats cards appear below CTA buttons instead of overlapping, portrait visible as subtle background, no text cutoff
+- Desktop layout unchanged: all md: breakpoint styles preserved pixel-perfect, GSAP animations unchanged, refs intact

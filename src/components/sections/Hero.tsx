@@ -125,7 +125,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative min-h-[900px] w-full overflow-hidden flex items-center bg-[#0a0a0a]" id="hero">
+    <section ref={sectionRef} className="relative min-h-screen md:min-h-[900px] w-full overflow-hidden flex items-center bg-[#0a0a0a]" id="hero">
       <div className="bg-marquee-container z-0">
         <div className="bg-marquee-content">
           <span className="hero-bg-text-marquee">ADJI BHAWANTU</span>
@@ -137,8 +137,8 @@ export default function Hero() {
       <div className="circle-bg w-[400px] h-[400px] bg-primary/20 bottom-1/4 -right-24" />
 
       <div className="relative z-10 w-full max-w-container-max mx-auto px-gutter h-[900px]">
-        <div ref={contentRef} className="absolute top-[20%] md:top-[28%] left-gutter z-30 max-w-2xl pointer-events-auto">
-          <div className="flex flex-col gap-1">
+        <div ref={contentRef} className="relative pt-24 pb-8 md:absolute md:top-[28%] left-gutter z-30 max-w-2xl w-full px-4 md:px-0 pointer-events-auto">
+          <div className="flex flex-col gap-1 break-words">
             <h1 className="font-display-hero text-[3rem] md:text-[4.5rem] leading-[1.05] font-bold tracking-[-0.04em] text-white uppercase">Web &amp; App</h1>
             <div className="flex items-center gap-4 flex-wrap">
               <h1 className="font-display-hero text-[2.2rem] md:text-[3.5rem] leading-[1.05] font-bold tracking-[-0.04em] text-white uppercase">Developer Based</h1>
@@ -162,12 +162,12 @@ export default function Hero() {
           </div>
         </div>
 
-        <div ref={imgRef} className="absolute bottom-0 right-0 md:-right-10 w-full md:w-[65%] lg:w-[70%] h-full md:h-full top-0 md:top-10 z-20 pointer-events-none flex items-end">
+        <div ref={imgRef} className="absolute bottom-0 right-0 md:-right-10 w-full md:w-[65%] lg:w-[70%] h-full md:h-full top-0 md:top-10 z-10 md:z-20 pointer-events-none flex items-end">
           <Image
             alt="Adji Bhawantu Portrait"
             src="/PFP_ADJI.png"
             fill
-            className="object-contain object-bottom opacity-90"
+            className="object-contain object-bottom opacity-30 md:opacity-90"
             style={{
               maskImage: "linear-gradient(to bottom, black 40%, transparent 95%)",
               WebkitMaskImage: "linear-gradient(to bottom, black 40%, transparent 95%)",
@@ -176,13 +176,13 @@ export default function Hero() {
         </div>
 
         <div ref={floatsRef} className="absolute inset-0 z-30 pointer-events-none">
-          <div className="hero-float absolute top-[18%] right-[10%] md:right-[35%] inline-flex items-center gap-2 px-4 py-2 rounded-full glass-element text-white pointer-events-auto shadow-2xl hover:-translate-y-1 transition-transform">
+          <div className="hero-float absolute top-4 left-4 md:top-[18%] md:left-auto md:right-[35%] inline-flex items-center gap-2 px-4 py-2 rounded-full glass-element text-white pointer-events-auto shadow-2xl hover:-translate-y-1 transition-transform">
             <div className="w-2 h-2 rounded-full bg-whatsapp-green animate-pulse" />
             <span className="font-label-mono text-[10px] md:text-xs font-medium uppercase tracking-widest">Available for Freelance</span>
             <span className="material-symbols-outlined text-sm ml-1 text-white/70">terminal</span>
           </div>
 
-          <div className="hero-float absolute top-[38%] right-gutter md:right-[5%] flex items-center gap-3 p-2 pr-5 rounded-full glass-element pointer-events-auto shadow-2xl hover:-translate-y-1 transition-transform">
+          <div className="hero-float hidden md:flex absolute top-[38%] right-gutter md:right-[5%] items-center gap-3 p-2 pr-5 rounded-full glass-element pointer-events-auto shadow-2xl hover:-translate-y-1 transition-transform">
             <div className="flex -space-x-3">
               <Image
                 alt="C1"
@@ -212,26 +212,26 @@ export default function Hero() {
               Clients
             </span>
           </div>
+        </div>
 
-          <div ref={statsRef} className="absolute bottom-[12%] right-[5%] flex flex-col gap-4 pointer-events-auto will-change-transform">
-            <div className="flex gap-4">
-              <div className="w-[140px] p-4 rounded-2xl glass-element shadow-2xl hover:scale-105 transition-transform">
-                <span className="font-headline-md text-2xl text-white font-bold block">100%</span>
-                <span className="text-[10px] text-white/50 font-body-md uppercase tracking-widest">Clean Code</span>
-              </div>
-              <div className="w-[140px] p-4 rounded-2xl glass-element shadow-2xl hover:scale-105 transition-transform">
-                <div className="flex justify-between">
-                  <span className="font-headline-md text-2xl text-white font-bold">2+</span>
-                  <span className="material-symbols-outlined text-white/50 text-sm">code</span>
-                </div>
-                <span className="text-[10px] text-white/50 font-body-md uppercase tracking-widest block mt-1">Years Exp.</span>
-              </div>
+        <div ref={statsRef} className="relative mt-8 flex flex-col gap-4 px-4 pointer-events-auto md:absolute md:bottom-[12%] md:right-[5%] z-30 will-change-transform">
+          <div className="flex gap-4">
+            <div className="w-[140px] p-4 rounded-2xl glass-element shadow-2xl hover:scale-105 transition-transform">
+              <span className="font-headline-md text-2xl text-white font-bold block">100%</span>
+              <span className="text-[10px] text-white/50 font-body-md uppercase tracking-widest">Clean Code</span>
             </div>
-            <div className="flex flex-wrap gap-2 max-w-[320px] justify-end">
-              <span className="px-4 py-2 rounded-full glass-element text-[10px] text-white font-label-mono uppercase tracking-wider">Web Development</span>
-              <span className="px-4 py-2 rounded-full glass-element text-[10px] text-white font-label-mono uppercase tracking-wider">Mobile App</span>
-              <span className="px-4 py-2 rounded-full glass-element text-[10px] text-white font-label-mono uppercase tracking-wider">Backend API</span>
+            <div className="w-[140px] p-4 rounded-2xl glass-element shadow-2xl hover:scale-105 transition-transform">
+              <div className="flex justify-between">
+                <span className="font-headline-md text-2xl text-white font-bold">2+</span>
+                <span className="material-symbols-outlined text-white/50 text-sm">code</span>
+              </div>
+              <span className="text-[10px] text-white/50 font-body-md uppercase tracking-widest block mt-1">Years Exp.</span>
             </div>
+          </div>
+          <div className="flex flex-wrap gap-2 max-w-[320px] justify-end">
+            <span className="px-4 py-2 rounded-full glass-element text-[10px] text-white font-label-mono uppercase tracking-wider">Web Development</span>
+            <span className="px-4 py-2 rounded-full glass-element text-[10px] text-white font-label-mono uppercase tracking-wider">Mobile App</span>
+            <span className="px-4 py-2 rounded-full glass-element text-[10px] text-white font-label-mono uppercase tracking-wider">Backend API</span>
           </div>
         </div>
       </div>
