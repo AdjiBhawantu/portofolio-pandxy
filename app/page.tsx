@@ -33,6 +33,9 @@ export default function HomePage() {
       infinite: false,
     })
 
+    // Expose Lenis instance globally for navigation
+    ;(window as any).lenis = lenis
+
     gsap.ticker.add((time: number) => {
       lenis.raf(time * 1000)
     })
@@ -47,6 +50,7 @@ export default function HomePage() {
     return () => {
       clearTimeout(timer)
       lenis.destroy()
+      ;(window as any).lenis = null
       gsap.ticker.lagSmoothing(1)
     }
   }, [])

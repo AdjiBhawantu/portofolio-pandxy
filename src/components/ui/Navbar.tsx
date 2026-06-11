@@ -107,9 +107,20 @@ export default function Navbar() {
 
   const handleClick = (href: string) => {
     setOpen(false)
-    const el = document.querySelector(href)
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' })
+    
+    // Use Lenis for smooth scrolling if available
+    const lenis = (window as any).lenis
+    if (lenis) {
+      lenis.scrollTo(href, {
+        offset: 0,
+        duration: 1.2,
+      })
+    } else {
+      // Fallback to native scrollIntoView
+      const el = document.querySelector(href)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+      }
     }
   }
 
