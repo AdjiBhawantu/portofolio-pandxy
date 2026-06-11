@@ -138,16 +138,16 @@ export default function Hero() {
 
       <div className="relative z-10 w-full max-w-container-max mx-auto px-gutter h-[900px]">
         <div ref={contentRef} className="relative pt-24 pb-8 md:absolute md:top-[28%] left-gutter z-30 max-w-2xl w-full px-4 md:px-0 pointer-events-auto">
-          <div className="flex flex-col gap-1 break-words">
-            <h1 className="font-display-hero text-[3rem] md:text-[4.5rem] leading-[1.05] font-bold tracking-[-0.04em] text-white uppercase">Web &amp; App</h1>
+          <div className="flex flex-col gap-1 break-words mt-12">
+            <h1 className="font-display-hero text-[2.2rem] md:text-[4.5rem] leading-[1.05] font-bold tracking-[-0.04em] text-white uppercase">Web &amp; App</h1>
             <div className="flex items-center gap-4 flex-wrap">
-              <h1 className="font-display-hero text-[2.2rem] md:text-[3.5rem] leading-[1.05] font-bold tracking-[-0.04em] text-white uppercase">Developer Based</h1>
+              <h1 className="font-display-hero text-[1.8rem] md:text-[3.5rem] leading-[1.05] font-bold tracking-[-0.04em] text-white uppercase">Developer Based</h1>
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full glass-element">
                 <div className="w-3 h-3 rounded-full bg-gradient-to-tr from-blue-500 to-cyan-400 animate-pulse" />
                 <span className="fullstack-badge font-label-mono text-[10px] md:text-xs text-white uppercase tracking-widest font-bold">Full-Stack</span>
               </div>
             </div>
-            <h1 className="font-display-hero text-display-hero-mobile text-on-surface leading-[1.1] uppercase md:text-[3.5rem]">In Indonesia</h1>
+            <h1 className="font-display-hero text-[1.8rem] xs:text-display-hero-mobile text-on-surface leading-[1.1] uppercase md:text-[3.5rem] whitespace-nowrap">In Indonesia</h1>
           </div>
 
           <p className="font-body-md text-body-lg text-secondary max-w-md mt-6">I help businesses grow through fast, secure, and high-performing websites and applications built with modern technology.</p>
@@ -176,7 +176,7 @@ export default function Hero() {
         </div>
 
         <div ref={floatsRef} className="absolute inset-0 z-30 pointer-events-none">
-          <div className="hero-float absolute top-4 left-4 md:top-[18%] md:left-auto md:right-[35%] inline-flex items-center gap-2 px-4 py-2 rounded-full glass-element text-white pointer-events-auto shadow-2xl hover:-translate-y-1 transition-transform">
+          <div className="hero-float absolute top-[72px] left-1/2 -translate-x-1/2 md:translate-x-0 md:top-[18%] md:left-auto md:right-[35%] inline-flex    items-center gap-2 px-4 py-2 rounded-full glass-element text-white pointer-events-auto shadow-2xl hover:-translate-y-1 transition-transform">
             <div className="w-2 h-2 rounded-full bg-whatsapp-green animate-pulse" />
             <span className="font-label-mono text-[10px] md:text-xs font-medium uppercase tracking-widest">Available for Freelance</span>
             <span className="material-symbols-outlined text-sm ml-1 text-white/70">terminal</span>
@@ -214,7 +214,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div ref={statsRef} className="relative mt-8 flex flex-col gap-4 px-4 pointer-events-auto md:absolute md:bottom-[12%] md:right-[5%] z-30 will-change-transform">
+        <div ref={statsRef} className="hidden md:flex md:flex-col md:gap-4 pointer-events-auto md:absolute md:bottom-[12%] md:right-[5%] z-30 will-change-transform">
           <div className="flex gap-4">
             <div className="w-[140px] p-4 rounded-2xl glass-element shadow-2xl hover:scale-105 transition-transform">
               <span className="font-headline-md text-2xl text-white font-bold block">100%</span>

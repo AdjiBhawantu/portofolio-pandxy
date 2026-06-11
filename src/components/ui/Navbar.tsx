@@ -165,8 +165,13 @@ export default function Navbar() {
         </a>
 
         <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden text-on-surface"
+          type="button"
+          onClick={() => setOpen((prev) => !prev)}
+          onTouchEnd={(e) => {
+            e.preventDefault()
+            setOpen((prev) => !prev)
+          }}
+          className="md:hidden text-on-surface p-2 -mr-2 cursor-pointer z-50 relative touch-manipulation select-none"
           aria-label="Toggle menu"
         >
           {open ? <X size={24} /> : <Menu size={24} />}
@@ -179,7 +184,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#0a0a0a] border-t border-white/10"
+            className="md:hidden bg-[#0a0a0a]/95 backdrop-blur-md border-t border-white/10 z-50 relative overflow-hidden"
           >
             <ul className="px-gutter py-4 space-y-2">
               {navLinks.map((link) => (

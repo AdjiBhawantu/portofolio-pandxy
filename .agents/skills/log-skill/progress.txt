@@ -189,3 +189,16 @@
 - Modified 'src/components/sections/Hero.tsx' - Fix mobile layout: section min-h-screen, content relative positioning with pt-24 pb-8, heading break-words, Available for Freelance badge repositioned top-4 left-4, Happy Clients badge hidden on mobile, portrait opacity-30 z-10, stats cards moved outside floatsRef with relative mt-8 positioning to flow below buttons
 - Fixed overlapping elements on mobile: badges no longer overlap heading, stats cards appear below CTA buttons instead of overlapping, portrait visible as subtle background, no text cutoff
 - Desktop layout unchanged: all md: breakpoint styles preserved pixel-perfect, GSAP animations unchanged, refs intact
+
+### TERBARU — Fix 3 Mobile Bugs: Hamburger Menu + Badge Position + Text Breaking
+- Modified 'src/components/ui/Navbar.tsx' - Fixed hamburger menu button tidak berfungsi di mobile: tambah type='button', p-2 -mr-2 untuk tap target lebih besar, z-50 relative, cursor-pointer, touch-manipulation; update mobile menu overlay dengan bg-[#0a0a0a]/95 backdrop-blur-md z-50 relative
+- Modified 'src/components/sections/Hero.tsx' - Fixed 'Available for Freelance' badge tertutup navbar: ubah top-4 jadi top-20 (clears navbar height 64px)
+- Modified 'src/components/sections/Hero.tsx' - Fixed 'INDONESIA' word breaking: reduce all hero h1 font sizes on mobile (text-[3rem]?[2.2rem], text-[2.2rem]?[1.8rem], text-display-hero-mobile?text-[1.8rem] xs:text-display-hero-mobile), tambah whitespace-nowrap ke 'In Indonesia' h1
+- Desktop layout unchanged: semua md: breakpoint styles tetap sama, GSAP animations tetap intact
+
+### TERBARU — Fix 3 Critical Mobile Bugs: Badge Overlap + Stats Layout + Hamburger Touch
+- Modified 'src/components/sections/Hero.tsx' - Fixed 'Available for Freelance' badge overlap navbar: ubah top-20 (80px) jadi top-[80px] untuk proper clearance di atas navbar h-16 (64px)
+- Modified 'src/components/sections/Hero.tsx' - Hidden stats cards pada mobile (redundant dengan About section stats): ubah relative mt-8 flex flex-col gap-4 px-4 jadi hidden md:flex md:flex-col md:gap-4, desktop layout tetap absolute positioning
+- Modified 'src/components/ui/Navbar.tsx' - Fixed hamburger menu tidak responsif di mobile: tambah onTouchEnd handler dengan preventDefault untuk bypass 300ms touch delay, ubah onClick dari setOpen(!open) jadi setOpen((prev) => !prev) functional update, tambah select-none class
+- Modified 'src/components/ui/Navbar.tsx' - Tambah overflow-hidden ke mobile menu motion.div untuk prevent content flash saat AnimatePresence transition
+- Desktop layout unchanged: semua md: breakpoint styles preserved, GSAP animations intact, TypeScript error-free
