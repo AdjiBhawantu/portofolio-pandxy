@@ -70,5 +70,8 @@
 - Fixed 'src/components/sections/Testimonials.tsx' - perbaikan tipe TypeScript dengan menghapus properti scrub usang
 - Fixed 'src/hooks/useScrollReveal.ts' - pemanfaatan variabel headingY, cardY, dan cardScale pada inisialisasi gsap.set
 
-### TERBARU — Pengecualian node_modules dari CI/CD Deploy
+### Pengecualian node_modules dari CI/CD Deploy
 - Modified '.github/workflows/deploy.yml' - menghapus node_modules dari staging paket backend dan menambahkan aturan exclude '**/node_modules/**' pada kedua langkah upload FTP agar node_modules tidak pernah di-upload oleh GitHub Actions (disiapkan untuk upload/install manual)
+
+### TERBARU — Fix Timeout Control Socket & Node Deprecation di GitHub Actions
+- Modified '.github/workflows/deploy.yml' - update ke Node 22 dengan ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true, tambah sanitasi parsing host dan port FTP, tambah timeout 300000ms (5 menit), aktifkan security loose untuk bypass self-signed SSL cPanel, aktifkan log verbose, dan tambah step diagnostik pengujian koneksi port 21

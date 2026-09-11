@@ -6,6 +6,9 @@ on:
       - master
   workflow_dispatch:
 
+env:
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: 'true'
+
 jobs:
   build-and-deploy:
     name: 🏗️ Build & Deploy to cPanel
@@ -19,7 +22,7 @@ jobs:
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: 📦 Install Dependencies
@@ -82,13 +85,42 @@ jobs:
           echo "=== Public Structure (/home/pang8694/public_html) ==="
           ls -la deploy_dist/public
 
+      - name: 🧹 Parse & Sanitize FTP Host
+        id: ftp_cfg
+        run: |
+          RAW_SERVER="${{ secrets.FTP_SERVER }}"
+          SERVER=$(echo "$RAW_SERVER" | sed -e 's|^[^/]*//||' -e 's|/.*$||' -e 's|:.*$||' | tr -d '[:space:]')
+          
+          RAW_PORT="${{ secrets.FTP_PORT }}"
+          PORT=$(echo "$RAW_PORT" | tr -cd '0-9')
+          if [ -z "$PORT" ]; then PORT="21"; fi
+          
+          echo "server=$SERVER" >> $GITHUB_OUTPUT
+          echo "port=$PORT" >> $GITHUB_OUTPUT
+          echo "FTP Target Host: $SERVER"
+          echo "FTP Target Port: $PORT"
+
+      - name: 🔍 Test FTP Connection Reachability
+        run: |
+          SERVER="${{ steps.ftp_cfg.outputs.server }}"
+          PORT="${{ steps.ftp_cfg.outputs.port }}"
+          echo "Menguji koneksi TCP ke $SERVER pada port $PORT..."
+          if nc -z -v -w 15 "$SERVER" "$PORT"; then
+            echo "✅ Server FTP $SERVER pada port $PORT dapat dijangkau!"
+          else
+            echo "::warning::Koneksi TCP ke $SERVER:$PORT timeout. Jika menggunakan Cloudflare, pastikan DNS record FTP diset ke DNS Only (Awan Abu-abu) atau gunakan IP langsung server hosting sebagai FTP_SERVER di GitHub Secrets."
+          fi
+
       - name: 🚀 Deploy Backend to /home/pang8694/portfolio_backend
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          server: ${{ steps.ftp_cfg.outputs.server }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT || 21 }}
+          port: ${{ steps.ftp_cfg.outputs.port }}
+          timeout: 300000
+          security: loose
+          log-level: verbose
           local-dir: ./deploy_dist/backend/
           server-dir: portfolio_backend/
           dangerous-clean-slate: false
@@ -100,10 +132,13 @@ jobs:
       - name: 🚀 Deploy Public to /home/pang8694/public_html
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          server: ${{ steps.ftp_cfg.outputs.server }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT || 21 }}
+          port: ${{ steps.ftp_cfg.outputs.port }}
+          timeout: 300000
+          security: loose
+          log-level: verbose
           local-dir: ./deploy_dist/public/
           server-dir: public_html/
           dangerous-clean-slate: false
