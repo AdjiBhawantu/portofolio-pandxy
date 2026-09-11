@@ -3,7 +3,7 @@ PassengerAppRoot "/home/pang8694/portfolio_backend"
 PassengerBaseURI "/"
 PassengerNodejs "/home/pang8694/nodevenv/portfolio_backend/22/bin/node"
 PassengerAppType node
-PassengerStartupFile app.js
+PassengerStartupFile loader.cjs
 # DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
 
 # ==============================================================================

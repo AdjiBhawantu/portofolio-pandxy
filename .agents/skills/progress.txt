@@ -91,9 +91,15 @@
 - Modified '.github/workflows/deploy.yml' - perbaiki perintah penyalinan staging deploy agar seluruh isi folder tersembunyi .next standalone (BUILD_ID, server bundles, manifests) ikut tersalin lengkap ke paket backend
 - Modified 'public/.htaccess' - tambahkan direktif PassengerNodejs '/home/pang8694/nodevenv/portfolio_backend/22/bin/node' sesuai versi Node.js 22 yang aktif di cPanel beserta marker resmi CloudLinux
 
-### TERBARU — Fix cPanel MySQL Migration & Remove Conflicting Proxy in .htaccess
+### Fix cPanel MySQL Migration & Remove Conflicting Proxy in .htaccess
 - Modified 'database/migration.sql' - hapus hardcoded query CREATE DATABASE dan USE portfolio_pandxy agar skrip DDL SQL dapat dieksekusi langsung pada database apapun di cPanel (seperti 'pang8694_portofolio') tanpa error hak akses
 - Modified 'scripts/migrate.js' - hubungkan koneksi mysql2 langsung ke DB_NAME yang telah dibuat di cPanel, tambahkan graceful fallback untuk local dev, dan dukung kredensial default admin dinamis dari env
 - Modified 'public/.htaccess' - hapus blok mod_proxy reverse proxy port 3000 yang menyebabkan LiteSpeed merespons 503 Service Unavailable saat aplikasi dijalankan di bawah CloudLinux Passenger
 - Modified '.env.production.example' - perbarui referensi nama database ke 'pang8694_portofolio' sesuai konfigurasi aktual cPanel pengguna
+
+### TERBARU — Implementasi CommonJS loader.cjs untuk Mengatasi ERR_REQUIRE_ESM Phusion Passenger
+- Created 'loader.cjs' - jembatan CommonJS untuk Phusion Passenger cPanel agar dapat memuat server Next.js standalone bertipe ES Module tanpa crash 'ERR_REQUIRE_ESM'
+- Modified 'public/.htaccess' - ganti PassengerStartupFile menjadi 'loader.cjs'
+- Modified '.github/workflows/deploy.yml' - sertakan 'loader.cjs' dalam staging perakitan paket backend
+
 

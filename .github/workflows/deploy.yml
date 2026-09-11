@@ -60,6 +60,7 @@ jobs:
 
           # Salin entrypoint universal cPanel Phusion Passenger, package-lock, & skrip database
           cp app.js deploy_dist/backend/
+          cp loader.cjs deploy_dist/backend/
           cp package-lock.json deploy_dist/backend/
           mkdir -p deploy_dist/backend/database deploy_dist/backend/scripts
           cp -r database/* deploy_dist/backend/database/
