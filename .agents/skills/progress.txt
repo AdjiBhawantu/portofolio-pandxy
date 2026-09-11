@@ -79,6 +79,10 @@
 ### Fix Tampilan Domain Tidak Muncul & Directory Listing LiteSpeed
 - Modified 'public/.htaccess' - hapus kondisi '-d' yang mencegat request root ('/'), tambahkan 'Options -Indexes' agar tidak menampilkan daftar direktori LiteSpeed, dan hilangkan wrapper '<IfModule mod_passenger.c>' agar terbaca langsung oleh LiteSpeed Web Server cPanel Rumahweb
 
-### TERBARU — Fix Error 503 Service Unavailable (ESM Compatibility pada app.js)
+### Fix Error 503 Service Unavailable (ESM Compatibility pada app.js)
 - Modified 'app.js' - refactor dari CommonJS (require) ke ES Module murni (import) yang kompatibel dengan "type": "module" pada package.json, mengatasi crash instan saat proses startup Node.js
 - Modified 'public/.htaccess' - sesuaikan PassengerStartupFile menjadi 'app.js' untuk memastikan entrypoint ESM memuat konfigurasi environment secara mulus
+
+### TERBARU — Fix 503 Passenger Double Listen & Image Optimization
+- Modified 'app.js' - sederhanakan ke single server instance dengan pathToFileURL agar kompatibel penuh dengan reverse port binding Phusion Passenger cPanel dan mencegah konflik ganda http.Server.listen()
+- Modified 'next.config.ts' - aktifkan images.unoptimized = true untuk keandalan maksimal di shared hosting tanpa dependensi binary native sharp

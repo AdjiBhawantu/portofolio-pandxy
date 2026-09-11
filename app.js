@@ -1,16 +1,16 @@
 /**
- * Production Entry Point for cPanel / CloudLinux Phusion Passenger / PM2
- * Connects Phusion Passenger to Next.js Standalone server
+ * Production Entry Point for cPanel / Phusion Passenger
+ * Loads environment variables and boots Next.js standalone server.js
  */
-import http from 'node:http';
 import path from 'node:path';
 import fs from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 process.env.NODE_ENV = 'production';
+process.chdir(__dirname);
 
 // Load environment variables from .env or .env.production if present
 const envFiles = ['.env.production', '.env.local', '.env'];
@@ -33,51 +33,12 @@ for (const envFile of envFiles) {
   }
 }
 
-const rawPort = process.env.PORT;
+// Locate Next.js standalone server.js
+const serverFile = fs.existsSync(path.resolve(__dirname, 'server.js'))
+  ? path.resolve(__dirname, 'server.js')
+  : path.resolve(__dirname, '.next/standalone/server.js');
 
-const serverScript = fs.existsSync(path.resolve(__dirname, './server.js'))
-  ? './server.js'
-  : './.next/standalone/server.js';
+console.log(`[Passenger] Booting Next.js standalone from: ${serverFile}`);
 
-// If PORT is standard numeric port or undefined, start Next.js standalone directly
-if (!rawPort || !isNaN(Number(rawPort))) {
-  console.log(`[Passenger] Starting Next.js standalone on port ${rawPort || 3000}...`);
-  await import(serverScript);
-} else {
-  // Passenger passed a Unix domain socket path (common on CloudLinux cPanel)
-  console.log(`[Passenger] Detected Unix domain socket: ${rawPort}`);
-
-  const internalPort = 3000;
-  process.env.PORT = String(internalPort);
-  process.env.HOSTNAME = '127.0.0.1';
-
-  await import(serverScript);
-
-  // Create reverse proxy bridge on the Unix domain socket for Passenger
-  const server = http.createServer((req, res) => {
-    const options = {
-      hostname: '127.0.0.1',
-      port: internalPort,
-      path: req.url,
-      method: req.method,
-      headers: req.headers,
-    };
-
-    const proxyReq = http.request(options, (proxyRes) => {
-      res.writeHead(proxyRes.statusCode, proxyRes.headers);
-      proxyRes.pipe(res, { end: true });
-    });
-
-    req.pipe(proxyReq, { end: true });
-
-    proxyReq.on('error', (err) => {
-      console.error('[Passenger Proxy Error]:', err.message);
-      res.writeHead(502, { 'Content-Type': 'text/plain' });
-      res.end('502 Bad Gateway - Application is starting up, please refresh in a moment.');
-    });
-  });
-
-  server.listen(rawPort, () => {
-    console.log(`[Passenger] Bridge listening on Unix socket: ${rawPort}`);
-  });
-}
+// Boot the single Next.js standalone server (Passenger hooks its listen() call automatically)
+await import(pathToFileURL(serverFile).href);
