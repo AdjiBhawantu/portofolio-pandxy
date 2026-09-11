@@ -5,7 +5,7 @@
 PassengerAppRoot "/home/pang8694/portfolio_backend"
 PassengerBaseURI "/"
 PassengerAppType node
-PassengerStartupFile server.js
+PassengerStartupFile app.js
 
 # ==============================================================================
 # LITESPEED / APACHE REWRITE & STATIC FILE SERVING

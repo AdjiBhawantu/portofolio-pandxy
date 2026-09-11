@@ -76,5 +76,9 @@
 ### Fix Timeout Control Socket & Node Deprecation di GitHub Actions
 - Modified '.github/workflows/deploy.yml' - update ke Node 22 dengan ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true, tambah sanitasi parsing host dan port FTP, tambah timeout 300000ms (5 menit), aktifkan security loose untuk bypass self-signed SSL cPanel, aktifkan log verbose, dan tambah step diagnostik pengujian koneksi port 21
 
-### TERBARU — Fix Tampilan Domain Tidak Muncul & Directory Listing LiteSpeed
+### Fix Tampilan Domain Tidak Muncul & Directory Listing LiteSpeed
 - Modified 'public/.htaccess' - hapus kondisi '-d' yang mencegat request root ('/'), tambahkan 'Options -Indexes' agar tidak menampilkan daftar direktori LiteSpeed, dan hilangkan wrapper '<IfModule mod_passenger.c>' agar terbaca langsung oleh LiteSpeed Web Server cPanel Rumahweb
+
+### TERBARU — Fix Error 503 Service Unavailable (ESM Compatibility pada app.js)
+- Modified 'app.js' - refactor dari CommonJS (require) ke ES Module murni (import) yang kompatibel dengan "type": "module" pada package.json, mengatasi crash instan saat proses startup Node.js
+- Modified 'public/.htaccess' - sesuaikan PassengerStartupFile menjadi 'app.js' untuk memastikan entrypoint ESM memuat konfigurasi environment secara mulus

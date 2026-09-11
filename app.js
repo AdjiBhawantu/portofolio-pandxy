@@ -2,9 +2,13 @@
  * Production Entry Point for cPanel / CloudLinux Phusion Passenger / PM2
  * Connects Phusion Passenger to Next.js Standalone server
  */
-const http = require('http');
-const path = require('path');
-const fs = require('fs');
+import http from 'node:http';
+import path from 'node:path';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 process.env.NODE_ENV = 'production';
 
@@ -31,10 +35,14 @@ for (const envFile of envFiles) {
 
 const rawPort = process.env.PORT;
 
+const serverScript = fs.existsSync(path.resolve(__dirname, './server.js'))
+  ? './server.js'
+  : './.next/standalone/server.js';
+
 // If PORT is standard numeric port or undefined, start Next.js standalone directly
 if (!rawPort || !isNaN(Number(rawPort))) {
   console.log(`[Passenger] Starting Next.js standalone on port ${rawPort || 3000}...`);
-  require('./server.js');
+  await import(serverScript);
 } else {
   // Passenger passed a Unix domain socket path (common on CloudLinux cPanel)
   console.log(`[Passenger] Detected Unix domain socket: ${rawPort}`);
@@ -43,7 +51,7 @@ if (!rawPort || !isNaN(Number(rawPort))) {
   process.env.PORT = String(internalPort);
   process.env.HOSTNAME = '127.0.0.1';
 
-  require('./server.js');
+  await import(serverScript);
 
   // Create reverse proxy bridge on the Unix domain socket for Passenger
   const server = http.createServer((req, res) => {
