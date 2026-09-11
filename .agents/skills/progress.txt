@@ -97,9 +97,13 @@
 - Modified 'public/.htaccess' - hapus blok mod_proxy reverse proxy port 3000 yang menyebabkan LiteSpeed merespons 503 Service Unavailable saat aplikasi dijalankan di bawah CloudLinux Passenger
 - Modified '.env.production.example' - perbarui referensi nama database ke 'pang8694_portofolio' sesuai konfigurasi aktual cPanel pengguna
 
-### TERBARU — Implementasi CommonJS loader.cjs untuk Mengatasi ERR_REQUIRE_ESM Phusion Passenger
+### Implementasi CommonJS loader.cjs untuk Mengatasi ERR_REQUIRE_ESM Phusion Passenger
 - Created 'loader.cjs' - jembatan CommonJS untuk Phusion Passenger cPanel agar dapat memuat server Next.js standalone bertipe ES Module tanpa crash 'ERR_REQUIRE_ESM'
 - Modified 'public/.htaccess' - ganti PassengerStartupFile menjadi 'loader.cjs'
 - Modified '.github/workflows/deploy.yml' - sertakan 'loader.cjs' dalam staging perakitan paket backend
+
+### TERBARU — Penyediaan Script SQL Seed Data Produksi
+- Created 'database/seed_data.sql' - kumpulan query SQL instan untuk mengisi seluruh data awal (site_settings, services, skills, projects, testimonials, dan contact_messages) identik dengan data lokal
+
 
 
