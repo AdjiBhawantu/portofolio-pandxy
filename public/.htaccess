@@ -1,11 +1,10 @@
-# ==============================================================================
-# CLOUDLINUX PASSENGER CONFIGURATION (LITESPEED / CPANEL)
-# Menghubungkan public_html ke /home/pang8694/portfolio_backend
-# ==============================================================================
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
 PassengerAppRoot "/home/pang8694/portfolio_backend"
 PassengerBaseURI "/"
+PassengerNodejs "/home/pang8694/nodevenv/portfolio_backend/22/bin/node"
 PassengerAppType node
 PassengerStartupFile app.js
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
 
 # ==============================================================================
 # LITESPEED / APACHE REWRITE & STATIC FILE SERVING

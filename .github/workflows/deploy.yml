@@ -46,14 +46,15 @@ jobs:
           # -------------------------------------------------------------
           # 1. RAKIT BACKEND (/home/pang8694/portfolio_backend)
           # -------------------------------------------------------------
-          # Salin file hasil build standalone Next.js (server.js, package.json, runtime)
-          cp -r .next/standalone/* deploy_dist/backend/
+          # Salin SEMUA file hasil build standalone Next.js termasuk folder tersembunyi .next
+          cp -r .next/standalone/. deploy_dist/backend/
           
           # HAPUS node_modules agar TIDAK ter-upload oleh CI/CD (diupload/diinstall manual oleh user)
           rm -rf deploy_dist/backend/node_modules
 
-          # Next.js standalone mewajibkan .next/static dan public di dalam direktorinya
+          # Pastikan .next standalone dan static tersalin lengkap (termasuk BUILD_ID dan server bundle)
           mkdir -p deploy_dist/backend/.next
+          cp -r .next/standalone/.next/* deploy_dist/backend/.next/ 2>/dev/null || true
           cp -r .next/static deploy_dist/backend/.next/
           cp -r public deploy_dist/backend/
 

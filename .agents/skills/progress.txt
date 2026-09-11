@@ -83,6 +83,10 @@
 - Modified 'app.js' - refactor dari CommonJS (require) ke ES Module murni (import) yang kompatibel dengan "type": "module" pada package.json, mengatasi crash instan saat proses startup Node.js
 - Modified 'public/.htaccess' - sesuaikan PassengerStartupFile menjadi 'app.js' untuk memastikan entrypoint ESM memuat konfigurasi environment secara mulus
 
-### TERBARU — Fix 503 Passenger Double Listen & Image Optimization
+### Fix 503 Passenger Double Listen & Image Optimization
 - Modified 'app.js' - sederhanakan ke single server instance dengan pathToFileURL agar kompatibel penuh dengan reverse port binding Phusion Passenger cPanel dan mencegah konflik ganda http.Server.listen()
 - Modified 'next.config.ts' - aktifkan images.unoptimized = true untuk keandalan maksimal di shared hosting tanpa dependensi binary native sharp
+
+### TERBARU — Fix Missing BUILD_ID (.next Standalone Copy) & PassengerNodejs v22
+- Modified '.github/workflows/deploy.yml' - perbaiki perintah penyalinan staging deploy agar seluruh isi folder tersembunyi .next standalone (BUILD_ID, server bundles, manifests) ikut tersalin lengkap ke paket backend
+- Modified 'public/.htaccess' - tambahkan direktif PassengerNodejs '/home/pang8694/nodevenv/portfolio_backend/22/bin/node' sesuai versi Node.js 22 yang aktif di cPanel beserta marker resmi CloudLinux
