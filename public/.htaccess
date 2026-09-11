@@ -20,12 +20,6 @@ PassengerStartupFile app.js
     # PENTING: Jangan gunakan -d agar request ke root (/) diteruskan ke Node.js
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
-
-    # 3. Fallback Reverse Proxy jika Node.js dijalankan di port 3000
-    <IfModule mod_proxy.c>
-        RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteRule ^(.*)$ http://127.0.0.1:3000/$1 [P,L]
-    </IfModule>
 </IfModule>
 
 # ==============================================================================

@@ -1,8 +1,6 @@
 -- Database Migration for Pandxy Portfolio
 -- Created: 2026-09-11
 
-CREATE DATABASE IF NOT EXISTS `portfolio_pandxy` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `portfolio_pandxy`;
 
 -- 1. Admins Table
 CREATE TABLE IF NOT EXISTS `admins` (

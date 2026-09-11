@@ -41,46 +41,68 @@ const DB_NAME = process.env.DB_NAME || 'portfolio_pandxy';
 
 async function runMigration() {
   console.log('🚀 Starting MySQL Database Migration...');
-  console.log(`📡 Connecting to MySQL at ${DB_HOST}:${DB_PORT} as ${DB_USER}...`);
+  console.log(`📡 Connecting to MySQL at ${DB_HOST}:${DB_PORT} as ${DB_USER} for database \`${DB_NAME}\`...`);
 
-  // 1. Connect without database first to ensure DB exists
-  const rootConn = await mysql.createConnection({
-    host: DB_HOST,
-    port: DB_PORT,
-    user: DB_USER,
-    password: DB_PASSWORD,
-    multipleStatements: true,
-  });
+  let db;
+  try {
+    // 1. Connect directly to the target database (required for cPanel shared hosting)
+    db = await mysql.createConnection({
+      host: DB_HOST,
+      port: DB_PORT,
+      user: DB_USER,
+      password: DB_PASSWORD,
+      database: DB_NAME,
+      multipleStatements: true,
+    });
+    console.log(`✅ Connected directly to target database: \`${DB_NAME}\`.`);
+  } catch (err) {
+    // If direct connection failed, attempt to create database if permitted (e.g. localhost root)
+    console.log(`⚠️ Direct connection to \`${DB_NAME}\` failed: ${err.message}`);
+    console.log('🔄 Attempting CREATE DATABASE IF NOT EXISTS (for local environment)...');
+    try {
+      const rootConn = await mysql.createConnection({
+        host: DB_HOST,
+        port: DB_PORT,
+        user: DB_USER,
+        password: DB_PASSWORD,
+        multipleStatements: true,
+      });
+      await rootConn.query(`CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
+      console.log(`✅ Database \`${DB_NAME}\` verified/created.`);
+      await rootConn.end();
 
-  await rootConn.query(`CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
-  console.log(`✅ Database \`${DB_NAME}\` verified/created.`);
-  await rootConn.end();
+      db = await mysql.createConnection({
+        host: DB_HOST,
+        port: DB_PORT,
+        user: DB_USER,
+        password: DB_PASSWORD,
+        database: DB_NAME,
+        multipleStatements: true,
+      });
+    } catch (createErr) {
+      console.error(`❌ Could not connect to or create database \`${DB_NAME}\`.`);
+      console.error('👉 If on cPanel, please ensure the database exists in cPanel -> "MySQL® Databases" and that the user is assigned with ALL PRIVILEGES.');
+      throw err;
+    }
+  }
 
-  // 2. Connect to the target database
-  const db = await mysql.createConnection({
-    host: DB_HOST,
-    port: DB_PORT,
-    user: DB_USER,
-    password: DB_PASSWORD,
-    database: DB_NAME,
-    multipleStatements: true,
-  });
-
-  // 3. Execute migration SQL
+  // 2. Execute migration SQL
   const sqlFile = path.resolve(__dirname, '../database/migration.sql');
   const sql = fs.readFileSync(sqlFile, 'utf8');
   await db.query(sql);
   console.log('✅ Tables created/verified successfully.');
 
-  // 4. Seed Default Admin if not exists
-  const [adminRows] = await db.query('SELECT id FROM admins WHERE username = ?', ['admin']);
+  // 3. Seed Default Admin if not exists
+  const adminUser = process.env.ADMIN_DEFAULT_USER || 'admin';
+  const adminPass = process.env.ADMIN_DEFAULT_PASS || 'admin123';
+  const [adminRows] = await db.query('SELECT id FROM admins WHERE username = ?', [adminUser]);
   if (Array.isArray(adminRows) && adminRows.length === 0) {
-    const passwordHash = await bcrypt.hash('admin123', 10);
+    const passwordHash = await bcrypt.hash(adminPass, 10);
     await db.query(
       'INSERT INTO admins (username, email, password_hash, name) VALUES (?, ?, ?, ?)',
-      ['admin', 'admin@pandxy.dev', passwordHash, 'Pandxy Admin']
+      [adminUser, `${adminUser}@pandxy.dev`, passwordHash, 'Pandxy Admin']
     );
-    console.log('👤 Default admin created: username="admin", password="admin123"');
+    console.log(`👤 Default admin created: username="${adminUser}", password="${adminPass}"`);
   }
 
   // 5. Seed Site Settings if empty
