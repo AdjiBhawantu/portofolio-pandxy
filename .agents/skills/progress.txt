@@ -73,5 +73,8 @@
 ### Pengecualian node_modules dari CI/CD Deploy
 - Modified '.github/workflows/deploy.yml' - menghapus node_modules dari staging paket backend dan menambahkan aturan exclude '**/node_modules/**' pada kedua langkah upload FTP agar node_modules tidak pernah di-upload oleh GitHub Actions (disiapkan untuk upload/install manual)
 
-### TERBARU — Fix Timeout Control Socket & Node Deprecation di GitHub Actions
+### Fix Timeout Control Socket & Node Deprecation di GitHub Actions
 - Modified '.github/workflows/deploy.yml' - update ke Node 22 dengan ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true, tambah sanitasi parsing host dan port FTP, tambah timeout 300000ms (5 menit), aktifkan security loose untuk bypass self-signed SSL cPanel, aktifkan log verbose, dan tambah step diagnostik pengujian koneksi port 21
+
+### TERBARU — Fix Tampilan Domain Tidak Muncul & Directory Listing LiteSpeed
+- Modified 'public/.htaccess' - hapus kondisi '-d' yang mencegat request root ('/'), tambahkan 'Options -Indexes' agar tidak menampilkan daftar direktori LiteSpeed, dan hilangkan wrapper '<IfModule mod_passenger.c>' agar terbaca langsung oleh LiteSpeed Web Server cPanel Rumahweb
