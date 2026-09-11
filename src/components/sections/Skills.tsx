@@ -52,7 +52,7 @@ export default function Skills() {
 
   useScrollReveal(sectionRef, {
     selector: ".skill-card, .reveal",
-  });
+  }, [skills.length]);
 
   useEffect(() => {
     const section = sectionRef.current;

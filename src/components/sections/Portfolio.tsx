@@ -8,7 +8,7 @@ export default function Portfolio() {
   const sectionRef = useRef<HTMLElement>(null);
   const { projects } = usePortfolioData();
 
-  useScrollReveal(sectionRef);
+  useScrollReveal(sectionRef, {}, [projects.length]);
 
   return (
     <section ref={sectionRef} className="px-gutter py-section-padding-y max-w-container-max mx-auto" id="portfolio">

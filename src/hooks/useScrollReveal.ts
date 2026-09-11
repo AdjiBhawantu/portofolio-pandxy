@@ -10,8 +10,6 @@ export interface ScrollRevealOptions {
   selector?: string;
   headingSelector?: string;
   start?: string;
-  end?: string;
-  scrub?: number;
   y?: number;
   scale?: number;
   stagger?: number;
@@ -19,10 +17,30 @@ export interface ScrollRevealOptions {
   cardStagger?: number;
   cardY?: number;
   cardScale?: number;
+  duration?: number;
+  ease?: string;
 }
 
-export function useScrollReveal(sectionRef: React.RefObject<HTMLElement | null>, options: ScrollRevealOptions = {}) {
-  const { selector = ".reveal", headingSelector = "h2", start = "top 85%", end = "top 30%", y: baseY = 60, scale: baseScale = 0.95, stagger = 0.05, headingY = 80, cardStagger = 0.08, cardY = 40, cardScale = 0.95 } = options;
+export function useScrollReveal(
+  sectionRef: React.RefObject<HTMLElement | null>,
+  options: ScrollRevealOptions = {},
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  deps: any[] = []
+) {
+  const {
+    selector = ".reveal",
+    headingSelector = "h2",
+    start = "top 88%",
+    y: baseY = 50,
+    scale: baseScale = 0.96,
+    stagger = 0.06,
+    headingY = 60,
+    cardStagger = 0.1,
+    cardY = 40,
+    cardScale = 0.95,
+    duration = 0.8,
+    ease = "power3.out",
+  } = options;
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -35,7 +53,6 @@ export function useScrollReveal(sectionRef: React.RefObject<HTMLElement | null>,
       const headingEls: HTMLElement[] = [];
       const cardEls: HTMLElement[] = [];
       const otherEls: HTMLElement[] = [];
-
       const seen = new Set<HTMLElement>();
 
       for (const el of all) {
@@ -51,96 +68,75 @@ export function useScrollReveal(sectionRef: React.RefObject<HTMLElement | null>,
         }
       }
 
-      // Set initial state langsung di DOM sebelum animasi
-      // autoAlpha = opacity + visibility sekaligus, mencegah FOUC
+      // Set initial hidden state
       gsap.set([...headingEls, ...cardEls, ...otherEls], {
         autoAlpha: 0,
         y: baseY,
         scale: baseScale,
       });
 
-      // Heading timeline with slower scrub for premium feel
-      const headingTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start,
-          end,
-          scrub: 2.5,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      // Card timeline
-      const cardTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start,
-          end,
-          scrub: 2,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      // Other elements timeline
-      const otherTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start,
-          end,
-          scrub: 1.8,
-          invalidateOnRefresh: true,
-        },
-      });
-
+      // Heading — one-shot, tidak scrub
       if (headingEls.length) {
-        headingTl.fromTo(
-          headingEls,
-          { y: headingY, autoAlpha: 0, scale: baseScale },
-          {
-            y: 0,
-            autoAlpha: 1,
-            scale: 1,
-            duration: 1,
-            stagger: 0.1,
-            ease: "power2.out",
+        gsap.to(headingEls, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration,
+          stagger: 0.12,
+          ease,
+          scrollTrigger: {
+            trigger: section,
+            start,
+            // once: true agar tidak reverse saat scroll naik
+            toggleActions: "play none none none",
+            invalidateOnRefresh: true,
           },
-        );
+          clearProps: "transform",
+        });
       }
 
+      // Cards — one-shot, stagger cascade
       if (cardEls.length) {
-        cardTl.fromTo(
-          cardEls,
-          { y: cardY, autoAlpha: 0, scale: cardScale, transformOrigin: "bottom center" },
-          {
-            y: 0,
-            autoAlpha: 1,
-            scale: 1,
-            duration: 1,
-            stagger: cardStagger,
-            ease: "power2.out",
+        gsap.to(cardEls, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration,
+          stagger: cardStagger,
+          ease,
+          scrollTrigger: {
+            trigger: section,
+            start,
+            toggleActions: "play none none none",
+            invalidateOnRefresh: true,
           },
-        );
+          clearProps: "transform",
+        });
       }
 
+      // Other elements — one-shot
       if (otherEls.length) {
-        otherTl.fromTo(
-          otherEls,
-          { y: baseY, autoAlpha: 0, scale: baseScale },
-          {
-            y: 0,
-            autoAlpha: 1,
-            scale: 1,
-            duration: 1,
-            stagger,
-            ease: "power2.out",
+        gsap.to(otherEls, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration,
+          stagger,
+          ease,
+          scrollTrigger: {
+            trigger: section,
+            start,
+            toggleActions: "play none none none",
+            invalidateOnRefresh: true,
           },
-        );
+          clearProps: "transform",
+        });
       }
 
-      // Refresh setelah semua trigger terdaftar
       ScrollTrigger.refresh();
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sectionRef, ...deps]);
 }

@@ -49,3 +49,12 @@
 
 ### TERBARU — Fix & Redesign Halaman Login Admin
 - Modified 'app/admin/login/page.tsx' - redesign total halaman login dengan style inline premium (dark glassmorphism, animated orbs, grid background, success overlay, show/hide password dengan inline SVG). Fix critical error 500 yang disebabkan oleh webpack bundling conflict dengan 'type: module'. Fix redirect menggunakan window.location.href agar cookie admin_token terbaca sebelum navigasi ke dashboard
+
+### TERBARU — Fix Section Services Tidak Muncul di Landing Page
+- Modified 'src/hooks/useScrollReveal.ts' - tambah parameter deps opsional agar hook bisa di-trigger ulang setelah data async (dari DB) selesai dimuat
+- Modified 'src/components/sections/Services.tsx' - pass services.length sebagai deps ke useScrollReveal, tambah ScrollTrigger.refresh() setelah data DB datang, wrap grid dalam kondisi services.length > 0
+- Modified 'src/components/sections/Skills.tsx' - pass skills.length sebagai deps ke useScrollReveal
+- Modified 'src/components/sections/Portfolio.tsx' - pass projects.length sebagai deps ke useScrollReveal
+
+### TERBARU — Fix Elemen Section Menghilang Saat Scroll
+- Modified 'src/hooks/useScrollReveal.ts' - ganti animasi scrub (terikat posisi scroll, menyebabkan elemen hilang saat scroll balik) menjadi one-shot toggleActions `play none none none`. Tambah clearProps transform agar style inline GSAP dibersihkan setelah animasi selesai. Ganti fromTo+timeline ke gsap.to untuk simplifikasi
