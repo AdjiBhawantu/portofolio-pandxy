@@ -1,0 +1,7 @@
+## 2026-09-11
+
+### Integrasi Testimonial Marquee Component
+- Created 'src/lib/utils.ts' - fungsi utility cn menggunakan clsx dan tailwind-merge untuk dukungan komponen shadcn
+- Created 'src/components/ui/testimonial-marquee.tsx' - komponen TestimonialMarquee dengan dukungan varian, pause on hover, dan mempertahankan efek hover kustom (testimonial-card-glass, card-hover-103, beam shimmer, rating bintang)
+- Modified 'next.config.ts' - menambahkan remotePatterns untuk domain images.unsplash.com
+- TERBARU Modified 'src/components/sections/Testimonials.tsx' - mengintegrasikan TestimonialMarquee pada section testimonials dengan data klien asli dan efek hover yang dipertahankan

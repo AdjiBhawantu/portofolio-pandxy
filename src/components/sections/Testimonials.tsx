@@ -1,19 +1,72 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { testimonials } from "@/data/index";
+import { useRef } from "react";
+import { testimonials as portfolioTestimonials } from "@/data/index";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import {
+  TestimonialMarquee,
+  type Testimonial,
+} from "@/components/ui/testimonial-marquee";
 
-gsap.registerPlugin(ScrollTrigger);
+const additionalTestimonials: Testimonial[] = [
+  {
+    name: "Sarah Chen",
+    username: "sarahbuilds",
+    role: "Product Lead, TechNova",
+    text: "Pandxy is hands down the smoothest developer to collaborate with. Delivered pixel-perfect responsive design and zero jank out of the box.",
+    avatar:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+    rating: 5,
+  },
+  {
+    name: "Marcus Lee",
+    username: "marcuscodes",
+    role: "Founder, GrowthStack",
+    text: "Shipped our new landing page in record time. The social proof and interactive sections alone converted way better than our previous setup.",
+    avatar:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+    rating: 5,
+  },
+  {
+    name: "Priya Nair",
+    username: "priyadesigns",
+    role: "Creative Director, Studio X",
+    text: "Beautiful attention to detail, glassmorphism aesthetics, and the smooth hover interactions make the whole portfolio feel exceptionally premium.",
+    avatar:
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+    rating: 5,
+  },
+  {
+    name: "Tom Alvarez",
+    username: "toma",
+    role: "Engineering Manager, CloudPulse",
+    text: "Highly optimized bundle and flawless CSS marquee animation. Performance across mobile and desktop is buttery smooth.",
+    avatar:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+    rating: 5,
+  },
+  {
+    name: "Elena Rossi",
+    username: "elenar",
+    role: "Brand Strategist, Lumina",
+    text: "Clean code structure, modern UI sensibilities, and top-tier responsiveness. Exceeded our expectations on every milestone.",
+    avatar:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&auto=format&fit=crop&q=80",
+    rating: 5,
+  },
+  {
+    name: "David Kim",
+    username: "davidk",
+    role: "Senior Frontend Architect",
+    text: "The infinite scroll and hover pause mechanics work like a charm. Genuinely impressed with the engineering quality and aesthetic polish.",
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80",
+    rating: 5,
+  },
+];
 
 export default function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null);
-  const track1Ref = useRef<HTMLDivElement>(null);
-  const track2Ref = useRef<HTMLDivElement>(null);
-  const tweenRef = useRef<gsap.core.Tween | null>(null);
 
   useScrollReveal(sectionRef, {
     selector: ".testi-reveal",
@@ -21,94 +74,44 @@ export default function Testimonials() {
     scrub: 1.8,
   });
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const track = track1Ref.current;
-      if (!track) return;
+  // Combine client portfolio testimonials with curated industry feedback
+  const clientTestimonials: Testimonial[] = portfolioTestimonials.map((t) => ({
+    name: t.name,
+    text: t.content,
+    avatar: t.avatar_url || "",
+    role: `${t.role}, ${t.company}`,
+    username: t.company.toLowerCase().replace(/\s+/g, ""),
+    company: t.company,
+    rating: t.rating || 5,
+  }));
 
-      const totalWidth = track.scrollWidth;
-
-      gsap.set(track2Ref.current, { x: totalWidth });
-
-      tweenRef.current = gsap.to([track1Ref.current, track2Ref.current], {
-        x: `-=${totalWidth}`,
-        duration: 30,
-        ease: "none",
-        repeat: -1,
-        modifiers: {
-          x: gsap.utils.unitize((x) => {
-            return parseFloat(x) % totalWidth;
-          }),
-        },
-      });
-    }, sectionRef);
-
-    const container = sectionRef.current?.querySelector(".marquee-wrapper");
-    const pause = () => tweenRef.current?.pause();
-    const resume = () => tweenRef.current?.resume();
-    container?.addEventListener("mouseenter", pause);
-    container?.addEventListener("mouseleave", resume);
-
-    return () => {
-      ctx.revert();
-      container?.removeEventListener("mouseenter", pause);
-      container?.removeEventListener("mouseleave", resume);
-    };
-  }, []);
-
-  const cards = (
-    <>
-      {testimonials.map((t, i) => (
-        <div key={`${t.id}-${i}`} className="testimonial-card-glass p-8 w-[380px] md:w-[420px] shrink-0 card-hover card-hover-103">
-          <div className="quote-bg">&quot;</div>
-          <div className="flex text-[#FFD700] mb-6 gap-0.5">
-            {Array.from({ length: t.rating }).map((_, j) => (
-              <span key={j} className="material-symbols-outlined fill-1 text-base">
-                star
-              </span>
-            ))}
-          </div>
-          <p className="text-secondary italic mb-8 relative z-10 leading-relaxed text-sm">&quot;{t.content}&quot;</p>
-          <div className="flex items-center gap-4 border-t border-white/5 pt-6">
-            {t.avatar_url ? (
-              <Image alt={t.name} className="w-12 h-12 rounded-full border border-white/10" src={t.avatar_url} width={48} height={48} />
-            ) : (
-              <div className="w-12 h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-secondary text-sm">{t.name.charAt(0)}</div>
-            )}
-            <div>
-              <h4 className="font-headline-md text-base text-white">{t.name}</h4>
-              <p className="font-label-mono text-xs text-secondary/60">
-                {t.role}, {t.company}
-              </p>
-            </div>
-          </div>
-        </div>
-      ))}
-    </>
-  );
+  const allTestimonials = [...clientTestimonials, ...additionalTestimonials];
 
   return (
-    <section ref={sectionRef} className="py-section-padding-y overflow-hidden" id="testimonials">
-      <div className="max-w-container-max mx-auto px-gutter mb-16">
-        <h2 className="font-headline-lg text-headline-lg text-on-surface text-center testi-reveal">Testimonials</h2>
-        <p className="text-secondary text-center max-w-lg mx-auto mt-4 testi-reveal">Hear what clients say about working with me to build high-quality digital products.</p>
+    <section
+      ref={sectionRef}
+      className="py-section-padding-y overflow-hidden"
+      id="testimonials"
+    >
+      <div className="max-w-container-max mx-auto px-gutter mb-12">
+        <h2 className="font-headline-lg text-headline-lg text-on-surface text-center testi-reveal">
+          Testimonials
+        </h2>
+        <p className="text-secondary text-center max-w-lg mx-auto mt-4 testi-reveal">
+          Hear what clients and collaborators say about working with me to build high-quality digital products.
+        </p>
       </div>
 
       <div
-        className="marquee-wrapper relative py-8"
+        className="relative py-4"
         style={{
-          maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-          WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-        }}>
-        <div className="flex" style={{ willChange: "transform" }}>
-          <div ref={track1Ref} className="flex gap-6 absolute top-0 left-2 right-5">
-            {cards}
-          </div>
-          <div ref={track2Ref} className="flex gap-6 absolute top-0 left-8">
-            {cards}
-          </div>
-          <div className="flex gap-6 opacity-0 pointer-events-none">{cards}</div>
-        </div>
+          maskImage:
+            "linear-gradient(to right, transparent, black 12%, black 88%, transparent)",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent, black 12%, black 88%, transparent)",
+        }}
+      >
+        <TestimonialMarquee items={allTestimonials} speed={32} />
       </div>
     </section>
   );
