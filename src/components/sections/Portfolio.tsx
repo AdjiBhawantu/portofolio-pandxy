@@ -2,20 +2,21 @@
 
 import { useRef } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { portfolioItems } from "@/data/index";
+import { usePortfolioData } from "@/context/PortfolioContext";
 
 export default function Portfolio() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { projects } = usePortfolioData();
 
   useScrollReveal(sectionRef);
 
   return (
     <section ref={sectionRef} className="px-gutter py-section-padding-y max-w-container-max mx-auto" id="portfolio">
-      <h2 className="font-headline-lg text-headline-lg text-on-surface  text-center reveal">Portfolio</h2>
+      <h2 className="font-headline-lg text-headline-lg text-on-surface text-center reveal">Portfolio</h2>
       <p className="text-secondary text-center max-w-2xl mx-auto mt-2 mb-12 text-body-lg reveal">A selection of real projects I&apos;ve built — each one solving a real problem for a real client.</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {portfolioItems.map((item) => (
+        {projects.map((item) => (
           <div key={item.id} className="card-bento p-6 flex flex-col h-full reveal card-hover card-hover-103">
             <div className="flex justify-between items-start mb-4">
               <h3 className="font-headline-md text-xl text-on-surface">{item.title}</h3>
@@ -26,12 +27,12 @@ export default function Portfolio() {
             <p className="text-secondary text-sm mb-6 flex-grow">{item.description}</p>
             <div className="flex justify-between items-center mt-auto">
               <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${item.color}`} />
+                <div className={`w-2 h-2 rounded-full ${item.color || "bg-blue-400"}`} />
                 <span className="font-label-mono text-xs text-secondary">{item.language}</span>
               </div>
               <div className="flex items-center gap-1 text-secondary">
                 <span className="material-symbols-outlined text-sm">star</span>
-                <span className="font-label-mono text-xs">{item.stars}</span>
+                <span className="font-label-mono text-xs">{item.stars || 0}</span>
               </div>
             </div>
           </div>

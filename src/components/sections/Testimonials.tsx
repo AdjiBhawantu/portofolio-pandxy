@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { testimonials as portfolioTestimonials } from "@/data/index";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { usePortfolioData } from "@/context/PortfolioContext";
 import {
   TestimonialMarquee,
   type Testimonial,
@@ -67,6 +68,7 @@ const additionalTestimonials: Testimonial[] = [
 
 export default function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { testimonials: liveTestimonials } = usePortfolioData();
 
   useScrollReveal(sectionRef, {
     selector: ".testi-reveal",
@@ -74,13 +76,15 @@ export default function Testimonials() {
     scrub: 1.8,
   });
 
+  const sourceTestimonials = liveTestimonials && liveTestimonials.length > 0 ? liveTestimonials : portfolioTestimonials;
+
   // Combine client portfolio testimonials with curated industry feedback
-  const clientTestimonials: Testimonial[] = portfolioTestimonials.map((t) => ({
+  const clientTestimonials: Testimonial[] = sourceTestimonials.map((t: any) => ({
     name: t.name,
-    text: t.content,
-    avatar: t.avatar_url || "",
-    role: `${t.role}, ${t.company}`,
-    username: t.company.toLowerCase().replace(/\s+/g, ""),
+    text: t.content || t.text,
+    avatar: t.avatar_url || t.avatar || "",
+    role: `${t.role || ""}${t.company ? `, ${t.company}` : ""}`,
+    username: t.username || (t.company ? t.company.toLowerCase().replace(/\s+/g, "") : ""),
     company: t.company,
     rating: t.rating || 5,
   }));

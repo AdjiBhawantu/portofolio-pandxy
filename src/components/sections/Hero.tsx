@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { usePortfolioData } from "@/context/PortfolioContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,6 +14,15 @@ export default function Hero() {
   const imgRef = useRef<HTMLDivElement>(null);
   const floatsRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const { settings } = usePortfolioData();
+
+  const heroName = settings.hero_name || "ADJI BHAWANTU";
+  const heroBadge = settings.hero_badge || "Full-Stack";
+  const heroTitle1 = settings.hero_title_1 || "Web & App";
+  const heroTitle2 = settings.hero_title_2 || "Developer Based";
+  const heroTitle3 = settings.hero_title_3 || "In Indonesia";
+  const heroSubtitle = settings.hero_subtitle || "I help businesses grow through fast, secure, and high-performing websites and applications built with modern technology.";
+  const availabilityStatus = settings.availability_status || "Available for Freelance";
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -128,8 +138,8 @@ export default function Hero() {
     <section ref={sectionRef} className="relative min-h-screen md:min-h-[900px] w-full overflow-hidden flex items-center bg-[#0a0a0a]" id="hero">
       <div className="bg-marquee-container z-0">
         <div className="bg-marquee-content">
-          <span className="hero-bg-text-marquee">ADJI BHAWANTU</span>
-          <span className="hero-bg-text-marquee">ADJI BHAWANTU</span>
+          <span className="hero-bg-text-marquee">{heroName}</span>
+          <span className="hero-bg-text-marquee">{heroName}</span>
         </div>
       </div>
 
@@ -139,18 +149,18 @@ export default function Hero() {
       <div className="relative z-10 w-full max-w-container-max mx-auto px-gutter h-[900px]">
         <div ref={contentRef} className="relative pt-24 pb-8 md:absolute md:top-[28%] left-gutter z-30 max-w-2xl w-full px-4 md:px-0 pointer-events-auto">
           <div className="flex flex-col gap-1 break-words mt-12">
-            <h1 className="font-display-hero text-[2.2rem] md:text-[4.5rem] leading-[1.05] font-bold tracking-[-0.04em] text-white uppercase">Web &amp; App</h1>
+            <h1 className="font-display-hero text-[2.2rem] md:text-[4.5rem] leading-[1.05] font-bold tracking-[-0.04em] text-white uppercase">{heroTitle1}</h1>
             <div className="flex items-center gap-4 flex-wrap">
-              <h1 className="font-display-hero text-[1.8rem] md:text-[3.5rem] leading-[1.05] font-bold tracking-[-0.04em] text-white uppercase">Developer Based</h1>
+              <h1 className="font-display-hero text-[1.8rem] md:text-[3.5rem] leading-[1.05] font-bold tracking-[-0.04em] text-white uppercase">{heroTitle2}</h1>
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full glass-element">
                 <div className="w-3 h-3 rounded-full bg-gradient-to-tr from-blue-500 to-cyan-400 animate-pulse" />
-                <span className="fullstack-badge font-label-mono text-[10px] md:text-xs text-white uppercase tracking-widest font-bold">Full-Stack</span>
+                <span className="fullstack-badge font-label-mono text-[10px] md:text-xs text-white uppercase tracking-widest font-bold">{heroBadge}</span>
               </div>
             </div>
-            <h1 className="font-display-hero text-[1.8rem] xs:text-display-hero-mobile text-on-surface leading-[1.1] uppercase md:text-[3.5rem] whitespace-nowrap">In Indonesia</h1>
+            <h1 className="font-display-hero text-[1.8rem] xs:text-display-hero-mobile text-on-surface leading-[1.1] uppercase md:text-[3.5rem] whitespace-nowrap">{heroTitle3}</h1>
           </div>
 
-          <p className="font-body-md text-body-lg text-secondary max-w-md mt-6">I help businesses grow through fast, secure, and high-performing websites and applications built with modern technology.</p>
+          <p className="font-body-md text-body-lg text-secondary max-w-md mt-6">{heroSubtitle}</p>
 
           <div id="hero-buttons" className="flex flex-wrap items-center gap-4 mt-8">
             <a className="px-8 py-4 bg-white text-black font-button rounded-full hover:-translate-y-1 transition-transform font-bold" href="#contact">
@@ -164,7 +174,7 @@ export default function Hero() {
 
         <div ref={imgRef} className="absolute bottom-0 right-0 md:-right-10 w-full md:w-[65%] lg:w-[70%] h-full md:h-full top-0 md:top-10 z-10 md:z-20 pointer-events-none flex items-end">
           <Image
-            alt="Adji Bhawantu Portrait"
+            alt={`${heroName} Portrait`}
             src="/PFP_ADJI.png"
             fill
             className="object-contain object-bottom opacity-30 md:opacity-90"
@@ -176,9 +186,9 @@ export default function Hero() {
         </div>
 
         <div ref={floatsRef} className="absolute inset-0 z-30 pointer-events-none">
-          <div className="hero-float absolute top-[72px] left-1/2 -translate-x-1/2 md:translate-x-0 md:top-[18%] md:left-auto md:right-[35%] inline-flex    items-center gap-2 px-4 py-2 rounded-full glass-element text-white pointer-events-auto shadow-2xl hover:-translate-y-1 transition-transform">
+          <div className="hero-float absolute top-[72px] left-1/2 -translate-x-1/2 md:translate-x-0 md:top-[18%] md:left-auto md:right-[35%] inline-flex items-center gap-2 px-4 py-2 rounded-full glass-element text-white pointer-events-auto shadow-2xl hover:-translate-y-1 transition-transform">
             <div className="w-2 h-2 rounded-full bg-whatsapp-green animate-pulse" />
-            <span className="font-label-mono text-[10px] md:text-xs font-medium uppercase tracking-widest">Available for Freelance</span>
+            <span className="font-label-mono text-[10px] md:text-xs font-medium uppercase tracking-widest">{availabilityStatus}</span>
             <span className="material-symbols-outlined text-sm ml-1 text-white/70">terminal</span>
           </div>
 

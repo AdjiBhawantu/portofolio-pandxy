@@ -2,10 +2,11 @@
 
 import { useRef } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { services } from "@/data/index";
+import { usePortfolioData } from "@/context/PortfolioContext";
 
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { services } = usePortfolioData();
 
   useScrollReveal(sectionRef);
 

@@ -1,0 +1,93 @@
+-- Database Migration for Pandxy Portfolio
+-- Created: 2026-09-11
+
+CREATE DATABASE IF NOT EXISTS `portfolio_pandxy` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `portfolio_pandxy`;
+
+-- 1. Admins Table
+CREATE TABLE IF NOT EXISTS `admins` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `username` VARCHAR(100) NOT NULL UNIQUE,
+  `email` VARCHAR(150) NOT NULL UNIQUE,
+  `password_hash` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(150) NOT NULL DEFAULT 'Admin',
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 2. Site Settings Table
+CREATE TABLE IF NOT EXISTS `site_settings` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `setting_key` VARCHAR(100) NOT NULL UNIQUE,
+  `setting_value` TEXT NULL,
+  `setting_group` VARCHAR(50) NOT NULL DEFAULT 'general',
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 3. Services Table
+CREATE TABLE IF NOT EXISTS `services` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `slug` VARCHAR(100) NOT NULL UNIQUE,
+  `title` VARCHAR(150) NOT NULL,
+  `description` TEXT NOT NULL,
+  `icon` VARCHAR(100) NOT NULL DEFAULT 'web',
+  `sort_order` INT NOT NULL DEFAULT 0,
+  `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 4. Skills Table
+CREATE TABLE IF NOT EXISTS `skills` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(100) NOT NULL,
+  `category` ENUM('Frontend', 'Backend', 'Tools', 'Design') NOT NULL,
+  `level` INT NOT NULL DEFAULT 80,
+  `sort_order` INT NOT NULL DEFAULT 0,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 5. Projects Table
+CREATE TABLE IF NOT EXISTS `projects` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `title` VARCHAR(150) NOT NULL,
+  `description` TEXT NOT NULL,
+  `language` VARCHAR(100) NOT NULL DEFAULT 'TypeScript',
+  `stars` INT NOT NULL DEFAULT 0,
+  `color` VARCHAR(50) NOT NULL DEFAULT 'bg-blue-400',
+  `link` VARCHAR(255) NOT NULL,
+  `demo_url` VARCHAR(255) NULL,
+  `image_url` VARCHAR(255) NULL,
+  `sort_order` INT NOT NULL DEFAULT 0,
+  `is_featured` TINYINT(1) NOT NULL DEFAULT 1,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 6. Testimonials Table
+CREATE TABLE IF NOT EXISTS `testimonials` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(150) NOT NULL,
+  `role` VARCHAR(150) NOT NULL,
+  `company` VARCHAR(150) NOT NULL,
+  `username` VARCHAR(100) NULL,
+  `content` TEXT NOT NULL,
+  `avatar_url` TEXT NULL,
+  `rating` INT NOT NULL DEFAULT 5,
+  `sort_order` INT NOT NULL DEFAULT 0,
+  `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 7. Contact Messages Table
+CREATE TABLE IF NOT EXISTS `contact_messages` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(150) NOT NULL,
+  `email` VARCHAR(150) NOT NULL,
+  `subject` VARCHAR(200) NULL,
+  `message` TEXT NOT NULL,
+  `is_read` TINYINT(1) NOT NULL DEFAULT 0,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -15,6 +15,7 @@ import Testimonials from "@/components/sections/Testimonials";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/ui/Footer";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
+import { PortfolioProvider } from "@/context/PortfolioContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -56,19 +57,21 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div ref={mainRef} className="min-h-screen bg-[#0a0a0a] overflow-x-hidden">
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Services />
-        <Skills />
-        <Portfolio />
-        <Testimonials />
-        <Contact />
-      </main>
-      <Footer />
-      <WhatsAppButton />
-    </div>
+    <PortfolioProvider>
+      <div ref={mainRef} className="min-h-screen bg-[#0a0a0a] overflow-x-hidden">
+        <Navbar />
+        <main>
+          <Hero />
+          <About />
+          <Services />
+          <Skills />
+          <Portfolio />
+          <Testimonials />
+          <Contact />
+        </main>
+        <Footer />
+        <WhatsAppButton />
+      </div>
+    </PortfolioProvider>
   );
 }

@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { skills } from "@/data/index";
+import { usePortfolioData } from "@/context/PortfolioContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,6 +48,7 @@ const langColors: Record<string, string> = {
 
 export default function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { skills } = usePortfolioData();
 
   useScrollReveal(sectionRef, {
     selector: ".skill-card, .reveal",
