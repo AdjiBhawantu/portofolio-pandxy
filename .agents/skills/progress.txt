@@ -56,5 +56,19 @@
 - Modified 'src/components/sections/Skills.tsx' - pass skills.length sebagai deps ke useScrollReveal
 - Modified 'src/components/sections/Portfolio.tsx' - pass projects.length sebagai deps ke useScrollReveal
 
-### TERBARU — Fix Elemen Section Menghilang Saat Scroll
+### Fix Elemen Section Menghilang Saat Scroll
 - Modified 'src/hooks/useScrollReveal.ts' - ganti animasi scrub (terikat posisi scroll, menyebabkan elemen hilang saat scroll balik) menjadi one-shot toggleActions `play none none none`. Tambah clearProps transform agar style inline GSAP dibersihkan setelah animasi selesai. Ganti fromTo+timeline ke gsap.to untuk simplifikasi
+
+### CI/CD Auto Deploy via FTP (Pemisahan Backend & Public)
+- Created '.github/workflows/deploy.yml' - pipeline GitHub Actions auto deploy via FTP dengan pemisahan paket backend ('portfolio_backend/') dan public ('public_html/')
+- Created 'app.js' - universal production entry point untuk cPanel Phusion Passenger / PM2 / CloudLinux dengan penanganan socket unix domain dan bridge ke Next.js standalone
+- Created 'public/.htaccess' - konfigurasi web server Apache/LiteSpeed penghubung public_html ke /home/pang8694/portfolio_backend dengan direct static serving dan cache
+- Created '.env.production.example' - template environment produksi untuk database MySQL cPanel dan autentikasi JWT
+- Modified 'next.config.ts' - konfigurasi output 'standalone' untuk build server Next.js mandiri yang optimal
+- Modified 'scripts/migrate.js' - dukungan pembacaan multi environment file (.env.production, .env.local, .env)
+- Modified '.gitignore' - penambahan deploy_dist ke daftar ignore
+- Fixed 'src/components/sections/Testimonials.tsx' - perbaikan tipe TypeScript dengan menghapus properti scrub usang
+- Fixed 'src/hooks/useScrollReveal.ts' - pemanfaatan variabel headingY, cardY, dan cardScale pada inisialisasi gsap.set
+
+### TERBARU — Pengecualian node_modules dari CI/CD Deploy
+- Modified '.github/workflows/deploy.yml' - menghapus node_modules dari staging paket backend dan menambahkan aturan exclude '**/node_modules/**' pada kedua langkah upload FTP agar node_modules tidak pernah di-upload oleh GitHub Actions (disiapkan untuk upload/install manual)

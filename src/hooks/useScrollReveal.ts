@@ -69,11 +69,15 @@ export function useScrollReveal(
       }
 
       // Set initial hidden state
-      gsap.set([...headingEls, ...cardEls, ...otherEls], {
-        autoAlpha: 0,
-        y: baseY,
-        scale: baseScale,
-      });
+      if (headingEls.length) {
+        gsap.set(headingEls, { autoAlpha: 0, y: headingY, scale: baseScale });
+      }
+      if (cardEls.length) {
+        gsap.set(cardEls, { autoAlpha: 0, y: cardY, scale: cardScale });
+      }
+      if (otherEls.length) {
+        gsap.set(otherEls, { autoAlpha: 0, y: baseY, scale: baseScale });
+      }
 
       // Heading — one-shot, tidak scrub
       if (headingEls.length) {

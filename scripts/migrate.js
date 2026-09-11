@@ -7,20 +7,30 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Read .env.local manually if dotenv is not used
-const envPath = path.resolve(__dirname, '../.env.local');
-if (fs.existsSync(envPath)) {
-  const envContent = fs.readFileSync(envPath, 'utf8');
-  envContent.split('\n').forEach((line) => {
-    const trimmed = line.trim();
-    if (trimmed && !trimmed.startsWith('#') && trimmed.includes('=')) {
-      const [key, ...vals] = trimmed.split('=');
-      const val = vals.join('=').trim();
-      if (!process.env[key.trim()]) {
-        process.env[key.trim()] = val.replace(/^["']|["']$/g, '');
+// Read environment files (.env.production, .env.local, or .env)
+const possibleEnvFiles = [
+  path.resolve(__dirname, '../.env.production'),
+  path.resolve(__dirname, '../.env.local'),
+  path.resolve(__dirname, '../.env'),
+  path.resolve(process.cwd(), '.env.production'),
+  path.resolve(process.cwd(), '.env'),
+];
+
+for (const envPath of possibleEnvFiles) {
+  if (fs.existsSync(envPath)) {
+    const envContent = fs.readFileSync(envPath, 'utf8');
+    envContent.split('\n').forEach((line) => {
+      const trimmed = line.trim();
+      if (trimmed && !trimmed.startsWith('#') && trimmed.includes('=')) {
+        const [key, ...vals] = trimmed.split('=');
+        const val = vals.join('=').trim();
+        if (!process.env[key.trim()]) {
+          process.env[key.trim()] = val.replace(/^["']|["']$/g, '');
+        }
       }
-    }
-  });
+    });
+    break;
+  }
 }
 
 const DB_HOST = process.env.DB_HOST || 'localhost';

@@ -73,7 +73,6 @@ export default function Testimonials() {
   useScrollReveal(sectionRef, {
     selector: ".testi-reveal",
     headingY: 80,
-    scrub: 1.8,
   });
 
   const sourceTestimonials = liveTestimonials && liveTestimonials.length > 0 ? liveTestimonials : portfolioTestimonials;
